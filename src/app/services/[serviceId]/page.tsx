@@ -58,7 +58,7 @@ export default async function ServicePage({
 
   return (
       <section className="min-h-screen py-28 space-y-8 px-6">
-        <div className="w-fit p-2 bg-slate-300 rounded-full">
+        <div className="w-fit p-2 bg-white rounded-full">
           <Link href={`/services`}>
             <Image
               src={`/assets/images/back.png`}
