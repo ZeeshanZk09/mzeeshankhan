@@ -55,9 +55,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `} >
         <Header />
-        <main className="block">
-        {children}
-        </main>
+          {children}
         <Footer />
       </body>
     </html>

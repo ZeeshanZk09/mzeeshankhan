@@ -5,10 +5,10 @@ function About() {
   return (
     <section
       id="about"
-      className="flex flex-col min-h-screen md:flex-row justify-between  py-24 px-6 "
+      className="flex flex-col min-h-screen md:flex-row justify-between   py-24 px-6 "
     >
       {/* Image Section */}
-      <div className="w-full md:w-1/2  flex justify-start">
+      <div className="w-full md:w-1/2  flex justify-center md:justify-start">
         <div className="about-img w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner"></div>
       </div>
 

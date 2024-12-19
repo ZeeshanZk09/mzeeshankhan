@@ -22,7 +22,7 @@ export default async function ServicePage({
       </div>
       <div>
 
-      <h1 className="text-3xl font-bold text-blue-600">{service.title}</h1>
+      <h1 className="text-3xl font-bold text-green-500">{service.title}</h1>
       <p className="text-gray-700 mt-4">{service.details.introduction}</p>
 
       <h2 className="text-2xl font-semibold mt-8">Features</h2>

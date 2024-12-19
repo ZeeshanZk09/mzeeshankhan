@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden block">
       <section className=" h-screen  overflow-hidden flex items-center space-y-10 flex-col justify-center ">
         <div className="absolute   h-screen  w-screen bg-white opacity-40 " >
             <Image src={`/assets/images/welcome-bg-img.jpg`} alt="welcome-bg-img" fill className="object-cover w-full h-full" />

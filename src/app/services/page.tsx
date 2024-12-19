@@ -4,56 +4,56 @@ import Link from "next/link";
 import Blinkingtext from "@/components/BlinkingText";
 import { services } from "@/services";
 import { TypeService } from "@/services";
+
 function Services() {
   const [serviceInput, setServiceInput] = useState("");
   const [filteredServices, setFilteredServices] =
     useState<TypeService[]>(services);
-  const [titleBg, setTitileBg] = useState("");
-  // let indexBg: string;
+  const [highlightIndexes, setHighlightIndexes] = useState<number[]>([]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setServiceInput(inputValue);
 
     if (inputValue.trim() === "") {
+      setHighlightIndexes([]);
+    } else {
+      const indexes: number[] = [];
+      services.forEach((service) => {
+        service.title.split("").forEach((char, index) => {
+          if (
+            inputValue[index]?.toLowerCase() === char.toLowerCase() &&
+            inputValue.length > index
+          ) {
+            indexes.push(index);
+          }
+        });
+      });
+      setHighlightIndexes(indexes);
+    }
+  };
+
+  const handleSearch = () => {
+    if (serviceInput.trim() === "") {
       setFilteredServices(services);
     } else {
-      const filtered = services.filter((service) => {
-        for (let i = 0; i < inputValue.length; i++) {
-          const findChar = service.title
-            .toLowerCase()
-            .includes(inputValue.toLowerCase()[i]);
-          // if (findChar && service.title.toLowerCase()[i] ===inputValue.toLowerCase()[i] ) {
-          //   indexBg = service.title[i]
-          // }
-          if (findChar) {
-            // document.getElementById(service.title[i])!.style.backgroundColor =  '#04af7085'
-            setTitileBg("bg-[#04af7049] rounded-full px-3");
-          }
-          if (findChar) {
-            return service.title
-              .toLowerCase()
-              .includes(inputValue.toLowerCase());
-          }
-        }
-      });
+      const filtered = services.filter((service) =>
+        service.title.toLowerCase().includes(serviceInput.toLowerCase())
+      );
       setFilteredServices(filtered);
-      if (serviceInput === "") {
-        setTitileBg("");
-      }
     }
   };
 
   return (
-    <section id="services" className="h-full w-screen flex flex-col  ">
+    <section id="services" className="h-full w-screen flex flex-col">
       {/* Header Section */}
-      <section className="py-16 px-9 h-fit flex flex-col sm:flex-row w-screen  sm:justify-between  sm:items-center space-y-6">
-        <div className="flex flex-col  sm:justify-center sm:w-2/4   h-fit items-start">
-          <div className="flex flex-col   sm:justify-center">
+      <section className="py-16 px-9 h-fit flex flex-col sm:flex-row w-screen sm:justify-between sm:items-center space-y-6">
+        <div className="flex flex-col sm:justify-center sm:w-2/4 h-fit items-start">
+          <div className="flex flex-col sm:justify-center">
             <h2 className="text-3xl sm:text-4xl text-gray-800 font-clashDisplayRegular">
               My Services:
             </h2>
-            <p className="text-lg indent-10 text-justify text-gray-600  max-w-3xl font-satoshiRegular">
+            <p className="text-lg indent-10 text-justify text-gray-600 max-w-3xl font-satoshiRegular">
               I provide a wide range of professional services in the web
               development domain, ensuring high-quality, modern, and functional
               solutions tailored to your needs.
@@ -63,7 +63,7 @@ function Services() {
             <div className="bg-white w-full flex items-center sm:gap-4 rounded-full px-4 py-2 shadow-lg max-w-lg">
               <input
                 type="search"
-                className="text-sm sm:text-base bg-transparent flex-grow outline-none placeholder-gray-400"
+                className="text-sm sm:text-base bg-transparent w-2/4 flex-grow outline-none placeholder-gray-400"
                 value={serviceInput}
                 placeholder="Search a service"
                 onChange={handleInputChange}
@@ -75,6 +75,7 @@ function Services() {
                     ? "bg-green-500 text-white"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
+                onClick={handleSearch}
                 disabled={!serviceInput}
               >
                 Search
@@ -102,7 +103,7 @@ function Services() {
             muted
             height={360}
             width={640}
-            className="w-[260px] h-500px] "
+            className="w-[260px] h-500px]"
           >
             Your browser does not support video tag
           </video>
@@ -110,23 +111,31 @@ function Services() {
       </section>
 
       {/* Services List */}
-      <div className="flex  flex-col w-screen h-fit ">
+      <div className="flex flex-col w-screen h-fit">
         {filteredServices.length > 0 ? (
           filteredServices.map((service) => (
             <section
               key={service.id}
-              id={service.title}
-              className="bg-white  px-4 py-2  border-b-8 h-screen flex items-center border-gray-500  w-screen"
+              className="bg-white px-4 py-2 border-b-8 h-screen flex items-center border-gray-500 w-screen"
             >
               <div className="sm:w-2/4">
-                <h3
-                  className={`${titleBg} w-fit text-2xl font-clashDisplayMedium text-gray-800 mb-4`}
-                >
-                  {service.title}
+                <h3 className="w-fit text-2xl font-clashDisplayMedium text-gray-800 mb-4">
+                  {service.title.split("").map((char, index) => (
+                    <span
+                      key={index}
+                      className={
+                        highlightIndexes.includes(index)
+                          ? "bg-green-200 "
+                          : ""
+                      }
+                    >
+                      {char}
+                    </span>
+                  ))}
                 </h3>
                 <ul className="list-disc pl-6 space-y-2 text-gray-600 text-base">
                   {service.description.map((desc, index) => (
-                    <li key={index} className={`font-satoshiRegular`}>
+                    <li key={index} className="font-satoshiRegular">
                       {desc}
                     </li>
                   ))}
@@ -162,7 +171,6 @@ function Services() {
               >
                 Back to Services
               </button>
-
               <button
                 type="button"
                 onClick={() => alert("Error reported to the fun police! 🚓")}
@@ -171,7 +179,7 @@ function Services() {
                 Report This!
               </button>
             </div>
-            <div className="mt-12 ">
+            <div className="mt-12">
               <iframe
                 src="https://giphy.com/embed/qUEkcv8EGkRUV4Ufl0"
                 width="400"
