@@ -19,7 +19,7 @@ import Link from "next/link";
 
 export function BreadcrumbDemo() {
   return (
-    <Breadcrumb className="p-2 font-satoshiRegular  ">
+    <Breadcrumb className="p-4 sm:p-2 font-satoshiRegular  ">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href={`/`}>Home</BreadcrumbLink>
