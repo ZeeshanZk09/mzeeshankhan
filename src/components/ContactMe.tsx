@@ -33,7 +33,7 @@ function ContactMe() {
   };
 
   return (
-    <div
+    <section
       id="contact"
       className="h-screen flex flex-col justify-center items-center p-5"
     >
@@ -69,7 +69,7 @@ function ContactMe() {
           Send Message
         </button>
       </form>
-    </div>
+    </section>
   );
 }
 

@@ -21,7 +21,7 @@ export default function Home() {
             Scroll down to see more:
           </p>
           <Link href={`#hero`} >
-            <Image src={`/assets/giffs/down.gif`} width={100} height={100} alt="down.gif" className="object-cover rounded-full w-10 h-10" />
+            <Image src={`/assets/giffs/down.gif`} width={100} height={100} alt="down.gif" className="object-cover rounded-full w-10 h-10 bg-[aliceblue]" />
           </Link>
         </div>
       </section>

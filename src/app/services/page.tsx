@@ -9,6 +9,7 @@ function Services() {
   const [filteredServices, setFilteredServices] =
     useState<TypeService[]>(services);
   const [titleBg, setTitileBg] = useState("");
+  let indexBg: string;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -22,6 +23,9 @@ function Services() {
           const findChar = service.title
             .toLowerCase()
             .includes(inputValue.toLowerCase()[i]);
+          if (findChar && service.title.toLowerCase()[i] ===inputValue.toLowerCase()[i] ) {
+            indexBg = service.title[i]
+          }
           if (findChar) {
             // document.getElementById(service.title[i])!.style.backgroundColor =  '#04af7085'
             setTitileBg("bg-[#04af7049] rounded-full px-3");

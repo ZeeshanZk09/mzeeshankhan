@@ -24,6 +24,9 @@ const Blinkingtext: React.FC<BlinkingTextProps> = ({
   useEffect(() => {
     const handleTyping = () => {
       const fullText = texts[textIndex];
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
 
       if (!isDeleting) {
         setCurrentText(fullText.substring(0, currentText.length + 1));

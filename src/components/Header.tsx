@@ -19,7 +19,7 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex items-center flex-row-reverse lg:flex-row lg:w-fit w-screen justify-between h-5   ">
-          <Link href="/" className=" w-max lg:w-fit">
+          <Link href="/" className="text-black w-max lg:w-fit">
             <span className="sr-only">Zk Muhammad Zeeshan Khan</span>
             <h2 className=" w-max font-clashDisplayRegular  text-3xl sm:text-4xl justify-self-end">
               M Zeeshan Khan
@@ -35,7 +35,7 @@ export default function Header() {
           </SidebarProvider>
         </div>
         {/* Center Links - Fixed */}
-        <QuickLinks navClassName={`w-2/4  hidden  lg:flex md:items-center  `} ulClassName={` gap-20 items-center` } />
+        <QuickLinks navClassName={`w-fit  hidden  lg:flex md:items-center  `} ulClassName={` gap-10 items-center` } />
 
         <div className="hidden lg:flex w-fit lg:justify-end ">
           <Link

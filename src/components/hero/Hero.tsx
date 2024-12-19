@@ -7,7 +7,7 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="flex flex-col md:flex-row-reverse items-center min-h-screen justify-between bg-[aliceblue]   px-6 md:px-10 z-50 "
+      className="flex flex-col md:flex-row-reverse items-center min-h-screen justify-between bg-[aliceblue] py-28  px-6 md:px-10 z-50 "
     >
       {/* Image Section */}
       <div className="justify-self-end z-50">
