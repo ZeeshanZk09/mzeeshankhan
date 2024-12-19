@@ -2,11 +2,6 @@ import Link from "next/link";
 import "./Hero.css";
 import NavigationLinksToSocialMediaProfiles from "../NavigationLinksToSocialMediaProfiles";
 
-export const cb = () => (
-  <>
-    <h1>Heading</h1>
-  </>
-);
 
 function Hero() {
   return (
