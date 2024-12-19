@@ -47,7 +47,7 @@ function Services() {
   return (
     <section id="services" className="h-full w-screen flex flex-col">
       {/* Header Section */}
-      <section className="py-16 px-9 h-fit flex flex-col sm:flex-row w-screen sm:justify-between sm:items-center space-y-6">
+      <section className="py-28 px-9 h-fit flex flex-col sm:flex-row w-screen sm:justify-between sm:items-center space-y-6">
         <div className="flex flex-col sm:justify-center sm:w-2/4 h-fit items-start">
           <div className="flex flex-col sm:justify-center">
             <h2 className="text-3xl sm:text-4xl text-gray-800 font-clashDisplayRegular">

@@ -1,14 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
-
+export const navLinks = [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About Me" },
+      { href: "/services", label: "Services" },
+      { href: "/projects", label: "Projects" },
+      { href: "/templates", label: "Testimonials" },
+    ];
 const QuickLinks = ({navClassName, ulClassName, liClassName}: { navClassName?: string, ulClassName? : string, liClassName?: string }) => {
-    const navLinks = [
-        { href: "/", label: "Home" },
-        { href: "/about", label: "About Me" },
-        { href: "/services", label: "Services" },
-        { href: "/projects", label: "Projects" },
-        { href: "/templates", label: "Testimonials" },
-      ];
 
   return (
     <nav className={`${navClassName}overflow-hidden  z-50 `}>

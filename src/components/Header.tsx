@@ -4,6 +4,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import React from "react";
 import QuickLinks from "./QuickLinks";
+import { BreadcrumbDemo } from "./bread-crumb";
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
@@ -13,9 +14,9 @@ export default function Header() {
   return (
     <header className="absolute w-screen h-28 sm:px-5  bg-transparent z-50">
       {/* Desktop view version */}
-
+      <BreadcrumbDemo  />
       <div
-        className="flex w-full p-4 items-center justify-end  lg:justify-between  "
+        className="flex w-full px-4 items-center justify-end  lg:justify-between  "
         aria-label="Global"
       >
         <div className="flex items-center flex-row-reverse lg:flex-row lg:w-fit w-screen justify-between h-5   ">
