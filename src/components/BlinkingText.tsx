@@ -48,7 +48,7 @@ const Blinkingtext: React.FC<BlinkingTextProps> = ({
     setTypingTimeout(timeoutId as unknown as number);
 
     return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
-  }, [currentText, isDeleting, textIndex, texts, typingSpeed, pauseTime]);
+  }, [currentText, isDeleting, textIndex, texts, typingTimeout, typingSpeed, pauseTime]);
 
   return (
     <div className="font-satoshiRegular h-20 text-gray-600 inline-block indent-10 text-lg">
