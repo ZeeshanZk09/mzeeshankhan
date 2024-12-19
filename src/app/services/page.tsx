@@ -102,7 +102,7 @@ function Services() {
             muted
             height={360}
             width={640}
-            className="w-[400px] h-[400px] "
+            className="w-[260px] h-500px] "
           >
             Your browser does not support video tag
           </video>

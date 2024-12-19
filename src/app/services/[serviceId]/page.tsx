@@ -1,4 +1,5 @@
 import serviceDetails from '@/serviceDB.json';
+import Image from 'next/image';
 import Link from "next/link";
 
 
@@ -13,7 +14,14 @@ export default async function ServicePage({
   if (!service) return <div>Service Not Found</div>;
 
   return (
-    <section className="min-h-screen py-28 px-6">
+    <section className="min-h-screen py-28 space-y-8 px-6">
+      <div className='w-fit p-2 bg-slate-300 rounded-full'>
+        <Link href={`/services`}>
+        <Image src={`/assets/images/back.png`} alt="back.png" height={100} width={100} className="object-cover w-8 h-8"/>
+        </Link>
+      </div>
+      <div>
+
       <h1 className="text-3xl font-bold text-blue-600">{service.title}</h1>
       <p className="text-gray-700 mt-4">{service.details.introduction}</p>
 
@@ -37,6 +45,7 @@ export default async function ServicePage({
       <h3 className="text-lg font-semibold">Price: {service.details.price}</h3>
 
       <Link href="/services/123">Go to Service 123</Link>
+        </div>
     </section>
   );
 }
