@@ -16,7 +16,7 @@ export default function NotFound() {
       /> */}
       <Link
         href="/"
-        className="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-300 shadow-lg hover:shadow-xl"
+        className="mt-6 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition duration-300 shadow-lg hover:shadow-xl"
       >
         Take Me Home 🏠
       </Link>
