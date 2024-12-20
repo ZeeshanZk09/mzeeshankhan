@@ -99,7 +99,7 @@ Check out the live version of my portfolio here: [Portfolio Website](https://you
 
 ## 🧑‍💻 About Me
 
-Hi, I'm [Your Name]! I'm a passionate web developer with expertise in creating modern, user-friendly websites and applications. Feel free to connect with me on [LinkedIn](https://linkedin.com/in/your-profile) or check out my [GitHub](https://github.com/your-username).
+Hi, I'm [Your Name]! I'm a passionate web developer with expertise in creating modern, user-friendly websites and applications. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/) or check out my [GitHub](https://github.com/ZeeshanZk09).
 
 ---
 
