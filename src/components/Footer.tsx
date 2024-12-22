@@ -2,13 +2,25 @@ import React from "react";
 import NavigationLinksToSocialMediaProfiles from "./NavigationLinksToSocialMediaProfiles";
 import QuickLinks from "./QuickLinks";
 
+type TypePersonalInfo = {
+  [key: string]: string | number;
+};
+
+const personalInfo: TypePersonalInfo = {
+  "Father’s Name": "M. Tariq Hameed Khan",
+  CNIC: "42000-9324986-9",
+  Nationality: "Pakistani",
+  "Year of Birth": 2006,
+  "Marital Status": "Single 😉",
+};
+
 function Footer() {
   return (
     <footer className="bg-gray-100  flex flex-col items-center  overflow-x-hidden w-screen  h-fit    text-black ">
       {/* Logo and navigation */}
-      <div className="flex flex-col sm:flex-row w-full justify-between items-center px-10 my-5">
+      <div className="flex flex-col sm:flex-row w-full justify-between items-center px-5 sm:px-10 my-5">
         <div className="flex flex-col  h-fit w-fit   gap-10">
-          <h2 className="font-clashDisplayExtraLight text-4xl ">
+          <h2 className="font-clashDisplayRegular text-4xl ">
             M Zeeshan Khan
           </h2>
           <div>
@@ -24,7 +36,7 @@ function Footer() {
           {/* Social media links */}
           <div>
             <h2 className="font-clashDisplayMedium text-xl tracking-widest">
-              Social Media Links
+              Social Media Links:
             </h2>
             <NavigationLinksToSocialMediaProfiles className={``} />
           </div>
@@ -40,7 +52,26 @@ function Footer() {
           ></iframe>
         </div>
       </div>
-      
+      <div className="flex flex-col w-screen items-start px-5 sm:px-10 my-5 gap-4">
+        <h2 className="font-clashDisplayMedium text-xl tracking-widest">
+          Personal Information:
+        </h2>
+        <ul className="w-full">
+          {Object.entries(personalInfo).map(([key, value]) => (
+            <li key={key} className="flex justify-between border-b pb-2">
+              <span className="font-satoshiRegular">{key}</span>
+              <span className="font-satoshiRegular">{value}</span>
+            </li>
+          ))}
+        </ul>
+        <h2 className="font-clashDisplayMedium text-xl tracking-widest">
+          Address:
+        </h2>
+        <p className="font-satoshiRegular">
+          Police Flats/ Block B/ Flat #3, Sindh, Karachi - Baldia Town,
+          Saeedabad, behind police station
+        </p>
+      </div>
       {/* Copyright text */}
       <div className="bg-gray-800 w-full py-4">
         <p className="text-center font-satoshiRegular  text-gray-100 text-lg">

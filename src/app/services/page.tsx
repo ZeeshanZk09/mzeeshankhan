@@ -1,18 +1,45 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  InputHTMLAttributes,
+  DetailedHTMLProps,
+  useState,
+} from "react";
 import Link from "next/link";
 import Blinkingtext from "@/components/BlinkingText";
 import { services } from "@/services";
 import { TypeService } from "@/services";
+import Image from "next/image";
+import ServiceNotFoundPage from "@/components/ServiceNotFoundPage";
 
 function Services() {
   const [serviceInput, setServiceInput] = useState("");
-  const [filteredServices, setFilteredServices] =
-    useState<TypeService[]>(services);
+  const [filteredServices, setFilteredServices] = useState<
+    TypeService[] | null | undefined
+  >(services);
+  const validServices = Array.isArray(filteredServices) ? filteredServices : [];
   const [highlightIndexes, setHighlightIndexes] = useState<number[]>([]);
+  const [error, setError] = useState("");
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement> &
+      DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+  ) => {
     const inputValue = e.target.value;
+    const maxLength = 30;
+    const regex = /^[a-zA-Z0-9\s]*$/;
+
+    if (inputValue.length > maxLength) {
+      setError(`Input cannot exceed ${maxLength} characters.`);
+      return;
+    }
+
+    if (!regex.test(inputValue)) {
+      setError("Only alphanumeric characters are allowed.");
+      return;
+    }
+
+    setError(""); // Clear any previous errors
     setServiceInput(inputValue);
 
     if (inputValue.trim() === "") {
@@ -47,9 +74,9 @@ function Services() {
   return (
     <section id="services" className="h-full w-screen flex flex-col">
       {/* Header Section */}
-      <section className="py-28 px-9 h-fit flex flex-col sm:flex-row w-screen sm:justify-between sm:items-center space-y-6">
-        <div className="flex flex-col sm:justify-center sm:w-2/4 h-fit items-start">
-          <div className="flex flex-col sm:justify-center">
+      <section className="pt-36 sm:pt-28 pb-5 px-9 h-fit flex flex-col sm:flex-row w-screen sm:justify-between sm:items-center ">
+        <div className="flex flex-col  sm:w-2/4 justify-between h-[80vh] items-start">
+          <div className="flex flex-col ">
             <h2 className="text-3xl sm:text-4xl text-gray-800 font-clashDisplayRegular">
               My Services:
             </h2>
@@ -59,14 +86,17 @@ function Services() {
               solutions tailored to your needs.
             </p>
           </div>
-          <div className="flex flex-col-reverse w-full space-y-10">
-            <div className="bg-white w-full flex items-center sm:gap-4 rounded-full px-4 py-2 shadow-lg max-w-lg">
+          <div className="flex flex-col-reverse w-full  sm:h-2/4 justify-between">
+            <div className="bg-white  w-full flex items-center sm:gap-4 rounded-full px-4 py-2 shadow-lg max-w-lg">
               <input
                 type="search"
                 className="text-sm sm:text-base bg-transparent w-2/4 flex-grow outline-none placeholder-gray-400"
                 value={serviceInput}
                 placeholder="Search a service"
                 onChange={handleInputChange}
+                spellCheck={false}
+                data-ms-editor="true"
+                aria-label="Search a service"
               />
               <button
                 type="button"
@@ -77,6 +107,7 @@ function Services() {
                 }`}
                 onClick={handleSearch}
                 disabled={!serviceInput}
+                aria-label="search"
               >
                 Search
               </button>
@@ -87,11 +118,12 @@ function Services() {
                 }
               `}</style>
             </div>
+            {error && <p className="text-red-500 px-2">{error}</p>}
             <div>
               <h2 className="text-3xl font-clashDisplayRegular">
                 What I serve:
               </h2>
-              <Blinkingtext texts={services.map((s) => s.title)} />
+              <div><Blinkingtext texts={services.map((s) => s.title)} /></div>
             </div>
           </div>
         </div>
@@ -111,36 +143,34 @@ function Services() {
       </section>
 
       {/* Services List */}
-      <div className="flex flex-col w-screen h-fit">
-        {filteredServices.length > 0 ? (
-          filteredServices.map((service) => (
+      <div className="flex flex-col w-screen h-fit ">
+        {validServices.length > 0 || serviceInput === "" ? (
+          validServices.map((service) => (
             <section
               key={service.id}
-              className="bg-white px-4 py-2 border-b-8 h-screen flex items-center border-gray-500 w-screen"
+              className="bg-white px-4 py-20 border-b-8 h-fit  flex flex-col gap-10 sm:gap-0 sm:flex-row sm:justify-between items-start border-gray-500 w-screen"
             >
-              <div className="sm:w-2/4">
-                <h3 className="w-fit text-2xl font-clashDisplayMedium text-gray-800 mb-4">
+              <div className="sm:w-2/3 h-fit z-50 lg:h-screen flex flex-col gap-10  justify-between">
+                <h3 className="w-fit text-3xl sm:text-4xl font-clashDisplayMedium text-gray-800 mb-4">
                   {service.title.split("").map((char, index) => (
                     <span
                       key={index}
                       className={
-                        highlightIndexes.includes(index)
-                          ? "bg-green-200 "
-                          : ""
+                        highlightIndexes.includes(index) ? "bg-green-200 " : ""
                       }
                     >
                       {char}
                     </span>
                   ))}
                 </h3>
-                <ul className="list-disc pl-6 space-y-2 text-gray-600 text-base">
+                <ul className="list-disc pl-6 space-y-2 text-gray-600 text-lg sm:text-2xl">
                   {service.description.map((desc, index) => (
                     <li key={index} className="font-satoshiRegular">
                       {desc}
                     </li>
                   ))}
                 </ul>
-                <Link href={`/services/${service.id}`}>
+                <Link href={`/services/${service.id}`} className="w-fit">
                   <button
                     type="button"
                     className="mt-6 bg-green-500 font-satoshiBold hover:bg-green-600 text-white py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105"
@@ -148,31 +178,35 @@ function Services() {
                     Learn More
                   </button>
                 </Link>
+                <div className="bottom-0">
+                  <p className="font-satoshiRegular">
+                    Have questions about this?{" "}
+                    <Link href={`/#contact`} className="text-blue-700">
+                      click here
+                    </Link>{" "}
+                    to contact me directly.
+                  </p>
+                  <hr />
+                </div>
+              </div>
+              <div className=" w-fit h-fit flex items-center justify-center sm:justify-end">
+                {service.image &&
+                  service.image.map(({ src, txt }) => (
+                    <Image
+                      key={service.id}
+                      src={src}
+                      alt={txt}
+                      height={5000}
+                      width={5000}
+                      unoptimized
+                      className="w-full h-full sm:w-4/5 sm:h-4/5"
+                    />
+                  ))}
               </div>
             </section>
           ))
         ) : (
-            <div className="h-screen flex flex-col items-center justify-center">
-              <p>You may be finding something else? Check out my services below! 😊</p>
-              <div className="mt-8 flex items-center space-x-4">
-                <Link href={`/services`}>
-              <button
-                type="button"
-                className="bg-green-500 hover:bg-green-400 text-white py-1 px-2 rounded-full text-lg font-normal transition-transform transform hover:scale-110"
-                onClick={() => setServiceInput("")}
-                >
-                Back to Services
-              </button>
-                </Link>
-              <button
-                type="button"
-                onClick={() => alert("Error reported to the fun police! 🚓")}
-                className="bg-red-500 hover:bg-red-400 text-white py-1 px-2 rounded-full text-lg font-normal transition-transform transform hover:scale-110"
-              >
-                Report This!
-              </button>
-            </div>
-          </div>
+          <ServiceNotFoundPage handleClick={() => setServiceInput("")} />
         )}
       </div>
     </section>

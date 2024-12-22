@@ -35,57 +35,8 @@ function About() {
           their goals.  
         </p>
         <hr />
-        <p><br /> Let’s create something amazing together! 🚀</p>
-        {/* Skills List */}
-        <div className="space-y-4">
-          {/* Skill Bar 1 */}
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-sm sm:text-base text-black">
-              UX
-            </span>
-            <div className="w-3/5 sm:w-4/5 relative">
-              <div className="h-1 bg-gray-300 rounded-full">
-                <div className="h-1 bg-[#04AF70] rounded-full w-4/5"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Skill Bar 2 */}
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-sm sm:text-base text-black">
-              Website Design
-            </span>
-            <div className="w-3/5 sm:w-4/5 relative">
-              <div className="h-1 bg-gray-300 rounded-full">
-                <div className="h-1 bg-[#04AF70] rounded-full w-3/5"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Skill Bar 3 */}
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-sm sm:text-base text-black">
-              App Design
-            </span>
-            <div className="w-3/5 sm:w-4/5 relative">
-              <div className="h-1 bg-gray-300 rounded-full">
-                <div className="h-1 bg-[#04AF70] rounded-full w-2/5"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Skill Bar 4 */}
-          <div className="flex items-center justify-between">
-            <span className="font-semibold text-sm sm:text-base text-black">
-              Graphic Design
-            </span>
-            <div className="w-3/5 sm:w-4/5 relative">
-              <div className="h-1 bg-gray-300 rounded-full">
-                <div className="h-1 bg-[#04AF70] rounded-full w-full"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p className="mb-10"><br /> Let’s create something amazing together! 🚀</p>
+        
       </div>
     </section>
   );

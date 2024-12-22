@@ -3,6 +3,7 @@ import Hero from "@/components/hero/Hero";
 import Link from "next/link";
 import Image from "next/image";
 import Loading from "@/app/loading";
+import SkillsSection from "@/components/SkillsSection";
 
 // import Projects from '@/components/Projects'
 // import Testimonials from '@/components/Testimonials'
@@ -40,6 +41,7 @@ export default function Home() {
           </div>
         </section>
         <Hero />
+        <SkillsSection />
         {/* <ContactMe /> */}
       </main>
     </React.Suspense>
