@@ -4,10 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Loading from "@/app/loading";
 import SkillsSection from "@/components/SkillsSection";
-
-// import Projects from '@/components/Projects'
-// import Testimonials from '@/components/Testimonials'
-// import ContactMe from '@/components/ContactMe'
+import { ContactMe } from "@/components/ContactMe";
 
 export default function Home() {
   return (
@@ -42,7 +39,7 @@ export default function Home() {
         </section>
         <Hero />
         <SkillsSection />
-        {/* <ContactMe /> */}
+        <ContactMe />
       </main>
     </React.Suspense>
   );

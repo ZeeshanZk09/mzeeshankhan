@@ -1,76 +1,106 @@
-import React, { useState } from 'react';
-import { send } from "@emailjs/browser";
+"use client";
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
+import { Button } from "./ui/button";
 
-function ContactMe() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+declare module "@emailjs/browser" {
+  export interface EmailJSResponseStatus {
+    status: number;
+    text: string;
+  }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  export function sendForm(
+    serviceID: string,
+    templateID: string,
+    form: HTMLFormElement,
+    userID: string
+  ): Promise<EmailJSResponseStatus>;
+}
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+export const ContactMe = () => {
+  const form = useRef<HTMLFormElement | null>(null);
+
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
-    send("service_d93pp0s", "template_z11bnvr", formData, "46sK-QU3f560s8ibF").then(
-      (response) => {
-        console.log("SUCCESS!", response.status, response.text);
-        alert("Message sent successfully!");
-      },
-      (err) => {
-        console.log("FAILED...", err);
-        alert("Failed to send the message, please try again.");
-      }
-    );
+    if (form.current && form.current.checkValidity()) {
+      emailjs
+        .sendForm(
+          "service_t46jpx9", // Replace with your service ID
+          "template_0wte7wb", // Replace with your template ID
+          form.current,
+          "fy4iif1-KN8OHGhu6" // Replace with your public key
+        )
+        .then(
+          () => {
+            alert("Email sent successfully!");
+          },
+          (error: Error) => {
+            alert("Failed to send email. Please try again later.");
+            console.error("FAILED...", error.message);
+          }
+        );
+    } else {
+      alert("Please fill out all fields correctly.");
+    }
   };
 
   return (
-    <section
-      id="contact"
-      className="h-screen flex flex-col justify-center items-center p-5"
-    >
-      <h2 className="text-4xl mb-4">Contact Us</h2>
-      <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          onChange={handleChange}
-          value={formData.name}
-          className="mb-2 p-2 w-full"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          onChange={handleChange}
-          value={formData.email}
-          className="mb-2 p-2 w-full"
-        />
-        <textarea
-          name="message"
-          placeholder="Your Message"
-          onChange={handleChange}
-          value={formData.message}
-          className="mb-2 p-2 w-full h-40"
-        ></textarea>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Send Message
-        </button>
-      </form>
+    <section className="py-10 font-satoshiRegular flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold font-clashDisplayRegular text-center text-gray-800">
+          Contact Me
+        </h2>
+        <p className="mt-2 text-center text-gray-600">
+          Have questions? Fill out the form below.
+        </p>
+        <form ref={form} onSubmit={sendEmail} className="mt-6 space-y-4">
+          <div>
+            <label className="block text-lg font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              type="text"
+              name="from_name"
+              placeholder="Enter your name"
+              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+              data-has-listeners="true"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-lg font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              name="from_email"
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+              data-has-listeners="true"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-lg font-medium text-gray-700">
+              Message
+            </label>
+            <textarea
+              name="message"
+              placeholder="Enter your message"
+              className="w-full px-4 py-2 mt-1  border rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+              data-has-listeners="true"
+              rows={4}
+              required
+            />
+          </div>
+          <Button
+            type="submit"
+            className="w-full py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring focus:ring-indigo-300 focus:outline-none"
+          >
+            Send Email
+          </Button>
+        </form>
+      </div>
     </section>
   );
-}
-
-export default ContactMe;
+};
