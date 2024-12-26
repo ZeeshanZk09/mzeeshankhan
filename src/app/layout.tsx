@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import localFont from "next/font/local";
+import Head from "next/head";
+import Analytics from "@/components/Analytics";
 
 const clashDisplayExtralight = localFont({
   src: "./fonts/ClashDisplay-Extralight.woff",
@@ -34,12 +36,11 @@ const satoshiBold = localFont({
   weight: "100 900",
 });
 
- const satoshiRegular = localFont({
+const satoshiRegular = localFont({
   src: "./fonts/Satoshi-Regular.woff",
   variable: "--satoshi-regular",
   weight: "100 900",
- });
-
+});
 
 export const metadata: Metadata = {
   title: "M Zeeshan Khan",
@@ -53,14 +54,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `} >
+      <Head>
+        <Analytics />
+      </Head>
+      <body
+        className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
+      >
         <Header />
-          {children}
+        {children}
         <Footer />
       </body>
     </html>
   );
 }
-
-
-
