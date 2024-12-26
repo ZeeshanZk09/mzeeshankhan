@@ -47,7 +47,10 @@ export const ContactMe = () => {
   };
 
   return (
-    <section className="py-10 px-6 font-satoshiRegular flex flex-col sm:flex-row items-center justify-between min-h-screen bg-gray-50">
+    <section
+      id="contact"
+      className="py-10 px-6 font-satoshiRegular flex flex-col sm:flex-row items-center justify-between min-h-screen bg-gray-50"
+    >
       <div className="flex flex-col h-screen justify-between mb-4">
         <div className="flex  sm:items-center gap-10">
           <Image
@@ -67,8 +70,8 @@ export const ContactMe = () => {
             Contact Details:
           </h2>
           <section className="flex flex-col space-y-4">
-            <h3 className="font-satoshiRegular tracking-wide">Email:</h3>
             <div className="flex items-center">
+              <h3 className="font-satoshiRegular tracking-wide mr-4">Email:</h3>
               <Image
                 src={`/assets/images/contact/email.svg`}
                 width={100}
@@ -87,10 +90,20 @@ export const ContactMe = () => {
               {
                 index: 0,
                 label: "+92 337 8568671",
+                name: "Whatsapp:",
                 path: "/assets/images/contact/whatsapp.svg",
               },
-            ].map(({ label, path, index }) => (
+              {
+                index: 1,
+                label: "+92 329 2564066",
+                name: "Phone:",
+                path: "/assets/images/contact/phone.svg",
+              },
+            ].map(({ label, path, index, name }) => (
               <div key={index} className="flex items-center">
+                <h3 className="font-satoshiRegular tracking-wide mr-4">
+                  {name}
+                </h3>
                 <Image
                   src={path}
                   width={100}
@@ -106,7 +119,7 @@ export const ContactMe = () => {
           </section>
         </div>
       </div>
-      <div className="w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
+      <div className="h-screen w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold font-clashDisplayRegular text-center text-gray-800">
           Direct Message
         </h2>
