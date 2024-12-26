@@ -5,15 +5,10 @@ import Image from "next/image";
 import Loading from "@/app/loading";
 import SkillsSection from "@/components/SkillsSection";
 import { ContactMe } from "@/components/ContactMe";
-import Analytics from "@/components/Analytics";
-import Head from "next/head";
 
 export default function Home() {
   return (
     <React.Suspense fallback={<Loading />}>
-      <Head>
-        <Analytics />
-      </Head>
       <main className="overflow-hidden block">
         <section className=" h-screen  overflow-hidden flex items-center space-y-10 flex-col justify-center ">
           <div className="absolute   h-screen  w-screen bg-white opacity-40 ">

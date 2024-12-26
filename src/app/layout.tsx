@@ -3,8 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import localFont from "next/font/local";
-import Head from "next/head";
-import Analytics from "@/components/Analytics";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const clashDisplayExtralight = localFont({
   src: "./fonts/ClashDisplay-Extralight.woff",
@@ -54,9 +53,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <Analytics />
-      </Head>
       <body
         className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
       >
@@ -64,6 +60,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleAnalytics gaId="G-9DL20C6P7Y" />
     </html>
   );
 }
