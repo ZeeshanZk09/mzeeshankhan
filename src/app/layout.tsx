@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import localFont from "next/font/local";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import * as React from "react";
+import Loading from "./loading";
 
 const clashDisplayExtralight = localFont({
   src: "./fonts/ClashDisplay-Extralight.woff",
@@ -57,9 +59,11 @@ export default function RootLayout({
       <body
         className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
       >
-        <Header />
-        {children}
-        <Footer />
+        <React.Suspense fallback={<Loading />}>
+          <Header />
+          {children}
+          <Footer />
+        </React.Suspense>
       </body>
       <GoogleAnalytics gaId="G-9DL20C6P7Y" />
     </html>

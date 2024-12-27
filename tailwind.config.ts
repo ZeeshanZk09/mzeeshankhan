@@ -1,11 +1,13 @@
-import { Weight } from "lucide-react";
+import withMT from "@material-tailwind/react/utils/withMT";
+import tailwindcssAnimate from "tailwindcss-animate";
 import type { Config } from "tailwindcss";
-// import tailwindcssAnimate from "tailwindcss-animate";
 
-export default {
+export default withMT({
   darkMode: ["class"],
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -76,5 +78,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [tailwindcssAnimate],
+}) as Config;
