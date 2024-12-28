@@ -68,6 +68,7 @@ const MyReferrels = () => {
         )}
         prevArrow={({ handlePrev }) => (
           <IconButton
+            aria-label="Previous"
             variant="text"
             color="black"
             size="lg"
@@ -92,6 +93,7 @@ const MyReferrels = () => {
         )}
         nextArrow={({ handleNext }) => (
           <IconButton
+            aria-label="Next"
             variant="text"
             color="black"
             size="lg"
@@ -151,7 +153,8 @@ const MyReferrels = () => {
             <div className="xl:hidden  flex items-start sm:justify-between w-11/12 gap-2 sm:items-center">
               <Button
                 onClick={handleCopy}
-                className=" bg-white   py-3  px-4  hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide  rounded place-content-center"
+                aria-label={isCopied ? "Link Copied" : "Copy Link"}
+                className="bg-white py-3 px-4 hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide rounded place-content-center"
               >
                 {isCopied ? "Link Copied!" : "Copy Link"}
               </Button>
@@ -178,6 +181,7 @@ const MyReferrels = () => {
                 </p>
                 <Button
                   onClick={handleCopy}
+                  aria-label={isCopied ? "Link Copied" : "Copy Link"}
                   className="bg-white w-full hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide py-3 sm:py-6 px-4 sm:px-6 rounded place-content-center"
                 >
                   {isCopied ? "Link Copied!" : "Copy Link"}

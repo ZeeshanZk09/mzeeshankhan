@@ -50,7 +50,11 @@ export const ContactMe = () => {
     <section
       id="contact"
       className="py-10 px-6 font-satoshiRegular flex flex-col lg:flex-row items-center gap-20  sm:justify-between min-h-screen bg-gray-50"
+      aria-labelledby="contact-heading"
     >
+      <h2 id="contact-heading" className="sr-only">
+        Contact Me
+      </h2>
       <div className="flex flex-col h-screen justify-between ">
         <div className="flex  sm:items-center gap-10">
           <Image
@@ -59,6 +63,8 @@ export const ContactMe = () => {
             className="clipped rounded-full w-20 h-20 sm:w-48 sm:h-48 object-cover"
             width={1000}
             height={1000}
+            role="img"
+            aria-label="MZeeshan Khan"
           />
           <h2 className="font-clashDisplayExtraLight sm:text-2xl tracking-widest w-8/12 ">
             Wan&apos;na discuss any project or just say Hi, My inbox is open for
@@ -77,12 +83,15 @@ export const ContactMe = () => {
                   src={`/assets/images/contact/email.svg`}
                   width={100}
                   height={100}
-                  alt="MZeeshanKhan"
+                  alt="Email icon"
                   className="object-cover rounded-full w-10 h-10"
+                  role="img"
+                  aria-label="Email icon"
                 />
                 <Link
                   href={`mailto:mzeeshankhan0988@gmail.com`}
                   className=" text-blue-600"
+                  aria-label="Send an email to MZeeshan Khan"
                 >
                   mzeeshankhan0988@gmail.com
                 </Link>
@@ -180,7 +189,7 @@ export const ContactMe = () => {
           </div>
           <Button
             type="submit"
-            className="px-2 w-full py-10 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring focus:ring-green-300 outline-none border-none"
+            className="px-2 w-full py-10 text-[#f0f0f0] bg-[#047856] rounded-lg hover:bg-[#04663d] hover:text-white focus:ring focus:ring-green-300 outline-none border-none"
           >
             Send Email
           </Button>

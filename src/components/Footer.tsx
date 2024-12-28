@@ -20,9 +20,7 @@ function Footer() {
       {/* Logo and navigation */}
       <div className="flex flex-col sm:flex-row w-full justify-between items-center px-5 sm:px-10 my-5">
         <div className="flex flex-col  h-fit w-fit   gap-10">
-          <h2 className="font-clashDisplayRegular text-4xl ">
-            M Zeeshan Khan
-          </h2>
+          <h2 className="font-clashDisplayRegular text-4xl ">M Zeeshan Khan</h2>
           <div>
             <h2 className="font-clashDisplayMedium text-xl tracking-widest">
               Quick links:
@@ -75,7 +73,7 @@ function Footer() {
       {/* Copyright text */}
       <div className="bg-gray-800 w-full py-4">
         <p className="text-center font-satoshiRegular  text-gray-100 text-lg">
-          © 2023 <span className="text-[#04AF70]">Muhammad Zeeshan Khan</span>.
+          © 2023 <span className="text-[#1E7A4D]">Muhammad Zeeshan Khan</span>.
           All Rights Reserved.
         </p>
       </div>

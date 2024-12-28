@@ -2,7 +2,6 @@ import Link from "next/link";
 import "./Hero.css";
 import NavigationLinksToSocialMediaProfiles from "../NavigationLinksToSocialMediaProfiles";
 
-
 function Hero() {
   return (
     <section
@@ -24,7 +23,7 @@ function Hero() {
         <p className="text-lg font-light text-black font-satoshiRegular">
           Hi I am
         </p>
-        <span className="text-[#04AF70] font-clashDisplayRegular text-2xl md:text-4xl 2xl:text-5xl">
+        <span className="text-[#007A4D] font-clashDisplayRegular text-2xl md:text-4xl 2xl:text-5xl">
           Muhammad Zeeshan Khan
         </span>
         <br />
@@ -32,7 +31,7 @@ function Hero() {
           <span className="block font-satoshiBold text-black">Web App</span>
           <span className="block font-satoshiBold text-black">Developer</span>
         </h1>
-        <p className="mt-4 text-gray-600 text-base md:text-lg max-w-lg text-justify font-satoshiRegular">
+        <p className="mt-4 text-[#0D47A1] text-base md:text-lg max-w-lg text-justify font-satoshiRegular">
           Driven by a passion for continuous learning and innovation, I strive
           to create impactful and meaningful solutions. With every step rooted
           in dedication and perseverance, I am committed to delivering
@@ -42,7 +41,7 @@ function Hero() {
         <Link href="#contact">
           <button
             type="button"
-            className="mt-6 bg-[#04AF70] text-white py-2 px-8 rounded-md hover:bg-[#04af70cb] hover:text-black font-satoshiRegular"
+            className="mt-6 bg-[#047856] text-[#F0F0F0] py-2 px-8 rounded-md hover:bg-[#04663d] hover:text-white font-satoshiRegular"
           >
             Hire Me
           </button>
