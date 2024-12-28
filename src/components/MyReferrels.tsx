@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Carousel, IconButton } from "@material-tailwind/react";
@@ -44,18 +43,18 @@ const MyReferrels = () => {
   };
 
   return (
-    <section className="h-fit min-h-screen w-screen p-6 sm:p-10 bg-gray-200">
-      <h2 className="font-clashDisplayMedium text-2xl sm:text-4xl text-black tracking-wide">
+    <section className="  p-6 xl:p-10 bg-gray-200">
+      <h2 className="font-clashDisplayMedium text-2xl xl:text-4xl text-black tracking-wide">
         My Referrals:
       </h2>
 
       <Carousel
-        className="h-max min-h-screen rounded-xl text-black"
+        className="flex h-[calc(100vh-100px)] lg:h-[400px] min-h-[300px] rounded-xl text-black"
         placeholder="Loading images..."
         onPointerEnter={() => {}}
         onPointerLeave={() => {}}
         navigation={({ setActiveIndex, activeIndex, length }) => (
-          <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+          <div className="px-20 absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
             {new Array(length).fill("").map((_, i) => (
               <span
                 key={i}
@@ -73,7 +72,7 @@ const MyReferrels = () => {
             color="black"
             size="lg"
             onClick={handlePrev}
-            className="!absolute top-2/4 left-4 -translate-y-2/4"
+            className="hidden sm:block !absolute top-2/4 left-4 -translate-y-2/4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +96,7 @@ const MyReferrels = () => {
             color="black"
             size="lg"
             onClick={handleNext}
-            className="!absolute top-2/4 right-4 -translate-y-2/4"
+            className="hidden sm:block !absolute top-2/4 right-4 -translate-y-2/4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,24 +115,17 @@ const MyReferrels = () => {
           </IconButton>
         )}
       >
-        <section className="relative w-full h-fit  font-satoshiRegular text-black py-6 px-4 sm:py-12 sm:px-10">
-          <Image
-            src={`/assets/images/Hostinger-bg.png`}
-            alt="image 2"
-            className="h-auto sm:h-full w-full object-cover rounded-xl"
-            width={1000}
-            height={1000}
-          />
-          <div className="h-screen absolute inset-0 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 items-center justify-between  p-4 sm:p-8 bg-gray-200 bg-opacity-60 backdrop-blur-md rounded-xl">
+        <section className=" h-full relative    font-satoshiRegular text-black py-6 px-4 lg:py-12 lg:px-20">
+          <div className="h-fit absolute max-w-4xl justify-self-center inset-0 flex flex-col xl:flex-row gap-4  items-center justify-around  p-4 xl:p-6 bg-gray-200 bg-opacity-60 backdrop-blur-md rounded-xl">
             {/* Left Content */}
-            <div className="px-4 sm:px-10 flex flex-col items-start">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4 font-satoshiBold">
+            <div className="px-4 xl:px-10 flex flex-col items-start ">
+              <h2 className="text-lg  font-bold mb-2 font-satoshiBold">
                 Most Popular Business Web Hosting
               </h2>
-              <p className="text-black mb-4 sm:mb-6">
+              <p className="text-black mb-2 ">
                 Level-up with more power and enhanced features.
               </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 sm:mb-6 space-y-2">
+              <ul className="text-xs  list-disc list-inside text-gray-700 mb-2  space-y-1 ">
                 <li className="bg-gray-200 bg-opacity-30">100 Websites</li>
                 <li className="bg-gray-200 bg-opacity-30">
                   ~100,000 Visits Monthly
@@ -145,45 +137,63 @@ const MyReferrels = () => {
                   600,000 Files and Directories (Inodes)
                 </li>
               </ul>
-              <p className="text-lg bg-gray-200 bg-opacity-30 text-deep-purple-700 font-bold">
+              <p className="text-sm bg-gray-200 bg-opacity-30 text-deep-purple-700 font-bold">
                 Rs. 1,199.00/mo
               </p>
-              <p className="text-sm text-gray-700 line-through">
+              <p className="text-xs text-gray-700 line-through">
                 Rs. 14,388.00
               </p>
-              <p className="text-lg text-green-700 font-bold">
+              <p className="text-sm text-green-700 font-bold">
                 Rs. 11,510.40{" "}
-                <span className="text-sm text-gray-700">(-20%)</span>
+                <span className="text-xs text-gray-700">(-20%)</span>
               </p>
+            </div>
+            <div className="xl:hidden  flex items-start sm:justify-between w-11/12 gap-2 sm:items-center">
+              <Button
+                onClick={handleCopy}
+                className=" bg-white   py-3  px-4  hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide  rounded place-content-center"
+              >
+                {isCopied ? "Link Copied!" : "Copy Link"}
+              </Button>
+
+              <Link
+                target="_blank"
+                href="https://cart.hostinger.com/pay/a0809e8e-fa37-40f7-b7e5-08dc8bb7302f?_ga=GA1.3.942352702.1711283207"
+                className="w-2/6"
+              >
+                <Button className=" bg-white hover:bg-deep-purple-300 text-sm text-black font-satoshiBold py-3  px-4  rounded text-center">
+                  Checkout Now!
+                </Button>
+              </Link>
             </div>
 
             {/* Right Content */}
-            <div className="h-screen bg-deep-purple-500 w-full p-4 sm:p-6 flex flex-col justify-between rounded-lg shadow-lg">
-              <div>
-                <p className="text-gray-900 text-lg sm:text-xl font-clashDisplayMedium tracking-wide mb-2 sm:mb-4">
+            <div className="hidden bg-deep-purple-500  p-4  xl:flex flex-col justify-between rounded-lg shadow-lg">
+              <div className="h-32 mb-2">
+                <p className="text-gray-900 text-sm xl:text-lg font-clashDisplayMedium tracking-wide mb-1 ">
                   Refer to a Friend!
                 </p>
-                <p className="tracking-wider text-gray-300 mb-4 sm:mb-6">
+                <p className="text-xs tracking-widest text-gray-300 mb-2 ">
                   Share this amazing plan and level-up your hosting experience.
                 </p>
                 <Button
                   onClick={handleCopy}
-                  className="bg-white w-full hover:bg-deep-purple-300 text-black font-satoshiBold tracking-wide py-3 sm:py-6 px-4 sm:px-6 rounded place-content-center"
+                  className="bg-white w-full hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide py-3 sm:py-6 px-4 sm:px-6 rounded place-content-center"
                 >
                   {isCopied ? "Link Copied!" : "Copy Link"}
                 </Button>
-                <p className="mt-2 text-gray-500">
+                <p className="sticky text-xs m-1 text-gray-500">
                   {isCopied && "You can now paste the link anywhere!"}
                 </p>
               </div>
               <div>
-                <h2 className="text-gray-900 text-lg sm:text-xl font-clashDisplayMedium tracking-wide mb-2 sm:mb-4">
+                <h2 className="text-gray-900 text-sm sm:text-lg font-clashDisplayMedium tracking-wide mb-1">
                   Go to Hostinger and Start Hosting!
                 </h2>
                 <Link
                   target="_blank"
                   href="https://cart.hostinger.com/pay/a0809e8e-fa37-40f7-b7e5-08dc8bb7302f?_ga=GA1.3.942352702.1711283207"
-                  className="block bg-white hover:bg-deep-purple-300 text-black font-satoshiBold tracking-wide py-2 sm:py-3 px-4 sm:px-6 rounded text-center"
+                  className="block bg-white hover:bg-deep-purple-300 text-sm text-black font-satoshiBold tracking-wide py-2 sm:py-3 px-4 sm:px-6 rounded text-center"
                 >
                   Checkout Now!
                 </Link>

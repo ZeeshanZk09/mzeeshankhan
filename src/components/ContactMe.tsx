@@ -49,9 +49,9 @@ export const ContactMe = () => {
   return (
     <section
       id="contact"
-      className="py-10 px-6 font-satoshiRegular flex flex-col sm:flex-row items-center justify-between min-h-screen bg-gray-50"
+      className="py-10 px-6 font-satoshiRegular flex flex-col lg:flex-row items-center gap-20  sm:justify-between min-h-screen bg-gray-50"
     >
-      <div className="flex flex-col h-screen justify-between mb-4">
+      <div className="flex flex-col h-screen justify-between ">
         <div className="flex  sm:items-center gap-10">
           <Image
             src={`/assets/images/MZeeshanKhan.jpeg`}
@@ -70,21 +70,23 @@ export const ContactMe = () => {
             Contact Details:
           </h2>
           <section className="flex flex-col space-y-4">
-            <div className="flex items-center">
+            <div className="flex flex-col  items-start gap-4">
               <h3 className="font-satoshiRegular tracking-wide mr-4">Email:</h3>
-              <Image
-                src={`/assets/images/contact/email.svg`}
-                width={100}
-                height={100}
-                alt="MZeeshanKhan"
-                className="object-cover rounded-full w-10 h-10"
-              />
-              <Link
-                href={`mailto:mzeeshankhan0988@gmail.com`}
-                className=" text-blue-600"
-              >
-                mzeeshankhan0988@gmail.com
-              </Link>
+              <div className="flex items-center gap-2">
+                <Image
+                  src={`/assets/images/contact/email.svg`}
+                  width={100}
+                  height={100}
+                  alt="MZeeshanKhan"
+                  className="object-cover rounded-full w-10 h-10"
+                />
+                <Link
+                  href={`mailto:mzeeshankhan0988@gmail.com`}
+                  className=" text-blue-600"
+                >
+                  mzeeshankhan0988@gmail.com
+                </Link>
+              </div>
             </div>
             {[
               {
@@ -100,33 +102,37 @@ export const ContactMe = () => {
                 path: "/assets/images/contact/phone.svg",
               },
             ].map(({ label, path, index, name }) => (
-              <div key={index} className="flex items-center">
-                <h3 className="font-satoshiRegular tracking-wide mr-4">
-                  {name}
-                </h3>
-                <Image
-                  src={path}
-                  width={100}
-                  height={100}
-                  alt="MZeeshanKhan"
-                  className="  w-10 h-10"
-                />
-                <Link href={path} className=" text-black">
-                  {label}
-                </Link>
+              <div key={index} className="flex flex-col items-start gap-4">
+                <h3 className="font-satoshiRegular tracking-wide ">{name}</h3>
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={path}
+                    width={100}
+                    height={100}
+                    alt="MZeeshanKhan"
+                    className="  w-10 h-10"
+                  />
+                  <Link href={path} className=" text-black">
+                    {label}
+                  </Link>
+                </div>
               </div>
             ))}
           </section>
         </div>
       </div>
-      <div className="h-screen w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
+      <div className="h-fit min-h-screen w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold font-clashDisplayRegular text-center text-gray-800">
           Direct Message
         </h2>
         <p className="mt-2 text-center text-gray-600">
           Have questions? Fill out the form below.
         </p>
-        <form ref={form} onSubmit={sendEmail} className="mt-6 space-y-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col mt-6 space-y-4"
+        >
           <div>
             <label className="block text-lg font-medium text-gray-700">
               Name
@@ -164,7 +170,7 @@ export const ContactMe = () => {
             <textarea
               name="message"
               placeholder="Enter your message"
-              className="w-full px-4 py-2 mt-1  border rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+              className="w-full h-[200px] px-4 py-2 mt-1  border rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
               data-has-listeners="true"
               spellCheck="false"
               data-ms-editor="true"
@@ -174,7 +180,7 @@ export const ContactMe = () => {
           </div>
           <Button
             type="submit"
-            className="w-full py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring focus:ring-green-300 outline-none border-none"
+            className="px-2 w-full py-10 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring focus:ring-green-300 outline-none border-none"
           >
             Send Email
           </Button>
