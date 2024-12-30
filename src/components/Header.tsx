@@ -9,12 +9,10 @@ import { BreadcrumbDemo } from "./bread-crumb";
 export default function Header() {
   const [open, setOpen] = React.useState(false);
 
-
-
   return (
     <header className="absolute w-screen h-28 sm:px-5  bg-transparent z-50">
       {/* Desktop view version */}
-      <BreadcrumbDemo  />
+      <BreadcrumbDemo />
       <div
         className="flex w-full px-4 items-center justify-end  lg:justify-between  "
         aria-label="Global"
@@ -36,14 +34,17 @@ export default function Header() {
           </SidebarProvider>
         </div>
         {/* Center Links - Fixed */}
-        <QuickLinks navClassName={`w-fit  hidden  lg:flex md:items-center  `} ulClassName={` gap-10 items-center` } />
+        <QuickLinks
+          navClassName={`w-fit  hidden  lg:flex md:items-center  `}
+          ulClassName={` gap-10 items-center`}
+        />
 
         <div className="hidden lg:flex w-fit lg:justify-end ">
           <Link
             href="/assets/docs/ZK Resume.pdf"
             target="_blank"
             download="ZK_Resume.pdf"
-            id="loginBtn"
+            id="download-cv-btn"
             className="relative w-fit px-2 py-1 lg:text-[1.278rem] xl:text-[1.556rem] 2xl:text-[1.944rem] font-semibold bg-[#04AF70] border-none rounded-lg text-white font-satoshiRegular cursor-pointer  z-50 overflow-hidden"
           >
             Download CV

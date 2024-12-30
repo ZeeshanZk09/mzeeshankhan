@@ -23,7 +23,7 @@ function Hero() {
         <p className="text-lg font-light text-black font-satoshiRegular">
           Hi I am
         </p>
-        <span className="text-[#007A4D] font-clashDisplayRegular text-2xl md:text-4xl 2xl:text-5xl">
+        <span className="text-[#007A4D] font- font-clashDisplayRegular text-2xl md:text-4xl 2xl:text-5xl">
           Muhammad Zeeshan Khan
         </span>
         <br />

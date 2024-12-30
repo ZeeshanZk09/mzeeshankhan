@@ -8,7 +8,6 @@ type TypePersonalInfo = {
 
 const personalInfo: TypePersonalInfo = {
   "Father’s Name": "M. Tariq Hameed Khan",
-  CNIC: "42000-9324986-9",
   Nationality: "Pakistani",
   "Year of Birth": 2006,
   "Marital Status": "Single 😉",
