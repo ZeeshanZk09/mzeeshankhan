@@ -3,10 +3,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import localFont from "next/font/local";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import * as React from "react";
 import Loading from "./loading";
 import Script from "next/script";
+import GoogleAnalytic from "@/components/GoogleAnalytics";
 
 const clashDisplayExtralight = localFont({
   src: "./fonts/ClashDisplay-Extralight.woff",
@@ -67,6 +68,7 @@ export default function RootLayout({
         strategy="afterInteractive"
       />
       <GoogleTagManager gtmId="GTM-TN2SFZ67" />
+      <GoogleAnalytic GA_MEASUREMENT_ID="G-9DL20C6P7Y" />
       <body
         className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
       >
@@ -76,7 +78,6 @@ export default function RootLayout({
           <Footer />
         </React.Suspense>
       </body>
-      <GoogleAnalytics gaId="G-9DL20C6P7Y" />
     </html>
   );
 }
