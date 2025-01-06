@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import * as React from "react";
 import Loading from "./loading";
+import Script from "next/script";
 
 const clashDisplayExtralight = localFont({
   src: "./fonts/ClashDisplay-Extralight.woff",
@@ -55,6 +56,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script
+        src="https://web.cmp.usercentrics.eu/modules/autoblocker.js"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="usercentrics-cmp"
+        src="https://web.cmp.usercentrics.eu/ui/loader.js"
+        data-settings-id="Jh81HSJUoIDyWi"
+        strategy="afterInteractive"
+      />
       <GoogleTagManager gtmId="GTM-TN2SFZ67" />
       <body
         className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}

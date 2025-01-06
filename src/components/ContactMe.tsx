@@ -154,6 +154,14 @@ export const ContactMe = () => {
               data-has-listeners="true"
               spellCheck="false"
               data-ms-editor="true"
+              data-be-installed="true"
+              data-darkreader-mode="dynamic"
+              data-darkreader-scheme="dark"
+              data-darkreader-proxy-injected="true"
+              style={{ width: "100%" }}
+              data-liner-extension-version="7.16.2"
+              data-new-gr-c-s-check-loaded="14.1215.0"
+              data-gr-ext-installed=""
               required
             />
           </div>
@@ -169,6 +177,14 @@ export const ContactMe = () => {
               data-has-listeners="true"
               spellCheck="false"
               data-ms-editor="true"
+              data-be-installed="true"
+              data-darkreader-mode="dynamic"
+              data-darkreader-scheme="dark"
+              data-darkreader-proxy-injected="true"
+              style={{ width: "100%" }}
+              data-liner-extension-version="7.16.2"
+              data-new-gr-c-s-check-loaded="14.1215.0"
+              data-gr-ext-installed=""
               required
             />
           </div>
@@ -183,6 +199,14 @@ export const ContactMe = () => {
               data-has-listeners="true"
               spellCheck="false"
               data-ms-editor="true"
+              data-be-installed="true"
+              data-darkreader-mode="dynamic"
+              data-darkreader-scheme="dark"
+              data-darkreader-proxy-injected="true"
+              style={{ width: "100%" }}
+              data-liner-extension-version="7.16.2"
+              data-new-gr-c-s-check-loaded="14.1215.0"
+              data-gr-ext-installed=""
               rows={4}
               required
             />
