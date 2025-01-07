@@ -128,7 +128,7 @@ const SkillsSection = () => {
                   height={100}
                 />
               </div>
-              <div className="w-3/5 sm:w-4/5 relative">
+              <div className="w-full relative">
                 <div className="h-2 bg-gray-50 rounded-full">
                   <div
                     className={`h-2 bg-[#04AF70] rounded-full ${range}`}
