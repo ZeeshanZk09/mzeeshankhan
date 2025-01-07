@@ -43,13 +43,13 @@ const MyReferrels = () => {
   };
 
   return (
-    <section className="  p-6 xl:p-10 bg-gray-200">
+    <section className=" min-h-screen h-fit  p-6 xl:p-10 bg-gray-200">
       <h2 className="font-clashDisplayMedium text-2xl xl:text-4xl text-black tracking-wide">
         My Referrals:
       </h2>
 
       <Carousel
-        className="flex h-[calc(100vh-100px)] lg:h-[400px] min-h-[300px] rounded-xl text-black"
+        className="flex h-[calc(70vh-100px)]  lg:h-[350px] min-h-[300px] rounded-xl text-black"
         placeholder="Loading images..."
         onPointerEnter={() => {}}
         onPointerLeave={() => {}}
@@ -173,10 +173,10 @@ const MyReferrels = () => {
             {/* Right Content */}
             <div className="hidden bg-deep-purple-500  p-4  xl:flex flex-col justify-between rounded-lg shadow-lg">
               <div className="h-32 mb-2">
-                <p className="text-gray-900 text-sm xl:text-lg font-clashDisplayMedium tracking-wide mb-1 ">
+                <p className="text-gray-950 text-sm xl:text-lg font-clashDisplayMedium tracking-wide mb-1 ">
                   Refer to a Friend!
                 </p>
-                <p className="text-xs tracking-widest text-gray-300 mb-2 ">
+                <p className="text-xs tracking-widest text-gray-200 mb-2 ">
                   Share this amazing plan and level-up your hosting experience.
                 </p>
                 <Button
@@ -191,7 +191,7 @@ const MyReferrels = () => {
                 </p>
               </div>
               <div>
-                <h2 className="text-gray-900 text-sm sm:text-lg font-clashDisplayMedium tracking-wide mb-1">
+                <h2 className="text-gray-950 text-sm sm:text-lg font-clashDisplayMedium tracking-wide mb-1">
                   Go to Hostinger and Start Hosting!
                 </h2>
                 <Link

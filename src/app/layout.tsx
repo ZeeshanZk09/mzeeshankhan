@@ -56,26 +56,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-be-installed="true">
       <Script
         src="https://web.cmp.usercentrics.eu/modules/autoblocker.js"
         strategy="afterInteractive"
+        data-be-installed="true"
       />
       <Script
         id="usercentrics-cmp"
         src="https://web.cmp.usercentrics.eu/ui/loader.js"
         data-settings-id="Jh81HSJUoIDyWi"
         strategy="afterInteractive"
+        data-be-installed="true"
       />
-      <GoogleTagManager gtmId="GTM-TN2SFZ67" />
-      <GoogleAnalytic GA_MEASUREMENT_ID="G-9DL20C6P7Y" />
+      <GoogleTagManager data-be-installed="true" gtmId="GTM-TN2SFZ67" />
+      <GoogleAnalytic
+        data-be-installed="true"
+        GA_MEASUREMENT_ID="G-9DL20C6P7Y"
+      />
       <body
-        className={`${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
+        className={`font-satoshiRegular ${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased `}
+        data-be-installed="true"
+        data-liner-extension-version="7.16.2"
+        data-new-gr-c-s-check-loaded="14.1215.0"
+        data-gr-ext-installed=""
+        style={{ width: "100%" }}
       >
-        <React.Suspense fallback={<Loading />}>
-          <Header />
+        <React.Suspense data-be-installed="true" fallback={<Loading />}>
+          <Header data-be-installed="true" />
           {children}
-          <Footer />
+          <Footer data-be-installed="true" />
         </React.Suspense>
       </body>
     </html>

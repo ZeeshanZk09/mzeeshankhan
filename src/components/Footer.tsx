@@ -72,7 +72,7 @@ function Footer() {
       {/* Copyright text */}
       <div className="bg-gray-800 w-full py-4">
         <p className="text-center font-satoshiRegular  text-gray-100 text-lg">
-          © 2023 <span className="text-[#1E7A4D]">Muhammad Zeeshan Khan</span>.
+          © 2023 <span className="text-green-300">Muhammad Zeeshan Khan</span>.
           All Rights Reserved.
         </p>
       </div>

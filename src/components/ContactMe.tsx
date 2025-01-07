@@ -48,14 +48,13 @@ export const ContactMe = () => {
 
   return (
     <section
-      id="contact"
-      className="py-10 px-6 font-satoshiRegular flex flex-col lg:flex-row items-center gap-20  sm:justify-between min-h-screen bg-gray-50"
+      className="min-h-screen h-fit  py-10 px-6 font-satoshiRegular flex flex-col lg:flex-row items-center gap-20  sm:justify-between  bg-green-100"
       aria-labelledby="contact-heading"
     >
       <h2 id="contact-heading" className="sr-only">
         Contact Me
       </h2>
-      <div className="flex flex-col h-screen justify-between ">
+      <div className="flex flex-col h-[50vh] lg:h-[90vh] justify-between ">
         <div className="flex  sm:items-center gap-10">
           <Image
             src={`/assets/images/MZeeshanKhan.jpeg`}
@@ -90,10 +89,18 @@ export const ContactMe = () => {
                 />
                 <Link
                   href={`mailto:mzeeshankhan0988@gmail.com`}
-                  className=" text-blue-600"
+                  target="_blank"
+                  className="flex items-center gap-1 text-black"
                   aria-label="Send an email to MZeeshan Khan"
                 >
-                  mzeeshankhan0988@gmail.com
+                  <span>mzeeshankhan0988@gmail.com</span>
+                  <Image
+                    src={`/assets/images/contact/emailLink.svg`}
+                    alt={`go to email`}
+                    className="w-5 h-5"
+                    width={100}
+                    height={100}
+                  />
                 </Link>
               </div>
             </div>
@@ -121,7 +128,7 @@ export const ContactMe = () => {
                     alt="MZeeshanKhan"
                     className="  w-10 h-10"
                   />
-                  <Link href={path} className=" text-black">
+                  <Link href={path} className=" text-black" aria-label={label}>
                     {label}
                   </Link>
                 </div>
@@ -130,7 +137,10 @@ export const ContactMe = () => {
           </section>
         </div>
       </div>
-      <div className="h-fit min-h-screen w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
+      <div
+        id="contact"
+        className="h-fit w-full max-w-xl p-6 bg-white rounded-lg shadow-lg"
+      >
         <h2 className="text-2xl font-bold font-clashDisplayRegular text-center text-gray-800">
           Direct Message
         </h2>
@@ -161,6 +171,7 @@ export const ContactMe = () => {
               style={{ width: "100%" }}
               data-liner-extension-version="7.16.2"
               data-new-gr-c-s-check-loaded="14.1215.0"
+              data-lastpass-icon-root=""
               data-gr-ext-installed=""
               required
             />
@@ -185,6 +196,7 @@ export const ContactMe = () => {
               data-liner-extension-version="7.16.2"
               data-new-gr-c-s-check-loaded="14.1215.0"
               data-gr-ext-installed=""
+              data-lastpass-icon-root=""
               required
             />
           </div>
@@ -203,7 +215,7 @@ export const ContactMe = () => {
               data-darkreader-mode="dynamic"
               data-darkreader-scheme="dark"
               data-darkreader-proxy-injected="true"
-              style={{ width: "100%" }}
+              data-lastpass-icon-root=""
               data-liner-extension-version="7.16.2"
               data-new-gr-c-s-check-loaded="14.1215.0"
               data-gr-ext-installed=""

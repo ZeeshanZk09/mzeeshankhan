@@ -31,7 +31,7 @@ function Hero() {
           <span className="block font-satoshiBold text-black">Web App</span>
           <span className="block font-satoshiBold text-black">Developer</span>
         </h1>
-        <p className="mt-4 text-[#0D47A1] text-base md:text-lg max-w-lg text-justify font-satoshiRegular">
+        <p className="mt-4 text-gray-900 text-base md:text-lg max-w-lg text-justify font-satoshiRegular">
           Driven by a passion for continuous learning and innovation, I strive
           to create impactful and meaningful solutions. With every step rooted
           in dedication and perseverance, I am committed to delivering
