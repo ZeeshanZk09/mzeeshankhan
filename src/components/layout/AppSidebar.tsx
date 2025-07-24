@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence, MotionProps } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { useWindowSize } from '@/utils/useWindowResize';
+import { useWindowSize } from '@/hooks/useWindowResize';
 
 const items = [
   {
@@ -83,13 +83,13 @@ export function AppSidebar() {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
   const { width } = useWindowSize();
-  const isMobile = width < 768;
+  const isMobile = width < 900;
   console.log(isOpen);
   return (
     <motion.div
       {...({
         className: `fixed bottom-0 top-0 ${
-          isOpen || !isMobile ? 'left-0' : '-left-14 px-4'
+          isOpen || !isMobile ? 'left-0' : '-left-[70px] px-4'
         } min-h-screen min-w-xl w-full h-full bg-white dark:bg-gray-900 shadow-xl flex flex-col border-r border-gray-200 dark:border-gray-700 z-50`,
         initial: false,
         animate: isOpen ? 'open' : 'closed',
@@ -98,7 +98,7 @@ export function AppSidebar() {
     >
       {/* Toggle Button */}
       <motion.button
-        className='absolute -right-3 top-6 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center z-10'
+        className='absolute -right-6 top-6 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center z-10'
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -126,13 +126,13 @@ export function AppSidebar() {
         <AnimatePresence>
           {isOpen ? (
             <motion.h1
-              className='text-xl font-bold text-gray-800 dark:text-white'
+              className='text-xl font-bold text-gray-800 font-clashDisplayMedium'
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              MyApp
+              M Zeeshan Khan
             </motion.h1>
           ) : (
             <motion.div
@@ -149,7 +149,7 @@ export function AppSidebar() {
 
       {/* Navigation Items */}
       <nav className='flex-1 mt-6'>
-        <ul className='space-y-2 px-3'>
+        <motion.ul className='space-y-2 px-3'>
           {items.map((item, index) => (
             <motion.li
               key={item.url}
@@ -212,11 +212,11 @@ export function AppSidebar() {
               </Link>
             </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </nav>
 
       {/* Footer/User Profile */}
-      <motion.div className='px-4 py-6 border-t border-gray-200 dark:border-gray-700' layout>
+      {/* <motion.div className='px-4 py-6 border-t border-gray-200 dark:border-gray-700' layout>
         <div className='flex items-center'>
           <div className='w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600'></div>
           <AnimatePresence>
@@ -234,7 +234,7 @@ export function AppSidebar() {
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
+      </motion.div> */}
     </motion.div>
   );
 }

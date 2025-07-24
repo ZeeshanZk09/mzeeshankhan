@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clashDisplay-extralight: 'ClashDisplay-Extralight';
+  --clashDisplay-bold: 'ClashDisplay-Bold';
+  --clashDisplay-medium: 'ClashDisplay-Medium';
+  --clashDisplay-regular: 'ClashDisplay-Regular';
+  --satoshi-bold: 'Satoshi-Bold';
+  --satoshi-regular: 'Satoshi-Regular';
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Apply the colors to the body */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: aliceblue;
+  color: black;
+  font-family: 'Satoshi-Regular', sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #04af7085;
+}
+
+.welcome-img {
+  background-image: url('/assets/images/welcome-bg-img.jpg');
+  background-size: cover;
+  background-position: center;
+}
+/* 
+/* Custom text balancing utility */
+.go2072408551 {
+  z-index: 9999 !important;
+}

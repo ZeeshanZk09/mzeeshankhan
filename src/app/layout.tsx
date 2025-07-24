@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import './globals.css';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import '@/styles/globals.css';
 import localFont from 'next/font/local';
-import { GoogleTagManager } from '@next/third-parties/google';
 import * as React from 'react';
-import Loading from './loading';
-import Script from 'next/script';
-import GoogleAnalytic from '@/components/GoogleAnalytics';
-import { AppSidebar } from '@/components/app-sidebar';
-import UnderConstruction from '@/components/ui/UnderConstruction';
+import { AppSidebar } from '@/components/layout/AppSidebar';
+import UnderConstruction from '@/components/utils/UnderConstruction';
+import HydrationFix from '@/utils/HydrationFIx';
+import { CleanDom } from '@/utils/CleanDom';
 
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
@@ -58,35 +56,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' data-be-installed='true' suppressHydrationWarning>
-      <Script
-        src='https://web.cmp.usercentrics.eu/modules/autoblocker.js'
-        strategy='afterInteractive'
-        data-be-installed='true'
-      />
-      <Script
-        id='usercentrics-cmp'
-        src='https://web.cmp.usercentrics.eu/ui/loader.js'
-        data-settings-id='Jh81HSJUoIDyWi'
-        strategy='afterInteractive'
-        data-be-installed='true'
-      />
-      <GoogleTagManager data-be-installed='true' gtmId='GTM-TN2SFZ67' />
-      <GoogleAnalytic data-be-installed='true' GA_MEASUREMENT_ID='G-9DL20C6P7Y' />
-      <React.Suspense data-be-installed='true' fallback={<Loading />}>
-        <body
-          className={`font-satoshiRegular ${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased flex `}
-          style={{ width: '100%' }}
-        >
+    <html lang='en' suppressHydrationWarning>
+      <body
+        className={`font-satoshiRegular ${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased flex `}
+        suppressHydrationWarning
+      >
+        <CleanDom />
+        <HydrationFix>
           <UnderConstruction />
           <AppSidebar />
           <div className='flex flex-col'>
-            <Header data-be-installed='true' />
+            <Header />
             {children}
-            <Footer data-be-installed='true' />
+            <Footer />
           </div>
-        </body>
-      </React.Suspense>
+        </HydrationFix>
+      </body>
     </html>
   );
 }

@@ -1,20 +1,20 @@
 .blinkingTextContainer {
-    font-family: monospace;
-    font-size: 24rem;
-    display: inline-block;
+  font-family: monospace;
+  font-size: 24rem;
+  display: inline-block;
+}
+
+.blinkingCursor {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
   }
-  
-  .blinkingCursor {
-    
-    animation: blink 1s step-start infinite;
+  51%,
+  100% {
+    opacity: 0;
   }
-  
-  @keyframes blink {
-    0%, 50% {
-      opacity: 1;
-    }
-    51%, 100% {
-      opacity: 0;
-    }
-  }
-  
+}
