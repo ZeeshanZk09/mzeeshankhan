@@ -61,9 +61,9 @@ export default function Hero() {
 
             <Link
               id='download-cv-btn'
-              href='/assets/docs/ZK Resume.pdf'
+              href='/assets/docs/m-zeeshan-khan.pdf'
               className='flex items-center mt-6 bg-[#047856] text-[#F0F0F0] py-2 px-4 rounded-md hover:bg-[#04663d] hover:text-white font-satoshiRegular'
-              download={'ZK Resume.pdf'}
+              download={'m-zeeshan-khan.pdf'}
               title='Download CV'
             >
               <Image
