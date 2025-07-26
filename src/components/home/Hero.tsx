@@ -10,24 +10,22 @@ export default function Hero() {
     <AnimationWrapper>
       <section
         id='hero'
-        className='flex flex-col lg:flex-row-reverse items-center min-h-screen justify-between bg-[aliceblue] py-10 px-10 md:px-24'
+        className='flex flex-col md:flex-row-reverse items-center min-h-screen justify-between bg-[aliceblue] py-10 px-10 md:px-24'
       >
         {/* Image Section */}
-        <div className='justify-self-end'>
-          <div className='w-full md:w-1/2 flex flex-col items-center lg:items-start'>
-            <div
-              className={`hero-img w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner bg-[url('/assets/images/M-Zeeshan-Khan.png')] bg-no-repeat bg-cover bg-[center_top] bg-clip-border bg-[rgba(0,0,0,0.13)]`}
-            ></div>
+        <div className=' flex flex-col items-center lg:items-start'>
+          <div
+            className={`hero-img w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner bg-[url('/assets/images/M-Zeeshan-Khan.png')] bg-no-repeat bg-cover bg-[center_top] bg-clip-border bg-[rgba(0,0,0,0.13)]`}
+          ></div>
 
-            {/* Social Icons */}
-            <div>
-              <NavigationLinksToSocialMediaProfiles className='pl-0 lg:pl-24' />
-            </div>
+          {/* Social Icons */}
+          <div>
+            <NavigationLinksToSocialMediaProfiles className='pl-0 lg:pl-24' />
           </div>
         </div>
 
         {/* Text Section */}
-        <div className='mt-8 md:mt-0 w-full md:w-1/2 flex flex-col text-center md:text-left items-center md:items-start'>
+        <div className='mt-8 md:mt-0 w-full md:w-1/3 flex flex-col text-center md:text-left items-center md:items-start'>
           <p className='text-lg font-light text-black font-satoshiRegular'>Hi I am</p>
 
           <span className='text-[#007A4D] font-clashDisplayRegular text-2xl md:text-4xl 2xl:text-5xl'>

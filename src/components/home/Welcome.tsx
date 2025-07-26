@@ -4,13 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimationWrapper from '../utils/AnimationWrapper';
+import { Button } from '../ui/button';
 
 export default function Welcome() {
   return (
     <AnimationWrapper>
-      <section className='relative h-screen overflow-hidden flex items-center space-y-10 flex-col justify-center'>
-        {/* Background Image with fade-in animation */}
-        <div className='absolute h-screen w-screen bg-white opacity-40'>
+      <section className='relative h-screen overflow-hidden flex items-start flex-col justify-center space-y-6 text-left '>
+        {/* Background Image */}
+        <div className='absolute h-screen w-screen bg-white opacity-30 z-0'>
           <Image
             src='/assets/images/welcome-bg-img.jpg'
             alt='welcome-bg-img'
@@ -18,32 +19,42 @@ export default function Welcome() {
             className='object-cover w-full h-full'
           />
         </div>
+        <section className='px-10 sm:px-24 z-30 space-y-6'>
+          {/* Heading */}
+          <span className='flex items-center gap-2 w-fit  font-satoshiRegular tracking-wider rounded-full border px-2 border-black text-base sm:text-lg z-10 text-gray-800'>
+            <Image
+              className='w-4 h-4'
+              src={'/assets/images/home/stars.png'}
+              alt='stars'
+              width={1000}
+              height={1000}
+            />
+            <span>Welcome to my Portfolio</span>
+          </span>
 
-        {/* Heading Animation */}
-        <h1 className='font-clashDisplayMedium tracking-widest text-center text-4xl px-2 sm:p-0 sm:text-6xl z-10'>
-          Welcome to visit my portfolio
-        </h1>
-
-        {/* Scroll Down Text & Gif */}
-        <div className='sm:items-center w-2/3 gap-10 sm:gap-0 lg:w-1/3 flex flex-col sm:flex-row items-start sm:justify-between z-10'>
-          <p className='text-lg justify-self-start font-satoshiBold underline'>
-            Scroll down to see more:
+          {/* Intro Text */}
+          <p className='text-gray-900  text-xl sm:text-3xl text-justify max-w-2xl z-10'>
+            I’m <strong>M Zeeshan Khan</strong>, a frontend developer passionate about building
+            beautiful, responsive, and accessible web applications using modern technologies.
           </p>
 
-          {/* Bouncing Arrow Animation */}
-          <Link href={`#hero`}>
-            <div>
-              <Image
-                src='/assets/giffs/down.gif'
-                width={100}
-                height={100}
-                alt='down.gif'
-                className='object-cover rounded-full w-10 h-10 bg-[aliceblue]'
-                unoptimized
-              />
-            </div>
-          </Link>
-        </div>
+          {/* Buttons */}
+          <div className='flex items-center gap-4 z-10'>
+            <Link href='/projects'>
+              <Button className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors disabled:opacity-70 disabled:cursor-not-allowed'>
+                See My Work
+              </Button>
+            </Link>
+            <Link href='#contact'>
+              <Button
+                type='button'
+                className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors disabled:opacity-70 disabled:cursor-not-allowed'
+              >
+                Get in Touch
+              </Button>
+            </Link>
+          </div>
+        </section>
       </section>
     </AnimationWrapper>
   );
