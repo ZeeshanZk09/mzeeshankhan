@@ -123,7 +123,7 @@ export default function ContactMe() {
   return (
     <motion.section
       id='contact'
-      className='min-h-screen w-screen py-8 px-4 sm:px-8 md:px-12 lg:px-24 font-satoshiRegular flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-20 bg-green-50'
+      className='min-h-screen w-screen py-8 px-10  sm:px-24 font-satoshiRegular flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-20 bg-green-50'
       variants={containerVariants}
       initial='hidden'
       whileInView='show'
@@ -152,7 +152,7 @@ export default function ContactMe() {
             />
           </motion.div>
           <motion.h2
-            className='font-clashDisplayExtraLight text-lg sm:text-xl md:text-2xl text-center sm:text-left'
+            className='font-satoshiRegular text-lg sm:text-xl md:text-2xl text-center sm:text-left'
             variants={fadeUp}
           >
             Wan&apos;na discuss any project or just say Hi? My inbox is open for everyone.
