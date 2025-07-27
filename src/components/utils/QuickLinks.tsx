@@ -23,7 +23,7 @@ export default function QuickLinks({
   navClassName = '',
   ulClassName = '',
   liClassName = '',
-  hoverColor = '#04AF70',
+  hoverColor = '',
   defaultColor = '#64748b',
   layout = 'horizontal',
   showUnderline = true,
@@ -33,17 +33,17 @@ export default function QuickLinks({
     <nav className={`${navClassName} overflow-hidden z-50`}>
       <ul
         className={`${ulClassName} flex ${
-          layout === 'horizontal' ? 'flex-row space-x-6' : 'flex-col space-y-4'
+          layout === 'horizontal' ? 'flex-row sm:space-x-6' : 'flex-col gap-4'
         }`}
       >
         {navLinks.map(({ href, label }, index) => (
-          <li key={index} className='m-0 relative group'>
+          <li key={index} className='m-0 relative group cursor-pointer'>
             <Link
               href={href}
               className={`${liClassName} font-satoshiRegular font-normal leading-6 sm:text-[0.667rem] md:text-[0.778rem] lg:text-[1rem] xl:text-[1.278rem] 2xl:text-[1.556rem] transition-all duration-200`}
               style={{ color: defaultColor }}
             >
-              <span className='relative'>
+              <span className='relative '>
                 {label}
                 {showUnderline && (
                   <span

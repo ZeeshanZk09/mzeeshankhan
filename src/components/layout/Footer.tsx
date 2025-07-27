@@ -3,11 +3,10 @@ import NavigationLinksToSocialMediaProfiles from '../utils/NavigationLinksToSoci
 import QuickLinks from '../utils/QuickLinks';
 import AnimationWrapper from '../utils/AnimationWrapper';
 
-
 export default function Footer() {
   return (
     <AnimationWrapper>
-      <footer className='bg-gray-100  flex flex-col   overflow-x-hidden w-screen justify-between h-fit text-black '>
+      <footer className='bg-gradient-to-t from-gray-100 to-[aliceblue]  flex flex-col   overflow-x-hidden w-screen justify-between h-fit text-black '>
         {/* Logo and navigation */}
         <div className='flex flex-col sm:flex-row w-full justify-between items-center px-10 sm:px-24 my-5'>
           <div className='flex flex-col  h-fit w-fit   gap-10'>
@@ -33,8 +32,8 @@ export default function Footer() {
         {/* Copyright text */}
         <div className='bg-gray-800 py-4 w-screen'>
           <p className='px-10 text-center font-satoshiRegular  text-gray-100 test-sm sm:text-lg'>
-            © 2023 <span className='text-green-300'>Muhammad Zeeshan Khan</span>. All Rights
-            Reserved.
+            © {new Date().getFullYear()}{' '}
+            <span className='text-green-300'>Muhammad Zeeshan Khan</span>. All Rights Reserved.
           </p>
         </div>
       </footer>

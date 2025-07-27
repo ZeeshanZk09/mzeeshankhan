@@ -67,7 +67,7 @@ export default function RootLayout({
           <AppSidebar />
           <div className='flex flex-col'>
             <Header />
-            {children}
+            <main className=' overflow-hidden block min-h-screen'>{children}</main>
             <Footer />
           </div>
         </HydrationFix>

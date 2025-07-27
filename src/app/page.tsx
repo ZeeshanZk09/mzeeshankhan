@@ -7,13 +7,11 @@ import AnimationWrapper from '@/components/utils/AnimationWrapper';
 
 export default function Home() {
   return (
-    <main className='overflow-hidden block'>
-      <AnimationWrapper>
-        <Welcome />
-        <Hero />
-        <SkillsSection />
-        <ContactMe />
-      </AnimationWrapper>
-    </main>
+    <AnimationWrapper>
+      <Welcome />
+      <Hero />
+      <SkillsSection />
+      <ContactMe />
+    </AnimationWrapper>
   );
 }

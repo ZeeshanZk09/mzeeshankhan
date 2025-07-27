@@ -9,17 +9,18 @@ import { Button } from '../ui/button';
 export default function Welcome() {
   return (
     <AnimationWrapper>
-      <section className='relative h-screen overflow-hidden flex items-start flex-col justify-center space-y-6 text-left '>
+      <section className=' relative h-screen overflow-hidden flex items-start flex-col  space-y-6 text-left '>
         {/* Background Image */}
         <div className='absolute h-screen w-screen bg-white opacity-30 z-0'>
           <Image
             src='/assets/images/welcome-bg-img.jpg'
             alt='welcome-bg-img'
+            priority
             fill
             className='object-cover w-full h-full'
           />
         </div>
-        <section className='px-10 sm:px-24 z-30 space-y-6'>
+        <section className='pt-36 sm:pt-28 px-10 sm:px-24 z-30 space-y-6'>
           {/* Heading */}
           <span className='flex items-center gap-2 w-fit  font-satoshiRegular tracking-wider rounded-full border px-2 border-black text-base sm:text-lg z-10 text-gray-800'>
             <Image
@@ -41,14 +42,14 @@ export default function Welcome() {
           {/* Buttons */}
           <div className='flex items-center gap-4 z-10'>
             <Link href='/projects'>
-              <Button className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors disabled:opacity-70 disabled:cursor-not-allowed'>
+              <Button className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors '>
                 See My Work
               </Button>
             </Link>
             <Link href='#contact'>
               <Button
                 type='button'
-                className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors disabled:opacity-70 disabled:cursor-not-allowed'
+                className='w-full py-3 text-sm sm:text-base font-medium text-white bg-[#047856] hover:bg-[#03603d] focus:ring-2 focus:ring-green-300 focus:outline-none transition-colors '
               >
                 Get in Touch
               </Button>

@@ -74,8 +74,8 @@ const defaultLinks: SocialMediaLink[] = [
 export default function NavigationLinksToSocialMediaProfiles({
   className = '',
   iconClassName = '',
-  hoverColor = '#04AF70',
-  defaultColor = '#94a3b8', // slate-400
+  hoverColor = '',
+  defaultColor = '', // slate-400
   iconSize = 40,
   links = defaultLinks,
   layout = 'horizontal',
@@ -109,7 +109,7 @@ export default function NavigationLinksToSocialMediaProfiles({
               {link.icon}
             </div>
             <div
-              className='absolute inset-0 bg-current opacity-0 group-hover:opacity-10 transition-opacity duration-200 '
+              className='absolute inset-0 bg-current opacity-0  transition-opacity duration-200 '
               style={{ color: hoverColor }}
             />
           </div>

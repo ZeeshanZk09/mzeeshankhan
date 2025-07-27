@@ -84,7 +84,6 @@ export function AppSidebar() {
 
   const { width } = useWindowSize();
   const isMobile = width < 900;
-  console.log(isOpen);
   return (
     <motion.div
       {...({

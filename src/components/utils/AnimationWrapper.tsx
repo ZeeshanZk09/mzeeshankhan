@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, easeInOut } from 'framer-motion';
+import { motion, AnimatePresence, easeInOut, HTMLMotionProps } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 
@@ -18,7 +18,11 @@ const variants = {
   },
 };
 
-export default function AnimationWrapper({ children }: { children: ReactNode }) {
+interface AnimationWrapperProps extends HTMLMotionProps<'div'> {
+  children: ReactNode;
+}
+
+export default function AnimationWrapper({ children, ...rest }: AnimationWrapperProps) {
   const path = usePathname();
 
   return (
@@ -30,6 +34,7 @@ export default function AnimationWrapper({ children }: { children: ReactNode }) 
         whileInView='enter'
         viewport={{ once: false }}
         exit='exit'
+        {...rest}
       >
         {children}
       </motion.div>

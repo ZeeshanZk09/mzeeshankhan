@@ -5,9 +5,9 @@ import Blinkingtext from '@/components/utils/BlinkingText';
 import { services } from '@/services';
 import { TypeService } from '@/services';
 import Image from 'next/image';
-import ServiceNotFoundPage from '@/components/utils/ServiceNotFoundPage';
+// import Carousel from '@/components/utils/Carousel';
 
-function Services() {
+export default function Services() {
   const [serviceInput, setServiceInput] = useState('');
   const [filteredServices, setFilteredServices] = useState<TypeService[] | null | undefined>(
     services
@@ -67,9 +67,9 @@ function Services() {
   };
 
   return (
-    <section id='services' className='h-full w-screen px-10 sm:px-24 flex flex-col'>
+    <section id='services' className='h-full w-screen pt-36 sm:pt-28 px-10 sm:px-24 flex flex-col'>
       {/* Header Section */}
-      <section className='pt-36 sm:pt-28 pb-5  h-fit flex flex-col sm:flex-row  sm:justify-between sm:items-center '>
+      <section className=' pb-5  h-fit flex flex-col sm:flex-row  sm:justify-between sm:items-center '>
         <div className='flex flex-col  sm:w-2/4 justify-between h-[80vh] items-start'>
           <div className='flex flex-col '>
             <h2 className='text-3xl sm:text-4xl text-gray-800 font-clashDisplayRegular'>
@@ -138,7 +138,11 @@ function Services() {
 
       {/* Services List */}
       <div className='flex flex-col w-full h-fit '>
-        {validServices.length > 0 || serviceInput === '' ? (
+        {validServices.length > 0 &&
+          serviceInput === '' &&
+          // (
+          //   <Carousel key={Math.random() * 10000} services={validServices} />
+          // )
           validServices.map((service) => (
             <section
               key={service.id}
@@ -196,13 +200,8 @@ function Services() {
                   ))}
               </div>
             </section>
-          ))
-        ) : (
-          <ServiceNotFoundPage handleClick={() => setServiceInput('')} />
-        )}
+          ))}
       </div>
     </section>
   );
 }
-
-export default Services;

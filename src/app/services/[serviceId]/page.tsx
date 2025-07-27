@@ -10,7 +10,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
   if (!service) return <ServiceNotFoundPage />;
 
   return (
-    <section className='min-h-screen   py-28 space-y-8 px-10 sm:px-24'>
+    <section className='min-h-screen pt-36 sm:pt-28 py-28 space-y-8 px-10 sm:px-24'>
       <div className='   rounded-full'>
         <Link href={`/services`}>
           <Image
