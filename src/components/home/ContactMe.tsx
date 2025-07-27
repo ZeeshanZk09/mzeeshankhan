@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 
 // Dynamically load ReCAPTCHA with no SSR
-const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha').then((mod) => mod.ReCAPTCHA), {
   ssr: false,
   loading: () => (
     <div className='h-[78px] flex items-center justify-center'>Loading reCAPTCHA...</div>
