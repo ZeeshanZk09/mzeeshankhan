@@ -34,10 +34,14 @@ export default function Welcome() {
           </span>
 
           {/* Intro Text */}
-          <p className='text-gray-900  text-xl sm:text-3xl text-justify max-w-2xl z-10'>
-            I’m <strong>M Zeeshan Khan</strong>, a frontend developer passionate about building
-            beautiful, responsive, and accessible web applications using modern technologies.
+          <p className='text-black  text-xl sm:text-3xl text-justify max-w-2xl z-10'>
+            I’m <strong>M Zeeshan Khan</strong>, a FullStack developer passionate about building
+            scalable, responsive, and accessible web applications using modern technologies.
           </p>
+          <hr className='invert' />
+          <em className='text-base sm:text-xl'>
+            Transforming slow applications into high-performance engines.
+          </em>
 
           {/* Buttons */}
           <div className='flex items-center gap-4 z-10'>

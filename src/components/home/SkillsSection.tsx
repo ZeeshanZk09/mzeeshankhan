@@ -76,7 +76,9 @@ const SkillsSection = () => {
             alt='bg-logo'
             width={100}
             height={100}
-            className='absolute opacity-50 animate-float z-0'
+            className={`absolute opacity-50 animate-float z-0 top-[${Math.random() * 100}%] left-[${
+              Math.random() * 100
+            }%] transform rotate-[${Math.random() * 360}]`}
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,

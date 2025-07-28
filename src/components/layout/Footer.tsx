@@ -26,7 +26,7 @@ export default function Footer() {
                   M Zeeshan Khan
                 </h2>
                 <p className='font-satoshiRegular text-gray-600'>
-                  Full Stack Developer & UI/UX Enthusiast
+                  Full Stack Developer & logic building Enthusiast
                 </p>
               </div>
 
@@ -55,6 +55,7 @@ export default function Footer() {
             {/* Right section - Source code button */}
             <div className='flex-shrink-0'>
               <button
+                type='button'
                 onClick={handleSourceCodeClick}
                 className='flex items-center gap-2 rounded-full px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors group'
                 aria-label='View source code on GitHub'
