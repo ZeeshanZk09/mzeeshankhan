@@ -72,7 +72,7 @@ export default function About() {
         >
           <motion.div
             variants={scaleIn}
-            className="bg-[url('/assets/images/M-Zeeshan-Khan-2.png')] bg-no-repeat bg-[length:100%] bg-[position:center_top] bg-black/10 bg-clip-border w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner"
+            className="bg-[url('/assets/images/me.jpg')] bg-no-repeat bg-[length:100%] bg-[position:center_top] bg-black/10 bg-clip-border w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner"
           />
         </motion.div>
 

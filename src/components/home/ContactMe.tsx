@@ -143,7 +143,7 @@ export default function ContactMe() {
             variants={scaleIn}
           >
             <Image
-              src='/assets/images/MZeeshanKhan.jpeg'
+              src='/assets/images/me.jpg'
               alt='MZeeshanKhan'
               fill
               className='rounded-full object-cover'

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react";
-import styles from "@/styles/blinkingtext.module.css";
+import React, { useState, useEffect, useMemo } from 'react';
+import styles from '@/styles/blinkingtext.module.css';
 
 interface BlinkingTextProps {
   texts: string[]; // Array of texts to show
@@ -15,7 +15,7 @@ const Blinkingtext: React.FC<BlinkingTextProps> = ({
   typingSpeed = 150,
   pauseTime = 2000,
 }) => {
-  const [currentText, setCurrentText] = useState("");
+  const [currentText, setCurrentText] = useState('');
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -35,7 +35,7 @@ const Blinkingtext: React.FC<BlinkingTextProps> = ({
       } else {
         setCurrentText((prev) => fullText.substring(0, prev.length - 1));
 
-        if (currentText === "") {
+        if (currentText === '') {
           setIsDeleting(false);
           setTextIndex((prevIndex) => (prevIndex + 1) % memoizedTexts.length);
         }
@@ -48,7 +48,7 @@ const Blinkingtext: React.FC<BlinkingTextProps> = ({
   }, [currentText, isDeleting, textIndex, memoizedTexts, typingSpeed, pauseTime]);
 
   return (
-    <div className="font-satoshiRegular h-20 text-gray-600 inline-block indent-10 text-lg">
+    <div className='font-satoshiRegular h-20 text-gray-600 inline-block text-lg'>
       <span>{currentText}</span>
       <span className={`${styles.blinkingCursor}`}>|</span>
     </div>

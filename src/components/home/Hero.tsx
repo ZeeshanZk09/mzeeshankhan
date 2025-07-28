@@ -15,7 +15,7 @@ export default function Hero() {
         {/* Image Section */}
         <div className=' flex flex-col items-center lg:items-start'>
           <div
-            className={`hero-img w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner bg-[url('/assets/images/M-Zeeshan-Khan.png')] bg-no-repeat bg-cover bg-[center_top] bg-clip-border bg-[rgba(0,0,0,0.13)]`}
+            className={`hero-img w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full border-2 border-t-slate-400 border-b-[#04AF70] border-r-[#04AF70] border-l-[#04AF70] shadow-black shadow-inner bg-[url('/assets/images/me.jpg')] bg-no-repeat bg-cover bg-[center_top] bg-clip-border bg-[rgba(0,0,0,0.13)]`}
           ></div>
 
           {/* Social Icons */}
