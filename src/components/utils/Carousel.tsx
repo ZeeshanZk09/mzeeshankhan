@@ -2,7 +2,7 @@
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRef, useState, useEffect } from 'react';
-import { TypeService } from '@/services';
+import { TypeService } from '@/lib/data/services';
 
 type CarouselProps = {
   services: TypeService[];

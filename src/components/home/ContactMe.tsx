@@ -7,13 +7,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
+import { NEXT_PUBLIC_RECAPTCHA_SITE_KEY } from '@/lib/constants';
 
-// Dynamically load ReCAPTCHA with no SSR
-const ReCAPTCHA = dynamic(() => import('react-google-recaptcha').then((mod) => mod.ReCAPTCHA), {
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
   ssr: false,
-  loading: () => (
-    <div className='h-[78px] flex items-center justify-center'>Loading reCAPTCHA...</div>
-  ),
+  loading: () => <div className='h-[78px] w-[304px] bg-gray-200 rounded'></div>,
 });
 
 // Animation variants - Using the same pattern as About page
@@ -117,7 +115,6 @@ export default function ContactMe() {
       });
     }
   };
-
   if (!isMounted) return null;
 
   return (
@@ -248,9 +245,9 @@ export default function ContactMe() {
             className='flex transform scale-75 sm:scale-100 justify-center'
             variants={fadeUp}
           >
-            {isMounted && (
+            {isMounted && NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
               <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                 onChange={(token) => setRecaptchaToken(token)}
                 onExpired={() => setRecaptchaToken(null)}
                 size={isMobile ? 'compact' : 'normal'}

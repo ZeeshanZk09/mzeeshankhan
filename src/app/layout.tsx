@@ -6,7 +6,7 @@ import localFont from 'next/font/local';
 import * as React from 'react';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import UnderConstruction from '@/components/utils/UnderConstruction';
-import HydrationFix from '@/utils/HydrationFIx';
+import HydrationFix from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
 
 const clashDisplayExtralight = localFont({

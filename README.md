@@ -1,6 +1,6 @@
 # Portfolio Website
 
-Welcome to my portfolio website repository! 🎉 This project showcases my work, skills, and achievements as a web developer and designer. Dive in to learn more about me and explore the projects I've built.
+Welcome to my portfolio website repository! 🎉 This project showcases my work, skills, and achievements as a web developer. Dive in to learn more about me and explore the projects I've built.
 
 ---
 
@@ -42,19 +42,22 @@ src/
 
 ## 🖼️ Demo
 
-Check out the live version of my portfolio here: [Portfolio Website](https://your-portfolio-link.com)
+Check out the live version of my portfolio here: [mzeeshankhan](https://mzeeshankhan.vercel.app)
 
 ---
 
 ## 📸 Screenshots
 
 ### Home Page
+
 ![Home Page](https://via.placeholder.com/800x400)
 
 ### Projects Section
+
 ![Projects Section](https://via.placeholder.com/800x400)
 
 ### Contact Page
+
 ![Contact Page](https://via.placeholder.com/800x400)
 
 ---
@@ -99,13 +102,13 @@ Check out the live version of my portfolio here: [Portfolio Website](https://you
 
 ## 🧑��💻 About Me
 
-Hi, I'm [Your Name]! I'm a passionate web developer with expertise in creating modern, user-friendly websites and applications. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/) or check out my [GitHub](https://github.com/ZeeshanZk09).
+Hi, I'm M Zeeshan Khan! I'm a passionate web developer with expertise in creating modern, user-friendly websites and applications. Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/) or check out my [GitHub](https://github.com/ZeeshanZk09).
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-username/portfolio/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/ZeeshanZk09/personal-portfolio-website-using-nextjs/issues).
 
 ---
 
@@ -120,8 +123,8 @@ This project is licensed under the [MIT License](LICENSE).
 Have questions or feedback? Reach out to me:
 
 - **Email**: mzeeshankhan0988@gmail.com
-- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/)
-- **GitHub**: [Your GitHub Profile](https://github.com/ZeeshanZk09)
+- **LinkedIn**: [Muhammad Zeeshan Khan](https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/)
+- **GitHub**: [ZeeshanZk09](https://github.com/ZeeshanZk09)
 
 ---
 

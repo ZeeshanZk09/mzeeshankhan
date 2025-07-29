@@ -2,8 +2,8 @@
 import React, { ChangeEvent, InputHTMLAttributes, DetailedHTMLProps, useState } from 'react';
 import Link from 'next/link';
 import Blinkingtext from '@/components/utils/BlinkingText';
-import { services } from '@/services';
-import { TypeService } from '@/services';
+import { services } from '@/lib/data/services';
+import { TypeService } from '@/lib/data/services';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
 // import Carousel from '@/components/utils/Carousel';

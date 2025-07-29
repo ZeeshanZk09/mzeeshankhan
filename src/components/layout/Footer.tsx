@@ -3,14 +3,15 @@ import React from 'react';
 import NavigationLinksToSocialMediaProfiles from '../utils/NavigationLinksToSocialMediaProfiles';
 import QuickLinks from '../utils/QuickLinks';
 import AnimationWrapper from '../utils/AnimationWrapper';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Footer() {
-  const router = useRouter();
-
   const handleSourceCodeClick = () => {
-    router.push('https://github.com/ZeeshanZk09/personal-portfolio-website-using-nextjs');
+    window.open(
+      'https://github.com/ZeeshanZk09/personal-portfolio-website-using-nextjs',
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   return (

@@ -39,9 +39,9 @@ export default function Welcome() {
             scalable, responsive, and accessible web applications using modern technologies.
           </p>
           <hr className='invert' />
-          <em className='text-base sm:text-xl'>
+          <strong className='text-base sm:text-xl'>
             Transforming slow applications into high-performance engines.
-          </em>
+          </strong>
 
           {/* Buttons */}
           <div className='flex items-center gap-4 z-10'>
