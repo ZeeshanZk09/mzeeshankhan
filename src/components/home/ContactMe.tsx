@@ -120,7 +120,7 @@ export default function ContactMe() {
   return (
     <motion.section
       id='contact'
-      className='min-h-screen w-screen py-8 px-10  sm:px-24 font-satoshiRegular flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-20 bg-green-50'
+      className='min-h-screen w-screen py-8 px-10  sm:px-24 font-satoshiRegular flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-20'
       variants={containerVariants}
       initial='hidden'
       whileInView='show'
@@ -245,9 +245,9 @@ export default function ContactMe() {
             className='flex transform scale-75 sm:scale-100 justify-center'
             variants={fadeUp}
           >
-            {isMounted && NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+            {isMounted && (
               <ReCAPTCHA
-                sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
                 onChange={(token) => setRecaptchaToken(token)}
                 onExpired={() => setRecaptchaToken(null)}
                 size={isMobile ? 'compact' : 'normal'}

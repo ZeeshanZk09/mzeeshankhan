@@ -1,13 +1,21 @@
 import { Schema, model, models } from 'mongoose';
 import connectDB from '../lib/db/connect';
-import { IUser } from '@/types/userSchemaType';
+import { IUser } from '../types/userSchemaType';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import {
+  ACCESS_TOKEN_EXPIRY,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRY,
+  REFRESH_TOKEN_SECRET,
+} from '@/lib/constants';
+
 connectDB()
   .then((db) => db)
   .catch((err) => console.log(err));
 
-const nameRegex = /^[A-Za-z]+$/;
+const nameRegex = /^[A-Za-z\s]+$/;
 const usernameRegex = /^[a-zA-Z0-9._-]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%[*?()#&\/|^'".,{}]).{6,20}$/;
 const emailRegex = /^[\p{L}0-9._%+-]+@[\p{L}0-9.-]+\.[\p{L}]{2,}$/u;
@@ -89,23 +97,19 @@ const userSchema = new Schema<IUser>(
     emailVerificationToken: {
       type: String,
       trim: true,
-      default: () => Date.now() + 10 * 60 * 1000,
     },
     emailVerificationExpires: {
       type: Date,
-      default: Date.now(),
+      default: () => Date.now() + 10 * 60 * 1000,
     },
     phone: {
       type: String,
-      required: [true, 'Phone number is required.'],
       validate: {
         validator: function (v: string) {
           return validator.isMobilePhone(v, 'any');
         },
         message: 'Invalid phone number format.',
       },
-      index: true,
-      unique: [true, 'Phone number already exits.'],
       trim: true,
     },
     phoneVerified: {
@@ -115,11 +119,10 @@ const userSchema = new Schema<IUser>(
     phoneVerificationToken: {
       type: String,
       trim: true,
-      default: () => Date.now() + 10 * 60 * 1000,
     },
     phoneVerificationExpires: {
       type: Date,
-      default: Date.now(),
+      default: () => Date.now() + 10 * 60 * 1000,
     },
     image: {
       type: String,
@@ -153,6 +156,9 @@ const userSchema = new Schema<IUser>(
       maxlength: [20, 'max 20 chars are allowed.'],
       minlength: [6, 'min 6 chars are required.'],
     },
+    refreshToken: {
+      type: String,
+    },
     profilePic: {
       type: String,
       trim: true,
@@ -181,6 +187,33 @@ userSchema.virtual('fullName').get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-const User = models.User || model<IUser>('User', userSchema);
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      username: this.username,
+      fullName: this.fullName,
+    },
+    ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: ACCESS_TOKEN_EXPIRY,
+    }
+  );
+};
+
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+    },
+    REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: REFRESH_TOKEN_EXPIRY,
+    }
+  );
+};
+
+const User = models?.User || model<IUser>('User', userSchema);
 
 export default User;

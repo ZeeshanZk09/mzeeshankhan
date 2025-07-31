@@ -66,7 +66,7 @@ const mySkillsList: TypeMySkillsList[] = [
 
 const SkillsSection = () => {
   return (
-    <section className='relative min-h-screen w-full bg-green-100 overflow-hidden px-10 py-16 sm:px-24 z-10'>
+    <section className='relative min-h-screen w-full overflow-hidden px-10 py-16 sm:px-24 z-10'>
       {/* Floating background icons */}
       <div className='absolute top-0 left-0 w-full h-full z-0 overflow-hidden pointer-events-none'>
         {mySkillsList.map(({ id, pathForImage }) => (

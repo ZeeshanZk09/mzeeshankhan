@@ -10,7 +10,7 @@ export default function Hero() {
     <AnimationWrapper>
       <section
         id='hero'
-        className='flex flex-col md:flex-row-reverse items-center min-h-screen justify-between bg-[aliceblue] py-10 px-10 md:px-24'
+        className='flex flex-col md:flex-row-reverse items-center min-h-screen justify-between py-10 px-10 md:px-24'
       >
         {/* Image Section */}
         <div className=' flex flex-col items-center lg:items-start'>

@@ -11,31 +11,26 @@ const items = [
     title: 'Home',
     url: '/',
     icon: Home,
-    color: 'text-blue-500',
   },
   {
     title: 'About',
     url: '/about',
     icon: Album,
-    color: 'text-purple-500',
   },
   {
     title: 'Services',
     url: '/services',
     icon: HandPlatter,
-    color: 'text-emerald-500',
   },
   {
     title: 'Projects',
     url: '/projects',
     icon: BriefcaseBusiness,
-    color: 'text-amber-500',
   },
   {
     title: 'Testimonials',
     url: '/testimonials',
     icon: BookCheck,
-    color: 'text-rose-500',
   },
 ];
 
@@ -140,7 +135,7 @@ export function AppSidebar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <div className='w-8 h-8 rounded-full bg-blue-500'></div>
+              <div className='w-8 h-8 rounded-full bg-[#047856]'></div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -161,7 +156,7 @@ export function AppSidebar() {
                 <motion.div
                   className={`flex items-center p-3 rounded-lg cursor-pointer relative overflow-hidden ${
                     pathname === item.url
-                      ? 'bg-blue-50 dark:bg-gray-800'
+                      ? 'bg-green-100 dark:bg-gray-800'
                       : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                   whileHover={{ scale: 1.02 }}
@@ -170,14 +165,14 @@ export function AppSidebar() {
                   {/* Active indicator */}
                   {pathname === item.url && (
                     <motion.div
-                      className='absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-r-lg'
+                      className='absolute left-0 top-0 bottom-0 w-1 bg-[#047856] rounded-r-lg'
                       layoutId='activeIndicator'
                       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                     />
                   )}
 
                   {/* Icon */}
-                  <div className={`${item.color} flex-shrink-0`}>
+                  <div className={`text-black flex-shrink-0`}>
                     <item.icon className='w-5 h-5' />
                   </div>
 

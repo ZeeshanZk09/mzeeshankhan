@@ -1,7 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { ACCESS_TOKEN_SECRET } from './lib/constants';
+import { jwtVerify } from 'jose';
 
-const publicRoutes = [
+// ✅ What is allowed?
+// Reading cookies
+
+// Redirects
+
+// Adding headers
+
+// Verifying JWTs (use jose instead of jsonwebtoken)
+
+// Basic string/URL logic
+
+const PUBLIC_ROUTES = [
   '/',
   '/about',
   '/projects',
@@ -12,6 +25,8 @@ const publicRoutes = [
   '/forgot-password',
   '/reset-password',
   '/api/auth/.*',
+  '/api/contact',
+  '/api/verify-recaptcha',
 ];
 
 export const config = {
@@ -20,30 +35,41 @@ export const config = {
     '/((?!_next/static|_next/image|favicon\\.ico|images/|models/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|glb|gltf)$|fonts/|api/trpc).*)',
   ],
 };
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // Check if the route is public
-  const isPublicRoute = publicRoutes.some((route) => {
+  const response = NextResponse.next();
+  const isPublic = PUBLIC_ROUTES.some((route) => {
     const regex = new RegExp(`^${route}$`.replace('*', '.*'));
     return regex.test(pathname);
   });
 
-  // Skip middleware for public routes
-  if (isPublicRoute) {
-    return NextResponse.next();
-  }
+  if (isPublic) return response;
 
-  // Check for authentication token
-  const token = request.cookies.get('auth-token')?.value;
+  const token =
+    request.cookies.get('token')?.value ||
+    request.headers.get('authorization')?.replace('Bearer ', '');
 
-  // If no token and route is not public, redirect to login
   if (!token) {
-    const loginUrl = new URL('/sign-in', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
+    const url = new URL('/sign-in', request.url);
+    url.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  try {
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(ACCESS_TOKEN_SECRET));
+    response.headers.set('x-user-id', payload._id as string);
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+    });
+    return response;
+  } catch (e) {
+    console.log('Error while', e);
+    const url = new URL('/sign-in', request.url);
+    url.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(url);
+  }
 }

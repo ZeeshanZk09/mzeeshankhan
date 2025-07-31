@@ -11,7 +11,7 @@ export default function Welcome() {
     <AnimationWrapper>
       <section className=' relative h-screen overflow-hidden flex items-start flex-col  space-y-6 text-left '>
         {/* Background Image */}
-        <div className='absolute h-screen w-screen bg-white opacity-30 z-0'>
+        <div className='absolute h-screen w-screen  opacity-30 z-0'>
           <Image
             src='/assets/images/welcome-bg-img.jpg'
             alt='welcome-bg-img'
