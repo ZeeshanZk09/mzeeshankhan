@@ -1,5 +1,5 @@
 import ServiceNotFoundPage from '@/components/utils/ServiceNotFoundPage';
-import serviceDetails from '@/serviceDB.json';
+import serviceDetails from '@/lib/data/serviceDB.json';
 import Image from 'next/image';
 import Link from 'next/link';
 
