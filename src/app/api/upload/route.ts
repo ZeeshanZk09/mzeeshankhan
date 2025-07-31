@@ -1,16 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-// import { upload } from '@/utils/uploadMiddleware';
-// import { promisify } from 'util';
-import { Readable } from 'stream';
-
-// Utility to convert buffer from file stream
-async function streamToBuffer(stream: Readable): Promise<Buffer> {
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of stream) {
-    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,7 +9,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
-    const buffer = await streamToBuffer(file.stream());
+    // Convert Web ReadableStream -> Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
     const fs = await import('fs/promises');
     const path = await import('path');
 
