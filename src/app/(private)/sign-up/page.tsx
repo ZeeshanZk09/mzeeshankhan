@@ -1,5 +1,199 @@
-import React from 'react';
+// /app/(private)/sign-up/page.tsx
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import toastService from '@/services/toastService';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function SignUpPage() {
-  return <div>Sign Up</div>;
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [coverPic, setCoverPic] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  console.log(profilePic, coverPic);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (!files || files.length === 0) return;
+
+    if (name === 'profilePic') setProfilePic(files[0]);
+    if (name === 'coverPic') setCoverPic(files[0]);
+  };
+
+  type picObj = {
+    url: string;
+    public_id: string;
+  };
+
+  const uploadImage = async (file: File): Promise<picObj | null> => {
+    const form = new FormData();
+    form.append('file', file);
+
+    try {
+      const res = await axios.post('/api/upload', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      return res.data || null;
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      toastService.error('Image upload failed. Please try again.');
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      toastService.error('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      let profilePic: picObj | null = null;
+      let coverPic: picObj | null = null;
+
+      if (profilePic) profilePic = await uploadImage(profilePic);
+      if (coverPic) coverPic = await uploadImage(coverPic);
+
+      const payload = {
+        ...formData,
+        profilePic,
+        coverPic,
+      };
+
+      const res = await axios.post('/api/auth/sign-up', payload);
+      if (!res) {
+        toastService.error('Registration Failed');
+      }
+
+      toastService.success('Registered successfully! Redirecting...');
+      setTimeout(() => router.push('/profile'), 2000);
+    } catch (err) {
+      const error = err as { response?: { data?: { error?: string } } };
+      const message = error?.response?.data?.error || 'Registration failed';
+      toastService.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Card className='max-w-xl mx-auto my-24 shadow-lg'>
+      <CardHeader>
+        <CardTitle className='text-center text-2xl'>Create an Account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='grid grid-cols-2 gap-4'>
+            <div>
+              <Label>First Name</Label>
+              <Input
+                type='text'
+                name='firstName'
+                placeholder='First Name'
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label>Last Name</Label>
+              <Input
+                type='text'
+                name='lastName'
+                placeholder='Last Name'
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label>Phone</Label>
+              <Input
+                type='text'
+                name='phone'
+                placeholder='Phone'
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label>Username</Label>
+              <Input
+                type='text'
+                name='username'
+                placeholder='Username'
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className='space-y-2'>
+            <Label>Email</Label>
+            <Input type='email' name='email' placeholder='Email' onChange={handleChange} required />
+          </div>
+
+          <div className='space-y-2'>
+            <Label>Password</Label>
+            <Input
+              type='password'
+              name='password'
+              placeholder='Password'
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className='space-y-2'>
+            <Label>Confirm Password</Label>
+            <Input
+              type='password'
+              name='confirmPassword'
+              placeholder='Confirm Password'
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className='space-y-2'>
+            <Label>Profile Picture</Label>
+            <Input type='file' name='profilePic' accept='image/*' onChange={handleFileChange} />
+          </div>
+
+          <div className='space-y-2'>
+            <Label>Cover Image</Label>
+            <Input type='file' name='coverPic' accept='image/*' onChange={handleFileChange} />
+          </div>
+
+          <Button type='submit' className='w-full' disabled={loading}>
+            {loading ? 'Registering...' : 'Sign Up'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
 }

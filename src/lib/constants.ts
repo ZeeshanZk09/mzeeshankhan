@@ -11,7 +11,9 @@ const ACCESS_TOKEN_EXPIRY: SignOptions['expiresIn'] = '1d';
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
 const REFRESH_TOKEN_EXPIRY: SignOptions['expiresIn'] = '30d';
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
-
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME as string;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY as string;
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET as string;
 export {
   EMAIL_USER,
   EMAIL_PASS,
@@ -24,4 +26,7 @@ export {
   ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_EXPIRY,
   REFRESH_TOKEN_SECRET,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
 };

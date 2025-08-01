@@ -3,6 +3,7 @@ import { ObjectId } from 'mongoose';
 
 interface IUser extends Document {
   _id: ObjectId;
+  fullName?: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -22,8 +23,14 @@ interface IUser extends Document {
   };
   password: string;
   refreshToken: string;
-  profilePic: string;
-  coverPic: string;
+  profilePic: {
+    url: string;
+    public_id: string;
+  };
+  coverPic: {
+    url: string;
+    public_id: string;
+  };
   isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;

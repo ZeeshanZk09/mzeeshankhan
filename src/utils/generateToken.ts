@@ -10,7 +10,7 @@ export default async function generateAccessAndRefreshTokens(userId: ObjectId) {
     }
 
     // 2. Find user with additional checks
-    const user = await User.findById(userId);
+    const user = await User.findById(userIdStr);
     console.log(user);
     if (!user) {
       throw new Error('User not found');
@@ -24,8 +24,8 @@ export default async function generateAccessAndRefreshTokens(userId: ObjectId) {
     // 4. Generate tokens with error handling
     let accessToken, refreshToken;
     try {
-      accessToken = user.generateAccessToken();
-      refreshToken = user.generateRefreshToken();
+      accessToken = await user.generateAccessToken();
+      refreshToken = await user.generateRefreshToken();
     } catch (tokenError) {
       console.error('Token generation error:', tokenError);
       throw new Error('Failed to sign tokens');

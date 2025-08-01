@@ -1,4 +1,3 @@
-// app/api/auth/login/route.ts
 import { NextResponse } from 'next/server';
 import User from '@/models/User';
 import userService from '@/services/userServices';
@@ -8,7 +7,6 @@ import mongoose from 'mongoose';
 
 export async function POST(request: Request) {
   try {
-    // Verify content type
     const contentType = request.headers.get('content-type');
     if (!contentType?.includes('application/json')) {
       return NextResponse.json(
@@ -17,10 +15,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Parse body
     const { username, email, password } = await request.json();
 
-    // Input validation
     if ((!username && !email) || !password) {
       return NextResponse.json(
         { error: 'Email or username and password are required' },
@@ -28,7 +24,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find user
     const user: IUser | null = await User.findOne({
       $or: [{ email }, { username }],
     });
@@ -51,11 +46,11 @@ export async function POST(request: Request) {
       }
     );
 
-    response.cookies.set('token', JSON.stringify(tokens), {
+    response.cookies.set('token', tokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60,
+      maxAge: 15 * 60 * 1000,
       path: '/',
     });
     return response;

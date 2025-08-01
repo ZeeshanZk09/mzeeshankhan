@@ -20,6 +20,7 @@ export default function UnderConstruction() {
           <div className='flex items-center justify-between gap-4'>
             <span>🚧 This website is under construction</span>
             <button
+              type='button'
               onClick={() => toast.dismiss(t.id)}
               className='px-3 py-1 text-sm bg-white/20 rounded hover:bg-white/30 transition-colors'
               aria-label='Dismiss notification'

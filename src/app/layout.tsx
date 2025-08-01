@@ -8,6 +8,7 @@ import { AppSidebar } from '@/components/layout/AppSidebar';
 import UnderConstruction from '@/components/utils/UnderConstruction';
 import HydrationFix from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
+import ToastProvider from '@/hooks/ToastProvider';
 
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
@@ -58,18 +59,19 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className={`font-satoshiRegular ${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased flex `}
+        className={`font-satoshiRegular ${satoshiRegular.variable} ${clashDisplayExtralight.variable} ${satoshiBold.variable} ${clashDisplayBold.variable} ${clashDisplayMedium.variable} ${clashDisplayRegular.variable} antialiased`}
         suppressHydrationWarning
       >
         <CleanDom />
         <HydrationFix>
           <UnderConstruction />
           <AppSidebar />
-          <div className='flex flex-col'>
-            <Header />
-            <main className=' overflow-hidden block min-h-screen'>{children}</main>
-            <Footer />
-          </div>
+          <Header />
+          <main className='overflow-hidden min-h-screen'>
+            <ToastProvider />
+            {children}
+          </main>
+          <Footer />
         </HydrationFix>
       </body>
     </html>

@@ -1,3 +1,4 @@
+// /app/api/auth/sign-up/route.ts
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '@/lib/constants';
 import User from '@/models/User';
 import userService from '@/services/userServices';
@@ -8,74 +9,62 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const contentType = request.headers.get('content-type') || '';
-    if (!contentType.includes('multipart/form-data')) {
-      return NextResponse.json(
-        { error: 'Content-Type must be multipart/form-data' },
-        { status: 400 }
-      );
-    }
+    const body = await request.json();
+    const { firstName, lastName, username, email, password, profilePic, coverPic } = body;
 
-    const formData = await request.formData();
-
-    const firstName = formData.get('firstName') as string;
-    const lastName = formData.get('lastName') as string;
-    const username = formData.get('username') as string;
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    // const profilePic = formData.get('profilePic') as File | null;
-    // const coverPic = formData.get('coverPic') as File | null;
-
-    // Check if user exists
+    // ✅ Check for existing user
     const existingUser = await userService.findByEmail(email);
     if (existingUser) {
       return NextResponse.json({ error: 'Email already in use' }, { status: 400 });
     }
 
-    const userData = {
+    // ✅ Prepare user object
+    const userData: Partial<IUser> = {
       firstName,
       lastName,
       username,
       email,
       password,
-      // profilePic: profilePicUrl || undefined,
-      // coverPic: coverPicUrl || undefined,
       isAdmin: false,
     };
 
+    if (profilePic) userData.profilePic = profilePic;
+
+    if (coverPic) userData.coverPic = coverPic;
+
     if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
-      return NextResponse.json({
-        error: 'ACCESS_TOKEN_SECRET or REFRESH_TOKEN_SECRET  is not defined',
-        status: 500,
-      });
+      return NextResponse.json(
+        {
+          error: 'Server secret keys missing',
+        },
+        { status: 500 }
+      );
     }
 
+    // ✅ Create user
     const createdUser = await User.create(userData as IUser);
-
     const user = await User.findById(createdUser._id).select('-password -refreshToken');
+
     const tokens = await generateAccessAndRefreshTokens(user._id);
 
-    const response = NextResponse.json(
-      { success: true, userId: user._id },
-      {
-        status: 201,
-      }
-    );
+    const response = NextResponse.json({ success: true, userId: user._id }, { status: 201 });
 
-    response.cookies.set('token', JSON.stringify(tokens), {
+    response.cookies.set('token', tokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60,
+      maxAge: 15 * 60 * 1000,
       path: '/',
     });
+
     return response;
   } catch (error) {
     console.error('Registration error:', {
       message: (error as Error)?.message,
       stack: (error as Error)?.stack,
-      errors: (error as { errors?: unknown })?.errors,
+      errors: (error as mongoose.Error.ValidationError)?.errors,
     });
+
     if (error instanceof mongoose.Error.ValidationError) {
       return NextResponse.json(
         {
@@ -85,6 +74,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
     return NextResponse.json({ error: 'Failed to register user' }, { status: 500 });
   }
 }

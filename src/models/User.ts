@@ -160,12 +160,24 @@ const userSchema = new Schema<IUser>(
       type: String,
     },
     profilePic: {
-      type: String,
-      trim: true,
+      url: {
+        type: String,
+        trim: true,
+      },
+      public_id: {
+        type: String,
+        trim: true,
+      },
     },
     coverPic: {
-      type: String,
-      trim: true,
+      url: {
+        type: String,
+        trim: true,
+      },
+      public_id: {
+        type: String,
+        trim: true,
+      },
     },
     isAdmin: {
       type: Boolean,
