@@ -4,6 +4,7 @@ import userService from '@/services/userServices';
 import { IUser } from '@/types/userSchemaType';
 import generateAccessAndRefreshTokens from '@/utils/generateToken';
 import mongoose from 'mongoose';
+import connectDB from '@/lib/db/connect';
 
 export async function POST(request: Request) {
   try {
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
+    await connectDB();
     const user: IUser | null = await User.findOne({
       $or: [{ email }, { username }, { phone }],
     });

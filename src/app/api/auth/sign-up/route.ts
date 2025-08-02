@@ -1,5 +1,6 @@
 // /app/api/auth/sign-up/route.ts
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '@/lib/constants';
+import connectDB from '@/lib/db/connect';
 import User from '@/models/User';
 import { IUser } from '@/types/userSchemaType';
 import generateAccessAndRefreshTokens from '@/utils/generateToken';
@@ -11,6 +12,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { firstName, lastName, username, email, password, profilePic, coverPic, phone } = body;
 
+    await connectDB();
     // ✅ Check for existing user
     const existingUser = await User.findOne({
       $or: [{ email }, { username }, { phone }],
@@ -43,7 +45,10 @@ export async function POST(request: NextRequest) {
     }
 
     // ✅ Create user
+    await connectDB();
     const createdUser = await User.create(userData as IUser);
+
+    await connectDB();
     const user = await User.findById(createdUser._id).select('-password -refreshToken');
 
     const tokens = await generateAccessAndRefreshTokens(user._id);
