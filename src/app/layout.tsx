@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import '@/styles/globals.css';
 import localFont from 'next/font/local';
 import * as React from 'react';
 import { AppSidebar } from '@/components/layout/AppSidebar';
@@ -10,7 +9,8 @@ import HydrationFix from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
 import ToastProvider from '@/hooks/ToastProvider';
 import { UserProvider } from '@/hooks/UserContext';
-
+import { Analytics } from '@vercel/analytics/next';
+import '@/styles/globals.css';
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
   variable: '--clashDisplay-extralight',
@@ -78,6 +78,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </UserProvider>
+          <Analytics />
         </HydrationFix>
       </body>
     </html>
