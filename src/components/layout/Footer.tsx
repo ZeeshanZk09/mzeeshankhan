@@ -16,10 +16,10 @@ export default function Footer() {
 
   return (
     <AnimationWrapper>
-      <footer className=' bg-gradient-to-t from-gray-100 to-[aliceblue] w-full text-black'>
+      <footer className='min-h-[80vh] flex flex-col justify-between bg-gradient-to-t from-gray-100 to-[aliceblue] w-full text-black'>
         {/* Main footer content */}
         <div className='px-10 py-10 sm:px-24'>
-          <div className='border-black border-t pt-8 flex flex-col sm:flex-row justify-between items-start gap-8'>
+          <div className='border-black border-t pt-8 flex flex-col md:flex-row justify-between items-start gap-8'>
             {/* Left section - Brand and links */}
             <div className='flex-1 space-y-8'>
               <div className='space-y-2'>

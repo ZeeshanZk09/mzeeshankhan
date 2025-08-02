@@ -9,6 +9,7 @@ import UnderConstruction from '@/components/utils/UnderConstruction';
 import HydrationFix from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
 import ToastProvider from '@/hooks/ToastProvider';
+import { UserProvider } from '@/hooks/UserContext';
 
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
@@ -64,14 +65,16 @@ export default function RootLayout({
       >
         <CleanDom />
         <HydrationFix>
-          <UnderConstruction />
-          <AppSidebar />
-          <Header />
-          <main className='overflow-hidden min-h-screen'>
-            <ToastProvider />
-            {children}
-          </main>
-          <Footer />
+          <UserProvider>
+            <UnderConstruction />
+            <AppSidebar />
+            <Header />
+            <main className='overflow-hidden min-h-screen'>
+              <ToastProvider />
+              {children}
+            </main>
+            <Footer />
+          </UserProvider>
         </HydrationFix>
       </body>
     </html>

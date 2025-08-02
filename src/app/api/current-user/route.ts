@@ -7,15 +7,13 @@ export async function GET(request: NextRequest) {
   try {
     const result = await userService.getCurrentUser(request);
 
-    // Agar result null hai ya result ek NextResponse hai (error case), toh error return karo
     if (!result || result instanceof NextResponse) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
     }
 
     const user = result as Partial<IUser>;
-    return NextResponse.json({
-      ...user
-    });
+    const userData = typeof user.toJSON === 'function' ? user.toJSON() : user;
+    return NextResponse.json(userData);
   } catch (error) {
     console.error('current-user error:', {
       message: (error as Error)?.message,

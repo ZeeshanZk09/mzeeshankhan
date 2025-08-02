@@ -15,9 +15,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const { username, email, password } = await request.json();
+    const { username, email, password, phone } = await request.json();
 
-    if ((!username && !email) || !password) {
+    if ((!username && !email && !phone) || !password) {
       return NextResponse.json(
         { error: 'Email or username and password are required' },
         { status: 400 }
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const user: IUser | null = await User.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email }, { username }, { phone }],
     });
     if (!user) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });

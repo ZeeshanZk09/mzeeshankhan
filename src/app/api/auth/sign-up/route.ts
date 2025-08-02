@@ -1,7 +1,6 @@
 // /app/api/auth/sign-up/route.ts
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '@/lib/constants';
 import User from '@/models/User';
-import userService from '@/services/userServices';
 import { IUser } from '@/types/userSchemaType';
 import generateAccessAndRefreshTokens from '@/utils/generateToken';
 import mongoose from 'mongoose';
@@ -10,10 +9,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { firstName, lastName, username, email, password, profilePic, coverPic } = body;
+    const { firstName, lastName, username, email, password, profilePic, coverPic, phone } = body;
 
     // ✅ Check for existing user
-    const existingUser = await userService.findByEmail(email);
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }, { phone }],
+    });
     if (existingUser) {
       return NextResponse.json({ error: 'Email already in use' }, { status: 400 });
     }

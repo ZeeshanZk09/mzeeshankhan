@@ -53,14 +53,43 @@ async function deleteUser(id: string) {
 }
 
 // get all users
-async function getAll() {
-  await connectDB();
-  return await User.find()
-    .select(
-      '-emailVerificationToken -emailVerificationExpires  -phoneVerificationToken -phoneVerificationExpires -providers -password -refreshToken -updatedAt'
-    )
-    .limit(100)
-    .lean();
+async function getAll(page = 1, limit = 100) {
+  try {
+    await connectDB();
+
+    // Add pagination support
+    const skip = (page - 1) * limit;
+
+    return await User.aggregate([
+      {
+        $project: {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+          username: 1,
+          profilePic: 1,
+          coverPic: 1,
+          isAdmin: 1,
+          emailVerified: 1,
+          phoneVerified: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Failed to fetch users:', {
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString(),
+      });
+    }
+    throw new Error('Failed to fetch users. Please try again later.');
+  }
 }
 
 // compare hashed passwords
@@ -88,7 +117,7 @@ async function getCurrentUser(request: NextRequest) {
   }
 
   await connectDB();
-  return await User.findById(userId).select('-password -refreshToken').lean();
+  return await User.findById(userId).select('-password -refreshToken').lean({ virtuals: true });
 }
 
 // check if user is admin or not
@@ -99,9 +128,14 @@ async function requireAdmin(request: NextRequest) {
   }
 
   await connectDB();
-  const user = (await User.findById(userId).select('-password -refreshToken isAdmin').lean()) as {
-    isAdmin?: boolean;
-  } | null;
+
+  // Only check the isAdmin field - no other projections
+  const user = await User.findOne(
+    { _id: userId },
+    { isAdmin: 1 } // Only fetch the isAdmin field
+  )
+    .lean<{ isAdmin?: boolean }>()
+    .exec();
 
   if (!user || !user.isAdmin) {
     return NextResponse.json({ error: 'Admin privileges required' }, { status: 403 });
@@ -109,7 +143,6 @@ async function requireAdmin(request: NextRequest) {
 
   return user;
 }
-
 const userService = {
   create,
   findByEmail,

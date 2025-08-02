@@ -16,9 +16,9 @@ import { useState } from 'react';
 import { useWindowSize } from '@/hooks/useWindowResize';
 import { useUser } from '@/hooks/UserContext';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import axios from 'axios';
 import toastService from '@/services/toastService';
+import CldImage from '../ui/CldImage';
 
 const items = [
   {
@@ -48,58 +48,59 @@ const items = [
   },
 ];
 
-const sidebarVariants = {
-  open: {
-    width: '280px',
-    transition: {
-      type: 'spring',
-      stiffness: 300,
-      damping: 30,
-    },
-  },
-  closed: {
-    width: '80px',
-    transition: {
-      type: 'spring',
-      stiffness: 300,
-      damping: 30,
-    },
-  },
-};
-
-const itemVariants = {
-  open: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 300,
-      damping: 24,
-    },
-  },
-  closed: {
-    opacity: 0,
-    x: -20,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
-
 export function AppSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const { user } = useUser();
+  console.log('user', user);
 
   const { width } = useWindowSize();
-  const isMobile = width < 900;
+  const isMobile = width < 900 ? true : false;
+
+  const sidebarVariants = {
+    open: {
+      width: isMobile ? '292px' : '320px',
+      transition: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+    closed: {
+      width: '80px',
+      transition: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+  };
+
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 24,
+      },
+    },
+    closed: {
+      opacity: 0,
+      x: -20,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
 
   const router = useRouter();
 
   const handleLogOut = async () => {
     try {
-      await axios.post('/auth/sign-out');
+      await axios.post('/api/auth/sign-out');
       toastService.success('User Sign Out successfully.');
       router.push('/sign-in');
     } catch (error) {
@@ -239,54 +240,62 @@ export function AppSidebar() {
       </nav>
 
       {/* Footer/User Profile */}
-      <motion.div
-        className='px-4 py-6 border-t border-gray-200 dark:border-gray-700 mt-auto'
-        layout
-      >
-        <div className='flex items-center justify-between'>
+      <motion.div className='p-3 border-t border-gray-200 dark:border-gray-700 mt-auto' layout>
+        <div className='flex items-start justify-between'>
           {user ? (
-            <div className='flex items-center gap-3 w-full'>
+            <div className='flex flex-col gap-2 w-full'>
               {/* Profile Picture */}
-              <div className='w-10 h-10 rounded-full overflow-hidden bg-gray-300 dark:bg-gray-600'>
+              <div
+                className='cursor-pointer flex items-start gap-3'
+                onClick={() => router.push('/profile')}
+              >
                 {user.profilePic?.url && (
-                  <Image
+                  <CldImage
                     src={user.profilePic.url}
                     alt={user.username}
-                    width={40}
-                    height={40}
-                    className='w-10 h-10 object-cover rounded-full'
+                    width={1000}
+                    height={1000}
+                    className='overflow-hidden w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full'
+                    handleClick={() => router.push('/profile')}
                   />
                 )}
-              </div>
 
-              {/* User Info */}
+                {/* User Info */}
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      className='flex flex-col'
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      <p className='text-lg text-wrap text-gray-900 truncate'>
+                        {user.firstName} {user.lastName}
+                      </p>
+                      <p className='text-xs text-gray-500'>{user.isAdmin ? 'Admin' : 'User'}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <AnimatePresence>
                 {isOpen && (
                   <motion.div
-                    className='flex flex-col'
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ delay: 0.01, duration: 0.2 }}
                   >
-                    <p className='text-sm font-semibold text-gray-900 dark:text-white truncate'>
-                      {user.fullName}
-                    </p>
-                    <p className='text-xs text-gray-500 dark:text-gray-400'>
-                      {user.isAdmin ? 'Admin' : 'User'}
-                    </p>
                     <Button
                       variant={isOpen ? 'outline' : 'ghost'}
-                      className={`w-full px-4 py-2 transition-all duration-300 ${
+                      className={`hover:bg-red-600 hover:text-white w-full px-4 py-2 transition-all duration-300 ${
                         !isOpen ? 'rounded-full flex items-center justify-center' : ''
                       }`}
                       onClick={handleLogOut}
                     >
-                      {isOpen ? (
-                        <span className='text-lg'>Sign Out</span>
-                      ) : (
-                        <LogOut className='w-5 h-5' />
-                      )}
+                      <span className='text-lg'>Sign Out</span>
+
+                      <LogOut className='w-5 h-5' />
                     </Button>
                   </motion.div>
                 )}
@@ -312,7 +321,10 @@ export function AppSidebar() {
                     }`}
                   >
                     {isOpen ? (
-                      <span className='text-lg'>Sign In</span>
+                      <>
+                        <span className='text-lg'>Sign In</span>
+                        <LogIn className='w-5 h-5' />
+                      </>
                     ) : (
                       <LogIn className='w-5 h-5' />
                     )}
@@ -328,7 +340,10 @@ export function AppSidebar() {
                     }`}
                   >
                     {isOpen ? (
-                      <span className='text-lg'>Sign Up</span>
+                      <>
+                        <span className='text-lg'>Sign Up</span>
+                        <UserPlus2 className='w-5 h-5' />
+                      </>
                     ) : (
                       <UserPlus2 className='w-5 h-5' />
                     )}

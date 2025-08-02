@@ -27,8 +27,6 @@ export default function SignUpPage() {
   const [coverPic, setCoverPic] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  console.log(profilePic, coverPic);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -47,7 +45,7 @@ export default function SignUpPage() {
     public_id: string;
   };
 
-  const uploadImage = async (file: File): Promise<picObj | null> => {
+  const uploadImage = async (file: File): Promise<picObj[] | null> => {
     const form = new FormData();
     form.append('file', file);
 
@@ -55,7 +53,8 @@ export default function SignUpPage() {
       const res = await axios.post('/api/upload', form, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      return res.data || null;
+      console.log('/upload response', res.data);
+      return res.data?.uploads || null;
     } catch (err) {
       console.error('Image upload failed:', err);
       toastService.error('Image upload failed. Please try again.');
@@ -74,16 +73,16 @@ export default function SignUpPage() {
     }
 
     try {
-      let profilePic: picObj | null = null;
-      let coverPic: picObj | null = null;
+      let uploadedProfilePic: picObj[] | null = null;
+      let uploadedCoverPic: picObj[] | null = null;
 
-      if (profilePic) profilePic = await uploadImage(profilePic);
-      if (coverPic) coverPic = await uploadImage(coverPic);
+      if (profilePic) uploadedProfilePic = await uploadImage(profilePic);
+      if (coverPic) uploadedCoverPic = await uploadImage(coverPic);
 
       const payload = {
         ...formData,
-        profilePic,
-        coverPic,
+        profilePic: uploadedProfilePic ? uploadedProfilePic[0] : null,
+        coverPic: uploadedCoverPic ? uploadedCoverPic[0] : null,
       };
 
       const res = await axios.post('/api/auth/sign-up', payload);
@@ -181,12 +180,22 @@ export default function SignUpPage() {
 
           <div className='space-y-2'>
             <Label>Profile Picture</Label>
-            <Input type='file' name='profilePic' accept='image/*' onChange={handleFileChange} />
+            <Input
+              type='file'
+              name='profilePic'
+              accept='image/png, image/jpeg, image/jpg, image/webp'
+              onChange={handleFileChange}
+            />
           </div>
 
           <div className='space-y-2'>
             <Label>Cover Image</Label>
-            <Input type='file' name='coverPic' accept='image/*' onChange={handleFileChange} />
+            <Input
+              type='file'
+              name='coverPic'
+              accept='image/png, image/jpeg, image/jpg, image/webp'
+              onChange={handleFileChange}
+            />
           </div>
 
           <Button type='submit' className='w-full' disabled={loading}>
