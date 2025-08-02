@@ -34,7 +34,7 @@ export default function SignInPage() {
           'Content-Type': 'application/json',
         },
       });
-      const contentType = response.headers['content-type'];
+      const contentType = await response.headers['content-type'];
       if (!contentType?.includes('application/json')) {
         toastService.error(
           `Server returned ${response.data.error} ${response.status}: ${response.statusText}`
