@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 export async function POST() {
   try {
-    const response = NextResponse.json({ message: 'Logout successful' });
+    const response = NextResponse.json({ message: 'Logout successfully' });
     const options = await userService.clearAuthCookie();
     response.cookies.set('token', '', options); // remove the token
     return response;

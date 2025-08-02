@@ -16,8 +16,6 @@ import { useState } from 'react';
 import { useWindowSize } from '@/hooks/useWindowResize';
 import { useUser } from '@/hooks/UserContext';
 import { Button } from '@/components/ui/button';
-import axios from 'axios';
-import toastService from '@/services/toastService';
 import CldImage from '../ui/CldImage';
 
 const items = [
@@ -52,7 +50,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const { user } = useUser();
+  const { user, handleLogOut } = useUser();
 
   const { width } = useWindowSize();
   const isMobile = width < 900 ? true : false;
@@ -96,17 +94,6 @@ export function AppSidebar() {
   };
 
   const router = useRouter();
-
-  const handleLogOut = async () => {
-    try {
-      await axios.post('/api/auth/sign-out');
-      toastService.success('User Sign Out successfully.');
-      router.push('/sign-in');
-    } catch (error) {
-      toastService.error('Caught error while signing out.');
-      console.log(error);
-    }
-  };
 
   return (
     <motion.div
