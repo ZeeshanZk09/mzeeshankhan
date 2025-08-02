@@ -91,7 +91,7 @@ export default function SignUpPage() {
       }
 
       toastService.success('Registered successfully! Redirecting...');
-      setTimeout(() => router.push('/profile'), 2000);
+      router.push('/profile');
     } catch (err) {
       const error = err as { response?: { data?: { error?: string } } };
       const message = error?.response?.data?.error || 'Registration failed';
@@ -102,7 +102,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <Card className='max-w-xl mx-auto my-24 shadow-lg'>
+    <Card className='max-w-xl place-self-center my-24 shadow-lg mx-10 sm:mx-24 '>
       <CardHeader>
         <CardTitle className='text-center text-2xl'>Create an Account</CardTitle>
       </CardHeader>

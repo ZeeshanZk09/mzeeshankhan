@@ -1,7 +1,7 @@
 import withMT from '@material-tailwind/react/utils/withMT';
 import tailwindcssAnimate from 'tailwindcss-animate';
 import type { Config } from 'tailwindcss';
-
+import tailwindScrollbar from 'tailwind-scrollbar';
 export default withMT({
   darkMode: ['class'],
   content: [
@@ -87,5 +87,5 @@ export default withMT({
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, tailwindScrollbar],
 }) as Config;

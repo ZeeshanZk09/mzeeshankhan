@@ -2,14 +2,16 @@
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { useUser } from '@/hooks/UserContext';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Edit, Mail, Phone, User, Shield } from 'lucide-react';
+import { Edit, Mail, Phone, User, Shield, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/ui/Loader';
+import toastService from '@/services/toastService';
+import CldImage from '@/components/ui/CldImage';
+import { useRouter } from 'next/navigation';
 
 const Profile = () => {
-  const { user, loading } = useUser();
-
+  const { error, user, loading } = useUser();
+  const router = useRouter();
   // Animation variants
   const container = {
     hidden: { opacity: 0 },
@@ -25,6 +27,11 @@ const Profile = () => {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
   };
+
+  if (error) {
+    toastService.error(`Fetch error: ${error}`);
+    return;
+  }
 
   if (loading || !user) {
     return (
@@ -53,7 +60,13 @@ const Profile = () => {
             className='relative h-48 rounded-t-xl overflow-hidden shadow-lg'
           >
             {user.coverPic?.url && (
-              <Image src={user.coverPic.url} alt='Cover' fill className='object-cover' />
+              <CldImage
+                src={user.coverPic.url}
+                alt='Cover'
+                width={1000}
+                height={1000}
+                className='h-full w-full object-cover'
+              />
             )}
             <div className='absolute inset-0 bg-gradient-to-t from-black/50 to-transparent'></div>
           </motion.div>
@@ -74,11 +87,12 @@ const Profile = () => {
                   className='relative -mt-20 sm:-mt-24 h-32 w-32 sm:h-40 sm:w-40 rounded-full border-4 border-white shadow-lg overflow-hidden'
                 >
                   {user.profilePic?.url ? (
-                    <Image
+                    <CldImage
                       src={user.profilePic.url}
                       alt={`${user.firstName} ${user.lastName}`}
-                      fill
-                      className='object-cover'
+                      width={1000}
+                      height={1000}
+                      className='h-full w-full object-cover'
                     />
                   ) : (
                     <div className='bg-gray-200 h-full w-full flex items-center justify-center'>
@@ -109,8 +123,16 @@ const Profile = () => {
                       </span>
                     )}
                     {!user.emailVerified && (
-                      <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800'>
+                      <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-200 text-yellow-900'>
                         Email Not Verified
+                      </span>
+                    )}
+                    {user.isAdmin && (
+                      <span
+                        onClick={() => router.push('/admin')}
+                        className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-600 cursor-pointer'
+                      >
+                        <LayoutDashboard className='mr-1' /> Admin dashboard
                       </span>
                     )}
                   </motion.div>

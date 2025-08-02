@@ -5,11 +5,30 @@ import { IUser } from '@/types/userSchemaType';
 import { useRouter } from 'next/navigation';
 import Loading from '@/components/ui/Loader';
 import axios, { AxiosError } from 'axios';
-import toastService from '@/services/toastService';
 
 type UserContextType = {
-  users: IUser[] | null;
-  user: IUser | null;
+  users:
+    | Omit<
+        IUser,
+        | 'password'
+        | 'refreshToken'
+        | 'emailVerificationToken'
+        | 'emailVerificationExpires'
+        | 'phoneVerificationToken'
+        | 'phoneVerificationExpires'
+        | 'providers'
+      >[]
+    | null;
+  user: Omit<
+    IUser,
+    | 'password'
+    | 'refreshToken'
+    | 'emailVerificationToken'
+    | 'emailVerificationExpires'
+    | 'phoneVerificationToken'
+    | 'phoneVerificationExpires'
+    | 'providers'
+  > | null;
   loading: boolean;
   error: string | null;
 };
@@ -84,11 +103,16 @@ export function UserProvider({
         if (adminOnly) {
           router.push('/sign-in');
         } else {
+          setState((prev) => {
+            return {
+              ...prev,
+              loading: false,
+            };
+          });
           router.push('/profile');
         }
       } catch (err) {
         console.error('Fetch error:', err);
-        toastService.error(`Fetch error: ${err}`);
         setError(
           err instanceof AxiosError
             ? err.response?.data?.message || 'Network error'
@@ -97,6 +121,13 @@ export function UserProvider({
 
         setState((prev) => ({ ...prev, loading: false }));
         router.push('/sign-in');
+      } finally {
+        setState((prev) => {
+          return {
+            ...prev,
+            loading: false,
+          };
+        });
       }
     };
 

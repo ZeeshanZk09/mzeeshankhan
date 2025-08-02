@@ -58,7 +58,7 @@ export default function SignInPage() {
   if (loading) return <Loading />;
 
   return (
-    <Card className='max-w-md mx-auto my-24 shadow-xl rounded-2xl border'>
+    <Card className='place-self-center max-w-xl mx-10 my-24 sm:mx-24 shadow-xl rounded-2xl border'>
       <CardHeader className='space-y-1 text-center'>
         <CardTitle className='text-3xl font-bold'>Welcome Back</CardTitle>
         <CardDescription className='text-muted-foreground text-sm'>
