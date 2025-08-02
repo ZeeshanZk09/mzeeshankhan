@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
     }
 
-    const user = result as Partial<IUser>;
+    const user = (await result) as Partial<IUser>;
     const userData = typeof user.toJSON === 'function' ? user.toJSON() : user;
     return NextResponse.json(userData);
   } catch (error) {

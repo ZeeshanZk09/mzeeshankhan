@@ -1,7 +1,6 @@
 import connectDB from '@/lib/db/connect';
 import User from '@/models/User';
 import { IUser } from '../types/userSchemaType';
-import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 import { NODE_ENV } from '@/lib/constants';
 
@@ -92,11 +91,6 @@ async function getAll(page = 1, limit = 100) {
   }
 }
 
-// compare hashed passwords
-async function comparePasswords(password: string, hashedPassword: string) {
-  return await bcrypt.compare(password, hashedPassword);
-}
-
 // clear auth cookies
 async function clearAuthCookie() {
   const options = {
@@ -151,7 +145,6 @@ const userService = {
   update,
   deleteUser,
   getAll,
-  comparePasswords,
   clearAuthCookie,
   getCurrentUser,
   requireAdmin,

@@ -1,13 +1,20 @@
 import { NextResponse } from 'next/server';
 import User from '@/models/User';
-import userService from '@/services/userServices';
-import { IUser } from '@/types/userSchemaType';
+import { compare } from 'bcryptjs'; // Directly import compare
 import generateAccessAndRefreshTokens from '@/utils/generateToken';
-import mongoose from 'mongoose';
 import connectDB from '@/lib/db/connect';
+import { validateSignInInput } from '@/utils/validators'; // Move validation to separate file
+import { IUser } from '@/types/userSchemaType';
+import { ObjectId } from 'mongoose';
+
+// Cache DB connection status
+let dbConnected = false;
 
 export async function POST(request: Request) {
+  const startTime = Date.now();
+
   try {
+    // 1. Validate Content-Type
     const contentType = request.headers.get('content-type');
     if (!contentType?.includes('application/json')) {
       return NextResponse.json(
@@ -16,61 +23,81 @@ export async function POST(request: Request) {
       );
     }
 
-    const { username, email, password, phone } = await request.json();
-
-    if ((!username && !email && !phone) || !password) {
-      return NextResponse.json(
-        { error: 'Email or username and password are required' },
-        { status: 400 }
-      );
+    // 2. Parse and validate input
+    const input = await request.json();
+    const validationError = validateSignInInput(input);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    await connectDB();
-    const user: IUser | null = await User.findOne({
-      $or: [{ email }, { username }, { phone }],
-    });
+    const { username, email, phone, password } = input;
+
+    // 3. Connect to DB if not already connected
+    if (!dbConnected) {
+      await connectDB();
+      dbConnected = true;
+    }
+
+    // 4. Optimized query - only select needed fields
+    const projection = {
+      _id: 1,
+      password: 1,
+      username: 1,
+      email: 1,
+      phone: 1,
+    };
+
+    const user = await User.findOne(
+      {
+        $or: [email ? { email } : null, username ? { username } : null, phone && { phone }].filter(
+          Boolean
+        ), // Remove undefined conditions
+      },
+      projection
+    ).lean<Partial<IUser>>(); // Use lean() for faster plain JS object
+
     if (!user) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isMatch = await userService.comparePasswords(password, user.password);
+    // 5. Compare passwords
+    const isMatch = await compare(password, user.password as string);
     if (!isMatch) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const tokens = await generateAccessAndRefreshTokens(user._id);
+    // 6. Generate tokens
+    const tokens = await generateAccessAndRefreshTokens(user._id as ObjectId);
 
+    // 7. Create response
     const response = NextResponse.json(
-      { success: true, userId: user._id },
       {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }
+        success: true,
+        userId: user._id,
+        metadata: {
+          responseTime: `${Date.now() - startTime}ms`,
+        },
+      },
+      { status: 200 }
     );
 
+    // 8. Set cookies
     response.cookies.set('token', tokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 15 * 60 * 1000,
+      maxAge: 15 * 60 * 1000, // 15 minutes
       path: '/',
     });
+
     return response;
   } catch (error) {
     console.error('Login error:', {
-      message: (error as Error)?.message,
-      stack: (error as Error)?.stack,
-      errors: (error as { errors?: unknown })?.errors,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+      duration: `${Date.now() - startTime}ms`,
     });
-    if (error instanceof mongoose.Error.ValidationError) {
-      return NextResponse.json(
-        {
-          error: 'Validation failed',
-          details: error.errors,
-        },
-        { status: 400 }
-      );
-    }
+
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
