@@ -7,13 +7,12 @@ import type { Request, Response, NextFunction } from 'express';
 
 // Configuration
 const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'public/temp');
-const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_FILES = '10mb';
+const MAX_FILES = 10;
 
 export const config = {
   api: {
     bodyParser: false,
-    sizeLimit: MAX_UPLOAD_SIZE,
+    sizeLimit: '10mb',
   },
 };
 
@@ -64,7 +63,11 @@ export default async function handler(
 
     // 3. Process upload based on headers
     const isMultiple = req.headers['x-upload-multiple'] === 'true';
-    await runMiddleware(req, res, isMultiple ? upload.array('files', 10) : upload.single('file'));
+    await runMiddleware(
+      req,
+      res,
+      isMultiple ? upload.array('files', MAX_FILES) : upload.single('file')
+    );
 
     // 4. Get files with type safety (fix type assertion error)
     let files: Express.Multer.File[];
@@ -131,7 +134,7 @@ export default async function handler(
         (err as { code?: unknown }).code === 'LIMIT_FILE_SIZE'
       ) {
         return res.status(413).json({
-          error: `File too large. Maximum size is ${MAX_UPLOAD_SIZE / 1024 / 1024}MB`,
+          error: `File too large. Maximum size is ${10 / 1024 / 1024}MB`,
         });
       }
 
