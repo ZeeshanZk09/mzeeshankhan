@@ -8,9 +8,9 @@ export default function ToastProvider() {
     <Toaster
       position='top-right'
       toastOptions={{
-        duration: 3000,
+        duration: 2000,
         style: {
-          fontSize: '14px',
+          fontSize: '16px',
           padding: '12px 16px',
         },
       }}

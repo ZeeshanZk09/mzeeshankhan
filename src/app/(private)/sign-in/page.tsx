@@ -1,14 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import toastService from '@/services/toastService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Loading from '@/components/ui/Loader';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
+import { useUser } from '@/hooks/UserContext';
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -17,44 +15,19 @@ export default function SignInPage() {
     phone: '',
     password: '',
   });
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const { handleSignIn, loading } = useUser();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await axios.post('/api/auth/sign-in', JSON.stringify(formData), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const contentType = await response.headers['content-type'];
-      if (!contentType?.includes('application/json')) {
-        toastService.error(
-          `Server returned ${response.data.error} ${response.status}: ${response.statusText}`
-        );
-        throw new Error(
-          `Server returned ${response.data.error} ${response.status}: ${response.statusText}`
-        );
-      }
-      const data = await response.data;
-      toastService.success('Signed in successfully');
-      router.push('/profile');
-      console.log(data);
-    } catch (err) {
-      const error = err as { response?: { data?: { error?: string } } };
-      const message = error?.response?.data?.error || 'Sign in failed';
-      toastService.error(message);
-    } finally {
-      setLoading(false);
-    }
+    await handleSignIn(formData);
   };
+
   if (loading) return <Loading />;
 
   return (

@@ -65,7 +65,7 @@ export default function Admin() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className='container px-10 sm:px-24 py-20'
+        className='px-10 sm:px-24 py-20'
       >
         <motion.h1
           initial={{ y: -20, opacity: 0 }}
@@ -80,7 +80,7 @@ export default function Admin() {
           variants={container}
           initial='hidden'
           animate='show'
-          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+          className='w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6'
         >
           <AnimatePresence>
             {users?.map((user) => (
@@ -92,7 +92,7 @@ export default function Admin() {
                 whileTap={{ scale: 0.98 }}
                 exit={{ opacity: 0, scale: 0.9 }}
               >
-                <Card className='hover:shadow-lg transition-shadow sm:min-w-[20rem] h-full'>
+                <Card className='hover:shadow-lg transition-shadow min-w-[10rem] sm:min-w-[20rem] h-full'>
                   <CardHeader className='relative p-0'>
                     {user.coverPic?.url && (
                       <motion.div

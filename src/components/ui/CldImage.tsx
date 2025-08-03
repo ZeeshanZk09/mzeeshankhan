@@ -27,6 +27,7 @@ export default function CldImage({
       alt={alt}
       className={className}
       onClick={handleClick}
+      priority
     />
   );
 }

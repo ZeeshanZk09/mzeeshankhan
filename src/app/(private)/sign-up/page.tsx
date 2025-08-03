@@ -2,17 +2,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import toastService from '@/services/toastService';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUser } from '@/hooks/UserContext';
 
 export default function SignUpPage() {
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,7 +21,6 @@ export default function SignUpPage() {
 
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [coverPic, setCoverPic] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,65 +35,72 @@ export default function SignUpPage() {
     if (name === 'coverPic') setCoverPic(files[0]);
   };
 
-  type picObj = {
-    url: string;
-    public_id: string;
-  };
+  // type picObj = {
+  //   url: string;
+  //   public_id: string;
+  // };
 
-  const uploadImage = async (file: File): Promise<picObj[] | null> => {
-    const form = new FormData();
-    form.append('file', file);
+  // const uploadImage = async (file: File): Promise<picObj[] | null> => {
+  //   const form = new FormData();
+  //   form.append('file', file);
 
-    try {
-      const res = await axios.post('/api/upload', form, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      console.log('/upload response', res.data);
-      return res.data?.uploads || null;
-    } catch (err) {
-      console.error('Image upload failed:', err);
-      toastService.error('Image upload failed. Please try again.');
-      return null;
-    }
-  };
+  //   try {
+  //     const res = await axios.post('/api/upload', form, {
+  //       headers: { 'Content-Type': 'multipart/form-data' },
+  //     });
+  //     console.log('/upload response', res.data);
+  //     return res.data?.uploads || null;
+  //   } catch (err) {
+  //     console.error('Image upload failed:', err);
+  //     toastService.error('Image upload failed. Please try again.');
+  //     return null;
+  //   }
+  // };
+  const { handleSignUp, loading } = useUser();
+
+  console.log(loading);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    await handleSignUp({
+      ...formData,
+      profilePic,
+      coverPic,
+    });
 
-    if (formData.password !== formData.confirmPassword) {
-      toastService.error('Passwords do not match');
-      setLoading(false);
-      return;
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   toastService.error('Passwords do not match');
+    //   setLoading(false);
+    //   return;
+    // }
 
-    try {
-      let uploadedProfilePic: picObj[] | null = null;
-      let uploadedCoverPic: picObj[] | null = null;
+    // try {
+    //   let uploadedProfilePic: picObj[] | null = null;
+    //   let uploadedCoverPic: picObj[] | null = null;
 
-      if (profilePic) uploadedProfilePic = await uploadImage(profilePic);
-      if (coverPic) uploadedCoverPic = await uploadImage(coverPic);
+    //   if (profilePic) uploadedProfilePic = await uploadImage(profilePic);
+    //   if (coverPic) uploadedCoverPic = await uploadImage(coverPic);
 
-      const payload = {
-        ...formData,
-        profilePic: uploadedProfilePic ? uploadedProfilePic[0] : null,
-        coverPic: uploadedCoverPic ? uploadedCoverPic[0] : null,
-      };
+    //   const payload = {
+    //     ...formData,
+    //     profilePic: uploadedProfilePic ? uploadedProfilePic[0] : null,
+    //     coverPic: uploadedCoverPic ? uploadedCoverPic[0] : null,
+    //   };
 
-      const res = await axios.post('/api/auth/sign-up', payload);
-      if (!res) {
-        toastService.error('Registration Failed');
-      }
+    //   const res = await axios.post('/api/auth/sign-up', payload);
+    //   if (!res) {
+    //     toastService.error('Registration Failed');
+    //   }
 
-      toastService.success('Registered successfully! Redirecting...');
-      router.push('/profile');
-    } catch (err) {
-      const error = err as { response?: { data?: { error?: string } } };
-      const message = error?.response?.data?.error || 'Registration failed';
-      toastService.error(message);
-    } finally {
-      setLoading(false);
-    }
+    //   toastService.success('Registered successfully! Redirecting...');
+    //   router.push('/profile');
+    // } catch (err) {
+    //   const error = err as { response?: { data?: { error?: string } } };
+    //   const message = error?.response?.data?.error || 'Registration failed';
+    //   toastService.error(message);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
