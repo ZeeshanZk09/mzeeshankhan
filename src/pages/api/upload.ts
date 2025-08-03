@@ -8,7 +8,7 @@ import type { Request, Response, NextFunction } from 'express';
 // Configuration
 const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'public/temp');
 const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_FILES = 10;
+const MAX_FILES = '10mb';
 
 export const config = {
   api: {
@@ -64,11 +64,7 @@ export default async function handler(
 
     // 3. Process upload based on headers
     const isMultiple = req.headers['x-upload-multiple'] === 'true';
-    await runMiddleware(
-      req,
-      res,
-      isMultiple ? upload.array('files', MAX_FILES) : upload.single('file')
-    );
+    await runMiddleware(req, res, isMultiple ? upload.array('files', 10) : upload.single('file'));
 
     // 4. Get files with type safety (fix type assertion error)
     let files: Express.Multer.File[];

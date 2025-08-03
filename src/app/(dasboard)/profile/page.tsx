@@ -108,7 +108,7 @@ const Profile = () => {
                 {/* Avatar */}
                 <motion.div
                   variants={item}
-                  className='relative -mt-20 sm:-mt-24 h-32 w-32 sm:h-40 sm:w-40 rounded-full border-4 border-white dark:border-gray-800 shadow-lg overflow-hidden bg-gray-200'
+                  className='relative -mt-[4rem] sm:-mt-24 h-32 w-32 sm:h-40 sm:w-40 rounded-full border-4 border-white dark:border-gray-800 shadow-lg overflow-hidden bg-gray-200 z-30'
                 >
                   {user.profilePic?.url ? (
                     <CldImage
@@ -116,7 +116,7 @@ const Profile = () => {
                       alt={`${user.firstName} ${user.lastName}`}
                       width={400}
                       height={400}
-                      className='h-full w-full object-cover'
+                      className='absolute h-full w-full object-cover'
                     />
                   ) : (
                     <div className='h-full w-full flex items-center justify-center'>
