@@ -49,7 +49,7 @@ const satoshiRegular = localFont({
 
 export const metadata: Metadata = {
   title: 'M Zeeshan Khan',
-  description: '',
+  description: 'This is my portfolio website.',
   viewport: {
     width: 'device-width',
     initialScale: 1,
