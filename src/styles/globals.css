@@ -70,3 +70,18 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
 }
+
+/* Hide mobile browser's navigation UI */
+@supports (overflow: clip) {
+  html {
+    overflow: clip;
+    overscroll-behavior: none;
+  }
+}
+
+/* For Safari/iOS specifically */
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: -webkit-fill-available;
+  }
+}
