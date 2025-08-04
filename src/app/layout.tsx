@@ -10,6 +10,7 @@ import { CleanDom } from '@/utils/CleanDom';
 import ToastProvider from '@/hooks/ToastProvider';
 import { UserProvider } from '@/hooks/UserContext';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/styles/globals.css';
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
@@ -90,6 +91,7 @@ export default function RootLayout({
             <Footer />
           </UserProvider>
           <Analytics />
+          <SpeedInsights />
         </HydrationFix>
       </body>
     </html>
