@@ -4,12 +4,6 @@ import { IUser } from '../types/userSchemaType';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {
-  ACCESS_TOKEN_EXPIRY,
-  ACCESS_TOKEN_SECRET,
-  REFRESH_TOKEN_EXPIRY,
-  REFRESH_TOKEN_SECRET,
-} from '@/lib/serverConstants';
 
 connectDB()
   .then((db) => db)
@@ -209,9 +203,9 @@ userSchema.methods.generateAccessToken = function () {
       username: this.username,
       fullName: this.fullName,
     },
-    ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET!,
     {
-      expiresIn: ACCESS_TOKEN_EXPIRY,
+      expiresIn: '1d',
     }
   );
 };
@@ -221,9 +215,9 @@ userSchema.methods.generateRefreshToken = function () {
     {
       _id: this._id,
     },
-    REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET!,
     {
-      expiresIn: REFRESH_TOKEN_EXPIRY,
+      expiresIn: '30d',
     }
   );
 };
