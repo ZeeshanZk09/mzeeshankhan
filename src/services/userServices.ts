@@ -2,7 +2,6 @@ import connectDB from '@/lib/db/connect';
 import User from '@/models/User';
 import { IUser } from '../types/userSchemaType';
 import { NextRequest, NextResponse } from 'next/server';
-import { NODE_ENV } from '@/lib/serverConstants';
 
 // create a user
 async function create(userData: Omit<IUser, '_id' | 'createdAt' | 'updatedAt' | 'isAdmin'>) {
@@ -97,7 +96,7 @@ async function clearAuthCookie() {
     maxAge: 0,
     path: '/',
     httpOnly: true,
-    secure: NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production',
   };
 
   return options;
