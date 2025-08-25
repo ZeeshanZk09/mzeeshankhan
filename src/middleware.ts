@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { ACCESS_TOKEN_SECRET } from './lib/constants';
+import { ACCESS_TOKEN_SECRET } from './lib/serverConstants';
 import { jwtVerify } from 'jose';
 
 const PUBLIC_ROUTES = [

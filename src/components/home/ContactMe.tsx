@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
-import { NEXT_PUBLIC_RECAPTCHA_SITE_KEY } from '@/lib/constants';
+import { NEXT_PUBLIC_RECAPTCHA_SITE_KEY } from '@/lib/publicConstants';
 
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
   ssr: false,

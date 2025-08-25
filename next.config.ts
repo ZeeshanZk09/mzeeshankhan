@@ -1,11 +1,11 @@
 // next.config.ts
 import type { NextConfig } from 'next';
-import nextPWA from 'next-pwa';
+// import nextPWA from 'next-pwa';
 
-const pwa = nextPWA({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-});
+// const pwa = nextPWA({
+//   dest: 'public',
+//   disable: process.env.NODE_ENV === 'development',
+// });
 
 const nextConfig: NextConfig = {
   images: {
@@ -18,4 +18,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default pwa(nextConfig);
+export default nextConfig;

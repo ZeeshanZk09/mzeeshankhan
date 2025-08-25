@@ -1,4 +1,4 @@
-import { RECAPTCHA_SECRET_KEY } from '@/lib/constants';
+import { RECAPTCHA_SECRET_KEY } from '@/lib/serverConstants';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {

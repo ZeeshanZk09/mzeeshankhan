@@ -2,7 +2,7 @@ import connectDB from '@/lib/db/connect';
 import User from '@/models/User';
 import { IUser } from '../types/userSchemaType';
 import { NextRequest, NextResponse } from 'next/server';
-import { NODE_ENV } from '@/lib/constants';
+import { NODE_ENV } from '@/lib/serverConstants';
 
 // create a user
 async function create(userData: Omit<IUser, '_id' | 'createdAt' | 'updatedAt' | 'isAdmin'>) {

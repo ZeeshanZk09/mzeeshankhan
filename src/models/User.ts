@@ -9,7 +9,7 @@ import {
   ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_EXPIRY,
   REFRESH_TOKEN_SECRET,
-} from '@/lib/constants';
+} from '@/lib/serverConstants';
 
 connectDB()
   .then((db) => db)

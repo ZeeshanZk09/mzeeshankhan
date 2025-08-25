@@ -1,0 +1,29 @@
+import { SignOptions } from 'jsonwebtoken';
+
+const EMAIL_USER = process.env.EMAIL_USER!;
+const EMAIL_PASS = process.env.EMAIL_PASS!;
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY!;
+const MONGODB_URI = process.env.MONGODB_URI!;
+const DB_NAME = 'mzeeshankhan';
+const ACCESS_TOKEN_EXPIRY: SignOptions['expiresIn'] = '1d';
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
+const REFRESH_TOKEN_EXPIRY: SignOptions['expiresIn'] = '30d';
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME!;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY!;
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET!;
+
+export {
+  EMAIL_USER,
+  EMAIL_PASS,
+  RECAPTCHA_SECRET_KEY,
+  MONGODB_URI,
+  DB_NAME,
+  ACCESS_TOKEN_EXPIRY,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRY,
+  REFRESH_TOKEN_SECRET,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+};

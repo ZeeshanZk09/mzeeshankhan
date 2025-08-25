@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DB_NAME, MONGODB_URI } from '../constants';
+import { DB_NAME, MONGODB_URI } from '../serverConstants';
 
 export default async function connectDB() {
   if (mongoose.connection?.readyState === 1) return;
