@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { ACCESS_TOKEN_SECRET } from './lib/serverConstants';
 import { jwtVerify } from 'jose';
 
 const PUBLIC_ROUTES = [
@@ -48,7 +47,10 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const { payload } = await jwtVerify(token, new TextEncoder().encode(ACCESS_TOKEN_SECRET));
+    const { payload } = await jwtVerify(
+      token,
+      new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET)
+    );
 
     response.headers.set('x-user-id', String(payload._id));
     response.cookies.set('token', token, {

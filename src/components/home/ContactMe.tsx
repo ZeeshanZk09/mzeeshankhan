@@ -7,7 +7,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
-import { NEXT_PUBLIC_RECAPTCHA_SITE_KEY } from '@/lib/publicConstants';
 
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
   ssr: false,
@@ -247,7 +246,7 @@ export default function ContactMe() {
           >
             {isMounted && (
               <ReCAPTCHA
-                sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
                 onChange={(token) => setRecaptchaToken(token)}
                 onExpired={() => setRecaptchaToken(null)}
                 size={isMobile ? 'compact' : 'normal'}

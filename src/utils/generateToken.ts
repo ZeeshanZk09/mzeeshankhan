@@ -1,4 +1,3 @@
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '@/lib/serverConstants';
 import User from '@/models/User';
 import mongoose, { ObjectId } from 'mongoose';
 
@@ -17,7 +16,7 @@ export default async function generateAccessAndRefreshTokens(userId: ObjectId) {
     }
 
     // 3. Check if token secrets exist
-    if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
+    if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
       throw new Error('Token secrets not configured in environment variables');
     }
 

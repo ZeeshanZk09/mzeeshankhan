@@ -1,4 +1,3 @@
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '@/lib/serverConstants';
 import connectDB from '@/lib/db/connect';
 import User from '@/models/User';
 import generateAccessAndRefreshTokens from '@/utils/generateToken';
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Check for required environment variables early
-    if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
+    if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
