@@ -16,7 +16,7 @@ import { motion, AnimatePresence, spring } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useMemo, useCallback } from 'react';
 import { useWindowSize } from '@/hooks/useWindowResize';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import CldImage from '../ui/CldImage';
 
@@ -57,7 +57,7 @@ export function AppSidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const { user, handleSignOut } = useUser();
+  const { user, handleSignOut } = useAuth();
   const { width } = useWindowSize();
 
   const isMobile = useMemo(() => width < MOBILE_BREAKPOINT, [width]);

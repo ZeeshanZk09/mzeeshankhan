@@ -1,8 +1,8 @@
 'use client';
 
-import { UserProvider } from '@/hooks/UserContext';
 import Loading from '@/app/loading';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
+import { AppProvider } from '../providers/AppProvider';
 
 export default function ProtectedRoute({
   children,
@@ -12,15 +12,15 @@ export default function ProtectedRoute({
   adminOnly?: boolean;
 }) {
   return (
-    <UserProvider adminOnly={adminOnly}>
+    <AppProvider adminOnly={adminOnly}>
       <ClientSideWrapper>{children}</ClientSideWrapper>
-    </UserProvider>
+    </AppProvider>
   );
 }
 
 // Optional: fallback to loading if children use useUser hook
 function ClientSideWrapper({ children }: { children: React.ReactNode }) {
-  const { loading } = useUser();
+  const { loading } = useAuth();
   if (loading) return <Loading />;
   return <>{children}</>;
 }

@@ -1,420 +1,336 @@
-'use client';
+// 'use client';
 
-import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
-import { IUser } from '@/types/userSchemaType';
-import { useRouter } from 'next/navigation';
-import Loading from '@/components/ui/Loader';
-import axios from 'axios';
-import toastService from '@/services/toastService';
+// import {
+//   createContext,
+//   useContext,
+//   useEffect,
+//   useCallback,
+//   useActionState,
+//   useOptimistic,
+//   useState,
+// } from 'react';
+// import { IUser } from '@/types/userSchemaType';
+// import { useRouter } from 'next/navigation';
+// import Loading from '@/components/ui/Loader';
+// import axios from 'axios';
+// import toastService from '@/services/toastService';
 
-// Define more precise types
-type AuthCredentials = Pick<IUser, 'username' | 'email' | 'phone' | 'password'>;
+// // Define more precise types
 
-type ImageUpload = {
-  url: string;
-  public_id: string;
-};
+// type UserContextType = {
+//   users: SafeUser[] | null;
+//   user: SafeUser | null;
+//   loading: boolean;
+//   error: string | null;
+//   handleSignOut: () => Promise<void>;
+//   handleSignIn: (credentials: AuthCredentials) => Promise<void>;
+//   handleSignUp: (payload: SignUpPayload) => Promise<void>;
+//   uploadImage: (file: File) => Promise<ImageUpload | null>;
+//   refetchUser: () => Promise<void>;
+//   // New optimistic update function
+//   updateUserOptimistically: (updates: Partial<SafeUser>) => void;
+// };
 
-type SignUpPayload = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phone?: string;
-  password: string;
-  confirmPassword: string;
-  profilePic?: File | null;
-  coverPic?: File | null;
-};
+// const UserContext = createContext<UserContextType>({
+//   users: null,
+//   user: null,
+//   loading: true,
+//   error: null,
+//   handleSignOut: async () => {},
+//   handleSignIn: async () => {},
+//   handleSignUp: async () => {},
+//   uploadImage: async () => null,
+//   refetchUser: async () => {},
+//   updateUserOptimistically: () => {},
+// });
 
-type SafeUser = Omit<
-  IUser,
-  | 'password'
-  | 'refreshToken'
-  | 'emailVerificationToken'
-  | 'emailVerificationExpires'
-  | 'phoneVerificationToken'
-  | 'phoneVerificationExpires'
-  | 'providers'
->;
+// export const useUser = () => useContext(UserContext);
 
-type UserContextType = {
-  users: SafeUser[] | null;
-  user: SafeUser | null;
-  loading: boolean;
-  error: string | null;
-  handleSignOut: () => Promise<void>;
-  handleSignIn: (credentials: AuthCredentials) => Promise<void>;
-  handleSignUp: (payload: SignUpPayload) => Promise<void>;
-  uploadImage: (file: File) => Promise<ImageUpload | null>;
-  refetchUser: () => Promise<void>;
-};
+// export function UserProvider({
+//   children,
+//   adminOnly = false,
+// }: {
+//   children: React.ReactNode;
+//   adminOnly?: boolean;
+// }) {
+//   const router = useRouter();
 
-const UserContext = createContext<UserContextType>({
-  users: null,
-  user: null,
-  loading: true,
-  error: null,
-  handleSignOut: async () => {},
-  handleSignIn: async () => {},
-  handleSignUp: async () => {},
-  uploadImage: async () => null,
-  refetchUser: async () => {},
-});
+//   // Use useActionState for form-related state management
+//   const [state, formAction, isPending] = useActionState(
+//     async (prevState: any, formData: FormData) => {
+//       // This would be handled by your form actions
+//       return prevState;
+//     },
+//     { users: null, user: null, loading: true }
+//   );
 
-export const useUser = () => useContext(UserContext);
+//   const [optimisticUser, setOptimisticUser] = useOptimistic<SafeUser | null>(null);
+//   const [error, setError] = useState<string | null>(null);
+//   const [initialLoad, setInitialLoad] = useState(true);
 
-export function UserProvider({
-  children,
-  adminOnly = false,
-}: {
-  children: React.ReactNode;
-  adminOnly?: boolean;
-}) {
-  const router = useRouter();
-  const [state, setState] = useState<{
-    users: SafeUser[] | null;
-    user: SafeUser | null;
-    loading: boolean;
-  }>({
-    users: null,
-    user: null,
-    loading: true,
-  });
-  const [error, setError] = useState<string | null>(null);
-  const [initialLoad, setInitialLoad] = useState(true);
-  // Helper function to handle API errors consistently
-  const handleApiError = (error: unknown, defaultMessage: string): string => {
-    let errorMessage = defaultMessage;
+//   // Helper function to handle API errors consistently
 
-    if (axios.isAxiosError(error)) {
-      errorMessage = error.response?.data?.error || error.response?.data?.message || error.message;
+//   // Memoized API calls with enhanced error handling
+//   const fetchCurrentUser = useCallback(async (): Promise<SafeUser | null> => {
+//     try {
+//       if (!localStorage.getItem('userData')) return null;
 
-      // Log detailed error info for debugging
-      console.error('API Error:', {
-        message: errorMessage,
-        status: error.response?.status,
-        url: error.config?.url,
-        data: error.response?.data,
-      });
-    } else if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    setState((prev) => {
-      return {
-        ...prev,
-        loading: false,
-      };
-    });
-    toastService.error(errorMessage);
-    setError(errorMessage);
-    return errorMessage;
-  };
+//       // Using React's use() hook for promise handling (experimental)
+//       const userPromise = axios.get<SafeUser>('/api/current-user', {
+//         timeout: 10000,
+//         withCredentials: true,
+//       });
 
-  // Memoized API calls with enhanced error handling
-  const fetchCurrentUser = useCallback(async (): Promise<SafeUser | null> => {
-    try {
-      if (!localStorage.getItem('userData')) return null;
-      const { data } = await axios.get<SafeUser>('/api/current-user', {
-        timeout: 10000, // 10 second timeout
-        withCredentials: true,
-      });
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return data;
-    } catch (error) {
-      handleApiError(error, 'Failed to authenticate');
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return null;
-    } finally {
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-    }
-  }, []);
+//       // Note: use() is experimental but demonstrates the pattern
+//       // In a real implementation, you might want to handle this differently
+//       const { data } = await userPromise;
+//       return data;
+//     } catch (error) {
+//       handleApiError(error, 'Failed to authenticate');
+//       return null;
+//     }
+//   }, []);
 
-  const fetchAllUsers = useCallback(async (): Promise<SafeUser[] | null> => {
-    try {
-      const { data } = await axios.get<SafeUser[]>('/api/admin/get-all-users', {
-        timeout: 10000,
-        withCredentials: true,
-      });
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return data;
-    } catch (error) {
-      handleApiError(error, 'Failed to fetch users');
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return null;
-    }
-  }, []);
+//   const fetchAllUsers = useCallback(async (): Promise<SafeUser[] | null> => {
+//     try {
+//       const { data } = await axios.get<SafeUser[]>('/api/admin/get-all-users', {
+//         timeout: 10000,
+//         withCredentials: true,
+//       });
+//       return data;
+//     } catch (error) {
+//       handleApiError(error, 'Failed to fetch users');
+//       return null;
+//     }
+//   }, []);
 
-  // Authentication handlers with retry logic
-  const handleSignIn = useCallback(
-    async (credentials: AuthCredentials) => {
-      setState((prev) => ({ ...prev, loading: true }));
+//   // Optimistic update function
+//   const updateUserOptimistically = useCallback(
+//     (updates: Partial<SafeUser>) => {
+//       if (!state.user) return;
 
-      try {
-        const { data } = await axios.post<SafeUser>('/api/auth/sign-in', credentials, {
-          headers: { 'Content-Type': 'application/json' },
-          timeout: 10000,
-          withCredentials: true,
-        });
+//       setOptimisticUser({ ...state.user, ...updates });
 
-        setState({ user: data, users: null, loading: false });
-        localStorage.setItem('userData', JSON.stringify(data));
-        toastService.success('Signed in successfully');
-        setTimeout(() => router.push('/profile'), 3000);
-      } catch (error) {
-        const errorMessage = handleApiError(error, 'Sign in failed');
-        toastService.error(errorMessage);
-        setState((prev) => ({ ...prev, loading: false }));
+//       // In a real implementation, you would also make the API call here
+//       // and revert if it fails
+//     },
+//     [state.user, setOptimisticUser]
+//   );
 
-        // If it's a network error, suggest retrying
-        if (axios.isAxiosError(error) && !error.response) {
-          toastService.info('Network error - please check your connection');
-        }
-      }
-    },
-    [router]
-  );
+//   // Authentication handlers with retry logic
+//   const handleSignIn = useCallback(
+//     async (credentials: AuthCredentials) => {
+//       setError(null);
 
-  const uploadImage = useCallback(async (file: File): Promise<ImageUpload | null> => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
+//       try {
+//         const { data } = await axios.post<SafeUser>('/api/auth/sign-in', credentials, {
+//           headers: { 'Content-Type': 'application/json' },
+//           timeout: 10000,
+//           withCredentials: true,
+//         });
 
-      const { data } = await axios.post<{ uploads: ImageUpload[] }>('/api/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        timeout: 30000, // Longer timeout for file uploads
-      });
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return data.uploads[0] || null;
-    } catch (error) {
-      handleApiError(error, 'Image upload failed');
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-      return null;
-    }
-  }, []);
+//         // Update state optimistically
+//         setOptimisticUser(data);
 
-  const handleSignUp = useCallback(
-    async (payload: SignUpPayload) => {
-      setState((prev) => ({ ...prev, loading: true }));
+//         // Update actual state
+//         setState((prev) => ({ ...prev, user: data, users: null }));
+//         localStorage.setItem('userData', JSON.stringify(data));
+//         toastService.success('Signed in successfully');
+//         setTimeout(() => router.push('/profile'), 3000);
+//       } catch (error) {
+//         const errorMessage = handleApiError(error, 'Sign in failed');
+//         toastService.error(errorMessage);
 
-      try {
-        // Validate passwords match
-        if (payload.password !== payload.confirmPassword) {
-          throw new Error('Passwords do not match');
-        }
+//         // If it's a network error, suggest retrying
+//         if (axios.isAxiosError(error) && !error.response) {
+//           toastService.info('Network error - please check your connection');
+//         }
+//       }
+//     },
+//     [router, setOptimisticUser]
+//   );
 
-        // Upload images in parallel if both exist
-        const [profilePicUpload, coverPicUpload] = await Promise.all([
-          payload.profilePic ? uploadImage(payload.profilePic) : Promise.resolve(null),
-          payload.coverPic ? uploadImage(payload.coverPic) : Promise.resolve(null),
-        ]);
+//   const uploadImage = useCallback(async (file: File): Promise<ImageUpload | null> => {
+//     try {
+//       const formData = new FormData();
+//       formData.append('file', file);
 
-        // Prepare the data to send
-        const { firstName, lastName, username, password, phone, email } = payload;
+//       const { data } = await axios.post<{ uploads: ImageUpload[] }>('/api/upload', formData, {
+//         headers: { 'Content-Type': 'multipart/form-data' },
+//         timeout: 30000, // Longer timeout for file uploads
+//       });
 
-        const { data } = await axios.post<SafeUser>(
-          '/api/auth/sign-up',
-          {
-            firstName,
-            lastName,
-            email,
-            username,
-            password,
-            phone,
-            profilePic: profilePicUpload,
-            coverPic: coverPicUpload,
-          },
-          {
-            headers: { 'Content-Type': 'application/json' },
-            timeout: 15000,
-            withCredentials: true,
-          }
-        );
+//       return data.uploads[0] || null;
+//     } catch (error) {
+//       handleApiError(error, 'Image upload failed');
+//       return null;
+//     }
+//   }, []);
 
-        setState({ user: data, users: null, loading: false });
-        toastService.success('Registered successfully!');
-        router.push('/profile');
-      } catch (error) {
-        const errorMessage = handleApiError(error, 'Registration failed');
-        toastService.error(errorMessage);
-        setState((prev) => ({ ...prev, loading: false }));
+//   const handleSignUp = useCallback(
+//     async (payload: SignUpPayload) => {
+//       setError(null);
 
-        // Special handling for duplicate email/username
-        if (axios.isAxiosError(error) && error.response?.status === 409) {
-          toastService.info('This email or username is already registered');
-        }
-      }
-    },
-    [router, uploadImage]
-  );
+//       try {
+//         // Validate passwords match
+//         if (payload.password !== payload.confirmPassword) {
+//           throw new Error('Passwords do not match');
+//         }
 
-  const refetchUser = useCallback(async () => {
-    setState((prev) => ({ ...prev, loading: true }));
-    try {
-      const user = await fetchCurrentUser();
-      if (user) {
-        setState((prev) => ({ ...prev, user, loading: false }));
-      } else {
-        router.push('/sign-in');
-      }
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-    } catch (error) {
-      handleApiError(error, 'Failed to refresh user data');
-      setState((prev) => ({ ...prev, loading: false }));
-    }
-  }, [fetchCurrentUser, router]);
+//         // Upload images in parallel if both exist
+//         const [profilePicUpload, coverPicUpload] = await Promise.all([
+//           payload.profilePic ? uploadImage(payload.profilePic) : Promise.resolve(null),
+//           payload.coverPic ? uploadImage(payload.coverPic) : Promise.resolve(null),
+//         ]);
 
-  // Initialize user data with retry logic
-  useEffect(() => {
-    let mounted = true;
-    const controller = new AbortController();
+//         // Prepare the data to send
+//         const { firstName, lastName, username, password, phone, email } = payload;
 
-    const initializeUser = async () => {
-      try {
-        const cachedUser = localStorage.getItem('userData');
-        if (cachedUser) {
-          const parsedUser = JSON.parse(cachedUser);
-          if (mounted) {
-            setState((prev) => ({ ...prev, user: parsedUser, loading: false }));
-          }
-        }
-        const user = await fetchCurrentUser();
+//         const { data } = await axios.post<SafeUser>(
+//           '/api/auth/sign-up',
+//           {
+//             firstName,
+//             lastName,
+//             email,
+//             username,
+//             password,
+//             phone,
+//             profilePic: profilePicUpload,
+//             coverPic: coverPicUpload,
+//           },
+//           {
+//             headers: { 'Content-Type': 'application/json' },
+//             timeout: 15000,
+//             withCredentials: true,
+//           }
+//         );
 
-        if (!mounted) return;
+//         // Update state optimistically
+//         setOptimisticUser(data);
 
-        if (!user) {
-          localStorage.removeItem('userData');
-          router.push('/sign-in');
-          return;
-        }
+//         // Update actual state
+//         setState((prev) => ({ ...prev, user: data, users: null }));
+//         toastService.success('Registered successfully!');
+//         router.push('/profile');
+//       } catch (error) {
+//         const errorMessage = handleApiError(error, 'Registration failed');
+//         toastService.error(errorMessage);
 
-        // Immediately set user data (even if we might fetch more)
-        setState((prev) => ({ ...prev, user, loading: false }));
-        localStorage.setItem('userData', JSON.stringify(user));
-        setInitialLoad(false);
+//         // Special handling for duplicate email/username
+//         if (axios.isAxiosError(error) && error.response?.status === 409) {
+//           toastService.info('This email or username is already registered');
+//         }
+//       }
+//     },
+//     [router, uploadImage, setOptimisticUser]
+//   );
 
-        if (user.isAdmin) {
-          const users = await fetchAllUsers();
-          if (mounted) setState((prev) => ({ ...prev, users }));
-        }
-        setState((prev) => {
-          return {
-            ...prev,
-            loading: false,
-          };
-        });
-      } catch (error) {
-        if (!mounted) return;
-        handleApiError(error, 'Failed to initialize user');
-        setState((prev) => {
-          return {
-            ...prev,
-            loading: false,
-          };
-        });
-        router.push('/sign-in');
-      } finally {
-        if (mounted) setInitialLoad(false);
-        setState((prev) => {
-          return {
-            ...prev,
-            loading: false,
-          };
-        });
-      }
-    };
+//   const refetchUser = useCallback(async () => {
+//     try {
+//       const user = await fetchCurrentUser();
+//       if (user) {
+//         setState((prev) => ({ ...prev, user }));
+//       } else {
+//         router.push('/sign-in');
+//       }
+//     } catch (error) {
+//       handleApiError(error, 'Failed to refresh user data');
+//     }
+//   }, [fetchCurrentUser, router]);
 
-    initializeUser();
+//   const handleSignOut = useCallback(async () => {
+//     try {
+//       await axios.post(
+//         '/api/auth/sign-out',
+//         {},
+//         {
+//           timeout: 5000,
+//           withCredentials: true,
+//         }
+//       );
 
-    return () => {
-      mounted = false;
-      controller.abort();
-    };
-  }, [router, adminOnly, fetchCurrentUser, fetchAllUsers]);
+//       // Optimistically clear user data
+//       setOptimisticUser(null);
 
-  const handleSignOut = useCallback(async () => {
-    try {
-      await axios.post(
-        '/api/auth/sign-out',
-        {},
-        {
-          timeout: 5000,
-          withCredentials: true,
-        }
-      );
-      setState({ users: null, user: null, loading: false });
-      localStorage.removeItem('userData');
-      toastService.success('Signed out successfully');
-      router.push('/sign-in');
-    } catch (error) {
-      handleApiError(error, 'Failed to sign out');
-    } finally {
-      setState((prev) => {
-        return {
-          ...prev,
-          loading: false,
-        };
-      });
-    }
-  }, [router]);
+//       // Update actual state
+//       setState({ users: null, user: null, loading: false });
+//       localStorage.removeItem('userData');
+//       toastService.success('Signed out successfully');
+//       router.push('/sign-in');
+//     } catch (error) {
+//       handleApiError(error, 'Failed to sign out');
+//     }
+//   }, [router, setOptimisticUser]);
 
-  // Memoized context value
-  const contextValue = useMemo(
-    () => ({
-      ...state,
-      error,
-      handleSignOut,
-      handleSignIn,
-      handleSignUp,
-      uploadImage,
-      refetchUser,
-    }),
-    [state, error, handleSignOut, handleSignIn, handleSignUp, uploadImage, refetchUser]
-  );
+//   // Initialize user data
+//   useEffect(() => {
+//     let mounted = true;
 
-  if (initialLoad) {
-    return <Loading />;
-  }
+//     const initializeUser = async () => {
+//       try {
+//         const cachedUser = localStorage.getItem('userData');
+//         if (cachedUser) {
+//           const parsedUser = JSON.parse(cachedUser);
+//           if (mounted) {
+//             setState((prev) => ({ ...prev, user: parsedUser, loading: false }));
+//           }
+//         }
 
-  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
-}
+//         const user = await fetchCurrentUser();
+
+//         if (!mounted) return;
+
+//         if (!user) {
+//           localStorage.removeItem('userData');
+//           router.push('/sign-in');
+//           return;
+//         }
+
+//         // Update state
+//         setState((prev) => ({ ...prev, user, loading: false }));
+//         localStorage.setItem('userData', JSON.stringify(user));
+//         setInitialLoad(false);
+
+//         if (user.isAdmin) {
+//           const users = await fetchAllUsers();
+//           if (mounted) setState((prev) => ({ ...prev, users }));
+//         }
+//       } catch (error) {
+//         if (!mounted) return;
+//         handleApiError(error, 'Failed to initialize user');
+//         router.push('/sign-in');
+//       } finally {
+//         if (mounted) {
+//           setInitialLoad(false);
+//           setState((prev) => ({ ...prev, loading: false }));
+//         }
+//       }
+//     };
+
+//     initializeUser();
+
+//     return () => {
+//       mounted = false;
+//     };
+//   }, [router, adminOnly, fetchCurrentUser, fetchAllUsers]);
+
+//   // Memoized context value
+//   const contextValue = {
+//     users: state.users,
+//     user: optimisticUser || state.user, // Use optimistic value if available
+//     loading: state.loading || isPending,
+//     error,
+//     handleSignOut,
+//     handleSignIn,
+//     handleSignUp,
+//     uploadImage,
+//     refetchUser,
+//     updateUserOptimistically,
+//   };
+
+//   if (initialLoad) {
+//     return <Loading />;
+//   }
+
+//   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
+// }

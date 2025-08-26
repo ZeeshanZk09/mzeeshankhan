@@ -1,7 +1,7 @@
 'use client';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import Loader from '@/components/ui/Loader';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 import toastService from '@/services/toastService';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -35,7 +35,7 @@ const cardHover = {
 };
 
 export default function Admin() {
-  const { error, user, users, loading } = useUser();
+  const { error, user, users, loading } = useAuth();
   const router = useRouter();
 
   if (!user?.isAdmin) {

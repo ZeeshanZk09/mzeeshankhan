@@ -1,6 +1,6 @@
 'use client';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
 import { Edit, Mail, Phone, User, Shield, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,14 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const Profile = () => {
-  const { user, error, loading, refetchUser } = useUser();
+  const { user, error, loading, refetchUser } = useAuth();
   const router = useRouter();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-
+  // alert(user);
   // Add this useEffect to handle the initial load
   useEffect(() => {
     if (!loading && !user && !isInitialLoad) {
+      // alert(`${loading}, ${user}, ${isInitialLoad}`);
       router.push('/sign-in');
     }
     setIsInitialLoad(false);

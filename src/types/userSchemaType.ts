@@ -36,4 +36,34 @@ interface IUser extends Document {
   updatedAt: Date;
 }
 
-export type { IUser };
+type AuthCredentials = Pick<IUser, 'username' | 'email' | 'phone' | 'password'>;
+
+type ImageUpload = {
+  url: string;
+  public_id: string;
+};
+
+type SignUpPayload = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phone?: string;
+  password: string;
+  confirmPassword: string;
+  profilePic?: File | null;
+  coverPic?: File | null;
+};
+
+type SafeUser = Omit<
+  IUser,
+  | 'password'
+  | 'refreshToken'
+  | 'emailVerificationToken'
+  | 'emailVerificationExpires'
+  | 'phoneVerificationToken'
+  | 'phoneVerificationExpires'
+  | 'providers'
+>;
+
+export type { IUser, AuthCredentials, ImageUpload, SignUpPayload, SafeUser };

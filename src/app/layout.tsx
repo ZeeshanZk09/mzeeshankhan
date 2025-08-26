@@ -8,10 +8,10 @@ import UnderConstruction from '@/components/utils/UnderConstruction';
 import HydrationFix from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
 import ToastProvider from '@/hooks/ToastProvider';
-import { UserProvider } from '@/hooks/UserContext';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/styles/globals.css';
+import { AppProvider } from '@/components/providers/AppProvider';
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
   variable: '--clashDisplay-extralight',
@@ -80,7 +80,7 @@ export default function RootLayout({
       >
         <CleanDom />
         <HydrationFix>
-          <UserProvider>
+          <AppProvider>
             <UnderConstruction />
             <AppSidebar />
             <Header />
@@ -89,7 +89,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-          </UserProvider>
+          </AppProvider>
           <Analytics />
           <SpeedInsights />
         </HydrationFix>

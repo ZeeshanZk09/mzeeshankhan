@@ -6,7 +6,7 @@ import Loading from '@/components/ui/Loader';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ export default function SignInPage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const { handleSignIn, loading } = useUser();
+  const { handleSignIn, loading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

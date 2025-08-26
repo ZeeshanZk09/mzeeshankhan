@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useUser } from '@/hooks/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -56,7 +56,7 @@ export default function SignUpPage() {
   //     return null;
   //   }
   // };
-  const { handleSignUp, loading } = useUser();
+  const { handleSignUp, loading } = useAuth();
 
   console.log(loading);
 
@@ -133,13 +133,7 @@ export default function SignUpPage() {
             </div>
             <div>
               <Label>Phone</Label>
-              <Input
-                type='text'
-                name='phone'
-                placeholder='Phone'
-                onChange={handleChange}
-                required
-              />
+              <Input type='text' name='phone' placeholder='Phone' onChange={handleChange} />
             </div>
             <div>
               <Label>Username</Label>

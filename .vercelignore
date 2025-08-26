@@ -1,5 +1,0 @@
-*.md
-*.log
-.gitignore
-.env*.local
-node_modules/
