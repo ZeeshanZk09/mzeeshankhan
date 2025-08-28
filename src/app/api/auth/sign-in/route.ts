@@ -5,7 +5,7 @@ import generateAccessAndRefreshTokens from '@/utils/generateToken';
 import connectDB from '@/lib/db/connect';
 import { validateSignInInput } from '@/utils/validators'; // Move validation to separate file
 import { IUser } from '@/types/userSchemaType';
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 // Cache DB connection status
 let dbConnected = false;
@@ -92,12 +92,20 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error('Login error:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString(),
-      duration: `${Date.now() - startTime}ms`,
+    console.error('Login error:', error, {
+      message: (error as Error)?.message,
+      stack: (error as Error)?.stack,
+      errors: (error as { errors?: unknown })?.errors,
     });
-    console.log(error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    if (error instanceof mongoose.Error.ValidationError) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: error.errors,
+        },
+        { status: 400 }
+      );
+    }
+    return NextResponse.json({ error: 'Failed to Login user' }, { status: 500 });
   }
 }
