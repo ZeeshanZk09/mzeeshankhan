@@ -59,9 +59,9 @@ export default function SignUpPage() {
   const { handleSignUp, loading } = useAuth();
 
   console.log(loading);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    debugger;
     await handleSignUp({
       ...formData,
       profilePic,
