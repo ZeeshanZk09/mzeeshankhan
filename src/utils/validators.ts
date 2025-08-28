@@ -41,3 +41,16 @@ export function validateSignUpInput(
 
   return null;
 }
+
+export function validateForgotPasswordInput(
+  input: Pick<IUser, 'username' | 'email' | 'phone'>
+): string | null {
+  if (!input) return 'Request body is required';
+
+  const { username, email, phone } = input;
+  if (!username && !email && !phone) {
+    return 'Email, username or phone is required';
+  }
+
+  return null;
+}

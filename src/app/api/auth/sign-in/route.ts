@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     ).lean<Partial<IUser>>(); // Use lean() for faster plain JS object
 
     if (!user) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ error: 'User Not Found' }, { status: 404 });
     }
 
     // 5. Compare passwords

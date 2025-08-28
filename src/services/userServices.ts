@@ -110,7 +110,10 @@ async function getCurrentUser(request: NextRequest) {
   }
 
   await connectDB();
-  return await User.findById(userId).select('-password -refreshToken').lean({ virtuals: true });
+  const currentUser = await User.findById(userId)
+    .select('-password -refreshToken')
+    .lean({ virtuals: true });
+  return currentUser;
 }
 
 // check if user is admin or not

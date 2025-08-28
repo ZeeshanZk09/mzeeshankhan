@@ -6,8 +6,9 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 // import toastService from '@/services/toastService';
-import { AuthCredentials, SignUpPayload, SafeUser } from '@/types/userSchemaType';
+import { AuthCredentials, SignUpPayload, SafeUser, ImageUpload } from '@/types/userSchemaType';
 import { handleApiError } from '@/utils/errorHandling';
+import { useCallback } from 'react';
 
 interface AuthState {
   user: SafeUser | null;
@@ -50,8 +51,31 @@ export const signUp = createAsyncThunk(
       }
 
       const { firstName, lastName, username, password, phone, email } = payload;
-      debugger;
+      // debugger;
+
+      const uploadImage = useCallback(async (file: File): Promise<ImageUpload | null> => {
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+
+          const { data } = await axios.post<{ uploads: ImageUpload[] }>('/api/upload', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 30000, // Longer timeout for file uploads
+          });
+
+          return data.uploads[0] || null;
+        } catch (error) {
+          handleApiError(error, 'Image upload failed');
+          return null;
+        }
+      }, []);
       console.log(payload.coverPic, payload.profilePic);
+
+      const [profilePicUpload, coverPicUpload] = await Promise.all([
+        payload.profilePic ? uploadImage(payload.profilePic) : Promise.resolve(null),
+        payload.coverPic ? uploadImage(payload.coverPic) : Promise.resolve(null),
+      ]);
+
       const { data } = await axios.post<SafeUser>(
         '/api/auth/sign-up',
         {
@@ -61,16 +85,8 @@ export const signUp = createAsyncThunk(
           username,
           password,
           phone,
-          profilePic: payload.profilePic
-            ? Array.isArray(payload.profilePic)
-              ? payload.profilePic[0]
-              : payload.profilePic
-            : undefined,
-          coverPic: payload.coverPic
-            ? Array.isArray(payload.coverPic)
-              ? payload.coverPic[0]
-              : payload.coverPic
-            : undefined,
+          profilePic: profilePicUpload,
+          coverPic: coverPicUpload,
         },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -78,6 +94,8 @@ export const signUp = createAsyncThunk(
           withCredentials: true,
         }
       );
+      // debugger;
+      console.log(data);
 
       localStorage.setItem('userData', JSON.stringify(data));
       return data;
@@ -94,7 +112,7 @@ export const signOut = createAsyncThunk('auth/signOut', async (_, { rejectWithVa
       '/api/auth/sign-out',
       {},
       {
-        timeout: 5000,
+        timeout: 20000,
         withCredentials: true,
       }
     );
@@ -113,7 +131,7 @@ export const fetchCurrentUser = createAsyncThunk(
       const localUser = localStorage.getItem('userData');
       if (localUser) {
         const response = await axios.get<SafeUser>('/api/current-user', {
-          timeout: 10000,
+          timeout: 20000,
           withCredentials: true,
         });
         localStorage.setItem('userData', JSON.stringify(response.data));
@@ -122,6 +140,47 @@ export const fetchCurrentUser = createAsyncThunk(
       return null;
     } catch (error) {
       const errorMessage = handleApiError(error, 'Failed to authenticate');
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  'auth/updateUserProfile',
+  async (payload: Partial<Omit<SignUpPayload, 'password'>>, { rejectWithValue }) => {
+    try {
+      // // Validate passwords match
+      // if (payload.password !== payload.confirmPassword) {
+      //   throw new Error('Passwords do not match');
+      // }
+
+      const { firstName, lastName, username, phone, email } = payload;
+      // debugger;
+      console.log(payload.coverPic, payload.profilePic);
+      const { data } = await axios.put<SafeUser>(
+        '/api/update-current-user',
+        {
+          firstName,
+          lastName,
+          email,
+          username,
+          phone,
+          profilePic: payload.profilePic,
+          coverPic: payload.coverPic,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 15000,
+          withCredentials: true,
+        }
+      );
+      // debugger;
+      console.log(data);
+
+      localStorage.setItem('userData', JSON.stringify(data));
+      return data;
+    } catch (error) {
+      const errorMessage = handleApiError(error, 'Registration failed');
       return rejectWithValue(errorMessage);
     }
   }

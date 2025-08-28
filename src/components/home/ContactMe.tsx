@@ -246,7 +246,7 @@ export default function ContactMe() {
           >
             {isMounted && (
               <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY! as string}
                 onChange={(token) => setRecaptchaToken(token)}
                 onExpired={() => setRecaptchaToken(null)}
                 size={isMobile ? 'compact' : 'normal'}

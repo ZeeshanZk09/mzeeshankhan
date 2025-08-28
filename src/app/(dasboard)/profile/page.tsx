@@ -259,7 +259,7 @@ const Profile = () => {
             className='mt-8 flex justify-center'
           >
             <Button
-              onClick={() => router.push('/profile/edit')}
+              onClick={() => router.push('/profile/update-user-profile')}
               className='px-6 py-3 rounded-lg shadow-md'
             >
               Edit Profile
