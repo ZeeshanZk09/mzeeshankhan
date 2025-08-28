@@ -15,7 +15,7 @@ import toastService from '@/services/toastService';
 import { AuthCredentials, SignUpPayload } from '@/types/userSchemaType';
 
 export const useAuth = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const { user, loading, error } = useSelector((state: RootState) => state.auth);

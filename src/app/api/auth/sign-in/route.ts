@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     const user = await User.findOne(
       {
-        $or: [email ? { email } : null, username ? { username } : null, phone && { phone }].filter(
+        $or: [email ? { email } : null, username ? { username } : null, phone ?? { phone }].filter(
           Boolean
         ), // Remove undefined conditions
       },

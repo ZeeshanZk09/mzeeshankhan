@@ -30,6 +30,7 @@ export const signIn = createAsyncThunk(
         timeout: 10000,
         withCredentials: true,
       });
+      console.log('sign in data', data);
       localStorage.setItem('userData', JSON.stringify(data));
       return data;
     } catch (error) {
@@ -100,7 +101,7 @@ export const fetchCurrentUser = createAsyncThunk(
   'auth/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      if (!localStorage.getItem('userData')) return null;
+      if (!localStorage.getItem('userData')) return;
 
       const { data } = await axios.get<SafeUser>('/api/current-user', {
         timeout: 10000,

@@ -11,9 +11,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
     }
 
-    const user = (await result) as Partial<IUser>;
+    const user = result as Partial<IUser>;
     const userData = typeof user.toJSON === 'function' ? user.toJSON() : user;
-    return NextResponse.json(userData);
+    return NextResponse.json({
+      _id: userData._id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      username: userData.username,
+      email: userData.email,
+      profilePic: userData.profilePic,
+      coverPic: userData.coverPic,
+      emailVerified: userData.emailVerified,
+      phone: userData.phone,
+      phoneVerified: userData.phoneVerified,
+      isAdmin: userData.isAdmin,
+      emailVerificationExpires: userData.emailVerificationExpires,
+      phoneVerificationExpires: userData.phoneVerificationExpires,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    });
   } catch (error) {
     console.error('current-user error:', {
       message: (error as Error)?.message,
