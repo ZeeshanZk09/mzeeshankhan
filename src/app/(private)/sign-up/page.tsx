@@ -61,7 +61,8 @@ export default function SignUpPage() {
   console.log(loading);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    debugger;
+    // debugger;
+    console.log(profilePic, coverPic);
     await handleSignUp({
       ...formData,
       profilePic,

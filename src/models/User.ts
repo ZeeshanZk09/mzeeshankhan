@@ -9,59 +9,59 @@ connectDB()
   .then((db) => db)
   .catch((err) => console.log(err));
 
-const nameRegex = /^[A-Za-z\s]+$/;
-const usernameRegex = /^[a-zA-Z0-9._-]+$/;
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%[*?()#&\/|^'".,{}]).{6,20}$/;
-const emailRegex = /^[\p{L}0-9._%+-]+@[\p{L}0-9.-]+\.[\p{L}]{2,}$/u;
+// const nameRegex = /^[A-Za-z\s]+$/;
+// const usernameRegex = /^[a-zA-Z0-9._-]+$/;
+// const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%[*?()#&\/|^'".,{}]).{6,20}$/;
+// const emailRegex = /^[\p{L}0-9._%+-]+@[\p{L}0-9.-]+\.[\p{L}]{2,}$/u;
 
 const userSchema = new Schema<IUser>(
   {
     firstName: {
       type: String,
       required: [true, 'First Name is required.'],
-      validate: {
-        validator: function (v) {
-          return nameRegex.test(v);
-        },
-        message: (props) => `${props.value} is not a valid First Name. Only letters are allowed.`,
-      },
+      // validate: {
+      //   validator: function (v) {
+      //     return nameRegex.test(v);
+      //   },
+      //   message: (props) => `${props.value} is not a valid First Name. Only letters are allowed.`,
+      // },
       trim: true,
       maxlength: [20, 'max 20 chars are allowed.'],
       minlength: [6, 'min 6 chars are required.'],
     },
     lastName: {
       type: String,
-      validate: {
-        validator: function (v) {
-          return nameRegex.test(v);
-        },
-        message: (props) => `${props.value} is not a valid Last Name. Only letters are allowed.`,
-      },
+      // validate: {
+      //   validator: function (v) {
+      //     return nameRegex.test(v);
+      //   },
+      //   message: (props) => `${props.value} is not a valid Last Name. Only letters are allowed.`,
+      // },
       trim: true,
       maxlength: [20, 'max 20 chars are allowed.'],
     },
     username: {
       type: String,
       required: [true, 'username is required.'],
-      validate: {
-        validator: function (v) {
-          const allowedChars = usernameRegex;
-          const hasUpper = /[A-Z]/;
-          const hasLower = /[a-z]/;
-          const hasDigit = /\d/;
-          const hasSpecial = /[._-]/;
+      // validate: {
+      //   validator: function (v) {
+      //     const allowedChars = usernameRegex;
+      //     const hasUpper = /[A-Z]/;
+      //     const hasLower = /[a-z]/;
+      //     const hasDigit = /\d/;
+      //     const hasSpecial = /[._-]/;
 
-          return (
-            allowedChars.test(v) &&
-            hasUpper.test(v) &&
-            hasLower.test(v) &&
-            hasDigit.test(v) &&
-            hasSpecial.test(v)
-          );
-        },
-        message: (props) =>
-          `${props.value} is not a valid username! It must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character (., _, or -), and only these characters are allowed.`,
-      },
+      //     return (
+      //       allowedChars.test(v) &&
+      //       hasUpper.test(v) &&
+      //       hasLower.test(v) &&
+      //       hasDigit.test(v) &&
+      //       hasSpecial.test(v)
+      //     );
+      //   },
+      //   message: (props) =>
+      //     `${props.value} is not a valid username! It must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character (., _, or -), and only these characters are allowed.`,
+      // },
       index: true,
       unique: [true, 'username already exists.'],
       trim: true,
@@ -71,12 +71,12 @@ const userSchema = new Schema<IUser>(
     email: {
       type: String,
       required: [true, 'email is required.'],
-      validate: {
-        validator: function (v) {
-          return emailRegex.test(v);
-        },
-        message: (props) => `${props.value} is not a valid email address!`,
-      },
+      // validate: {
+      //   validator: function (v) {
+      //     return emailRegex.test(v);
+      //   },
+      //   message: (props) => `${props.value} is not a valid email address!`,
+      // },
       index: true,
       unique: [true, 'email already exists.'],
       lowercase: true,
@@ -139,13 +139,13 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, 'password is required.'],
-      validate: {
-        validator: function (v) {
-          return passwordRegex.test(v);
-        },
-        message:
-          'Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (e.g., @$!%*?&).',
-      },
+      // validate: {
+      //   validator: function (v) {
+      //     return passwordRegex.test(v);
+      //   },
+      //   message:
+      //     'Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (e.g., @$!%*?&).',
+      // },
       trim: true,
       maxlength: [20, 'max 20 chars are allowed.'],
       minlength: [6, 'min 6 chars are required.'],

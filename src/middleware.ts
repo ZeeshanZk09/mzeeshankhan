@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
   const token =
     request.cookies.get('token')?.value ||
     request.headers.get('authorization')?.replace('Bearer ', '');
-  console.log(token);
+  // console.log(token);
   // ✅ Check if token is valid format (3 dot-separated parts)
   if (!token || token.split('.').length !== 3) {
     const url = new URL('/sign-in', request.url);
@@ -51,7 +51,7 @@ export async function middleware(request: NextRequest) {
       token,
       new TextEncoder().encode(process.env.ACCESS_TOKEN_SECRET)
     );
-    console.log(payload);
+    // console.log(payload);
 
     response.headers.set('x-user-id', String(payload._id));
     response.cookies.set('token', token, {

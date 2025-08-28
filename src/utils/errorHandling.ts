@@ -1,8 +1,8 @@
 import axios from 'axios';
+import toastService from './../services/toastService';
 
 const handleApiError = (error: unknown, defaultMessage: string): string => {
   let errorMessage = defaultMessage;
-
   if (axios.isAxiosError(error)) {
     errorMessage = error.response?.data?.error || error.response?.data?.message || error.message;
 
@@ -17,6 +17,7 @@ const handleApiError = (error: unknown, defaultMessage: string): string => {
     errorMessage = error.message;
   }
 
+  toastService.error(errorMessage);
   return errorMessage;
 };
 

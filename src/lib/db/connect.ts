@@ -14,13 +14,14 @@ export default async function connectDB() {
   }
   try {
     const dbConnection = await mongoose.connect(
-      `${process.env.MONGODB_URI}` || `mongodb://localhost:27017/mzeeshankhan`
+      `${process.env.MONGODB_URI}/${process.env.DB_NAME}` ||
+        `mongodb://localhost:27017/mzeeshankhan`
     );
     if (dbConnection) {
       console.log('DB connected successfully.');
     }
 
-    console.log(dbConnection.connection.host);
+    console.log('Connection host', dbConnection.connection.host);
 
     return dbConnection;
   } catch (error) {

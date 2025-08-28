@@ -50,7 +50,8 @@ export const signUp = createAsyncThunk(
       }
 
       const { firstName, lastName, username, password, phone, email } = payload;
-
+      debugger;
+      console.log(payload.coverPic, payload.profilePic);
       const { data } = await axios.post<SafeUser>(
         '/api/auth/sign-up',
         {
@@ -60,8 +61,16 @@ export const signUp = createAsyncThunk(
           username,
           password,
           phone,
-          profilePic: payload.profilePic,
-          coverPic: payload.coverPic,
+          profilePic: payload.profilePic
+            ? Array.isArray(payload.profilePic)
+              ? payload.profilePic[0]
+              : payload.profilePic
+            : undefined,
+          coverPic: payload.coverPic
+            ? Array.isArray(payload.coverPic)
+              ? payload.coverPic[0]
+              : payload.coverPic
+            : undefined,
         },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -101,15 +110,16 @@ export const fetchCurrentUser = createAsyncThunk(
   'auth/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      if (!localStorage.getItem('userData')) return;
-
-      const { data } = await axios.get<SafeUser>('/api/current-user', {
-        timeout: 10000,
-        withCredentials: true,
-      });
-
-      localStorage.setItem('userData', JSON.stringify(data));
-      return data;
+      const localUser = localStorage.getItem('userData');
+      if (localUser) {
+        const response = await axios.get<SafeUser>('/api/current-user', {
+          timeout: 10000,
+          withCredentials: true,
+        });
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        return response.data;
+      }
+      return null;
     } catch (error) {
       const errorMessage = handleApiError(error, 'Failed to authenticate');
       return rejectWithValue(errorMessage);
