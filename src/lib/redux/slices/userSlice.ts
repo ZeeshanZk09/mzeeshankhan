@@ -21,13 +21,16 @@ export const fetchAllUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get<SafeUser[]>('/api/admin/get-all-users', {
-        timeout: 10000,
+        timeout: 20000,
         withCredentials: true,
       });
       return data;
     } catch (error) {
-      const errorMessage = handleApiError(error, 'Failed to fetch users');
-      return rejectWithValue(errorMessage);
+      if (axios.isAxiosError(error)) {
+        const errorMessage = handleApiError(error.response?.data.error, 'Failed to fetch users');
+        return rejectWithValue(errorMessage);
+      }
+      return null;
     }
   }
 );

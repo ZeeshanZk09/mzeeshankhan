@@ -7,12 +7,14 @@ import {
   signUp,
   signOut,
   fetchCurrentUser,
+  uploadImagePayload,
   clearError,
 } from '@/lib/redux/slices/authSlice';
 import { fetchAllUsers } from '@/lib/redux/slices/userSlice';
 import { AppDispatch, RootState } from '@/lib/redux/store';
 import toastService from '@/services/toastService';
-import { AuthCredentials, SignUpPayload } from '@/types/userSchemaType';
+import { AuthCredentials, ImageUpload, SignUpPayload } from '@/types/userSchemaType';
+import { handleApiError } from '@/utils/errorHandling';
 
 export const useAuth = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -35,6 +37,28 @@ export const useAuth = () => {
     [dispatch, router]
   );
 
+  const uploadImage = useCallback(
+    async (payload: File | ImageUpload | null): Promise<File | ImageUpload | null> => {
+      try {
+        const result = await dispatch(uploadImagePayload(payload as File));
+
+        if (uploadImagePayload.fulfilled.match(result)) {
+          toastService.success('Image uploaded successfully!');
+          return result.payload as File; // Return the actual image data
+        } else {
+          const errorMessage = (result.payload as string) || 'Image upload failed';
+          toastService.error(errorMessage);
+          return null;
+        }
+      } catch (error) {
+        const errorMessage = handleApiError(error, 'Image upload failed');
+        console.log('error while uploading images', errorMessage);
+        return null;
+      }
+    },
+    [dispatch]
+  );
+
   const handleSignUp = useCallback(
     async (payload: SignUpPayload) => {
       const result = await dispatch(signUp(payload));
@@ -42,8 +66,8 @@ export const useAuth = () => {
       if (signUp.fulfilled.match(result)) {
         toastService.success('Registered successfully!');
         router.push('/profile');
-      } else {
-        toastService.error(result.payload as string);
+      } else if (signUp.rejected.match(result)) {
+        handleApiError(result.payload as string, 'Failed to sign Up');
       }
     },
     [dispatch, router]
@@ -80,6 +104,7 @@ export const useAuth = () => {
     handleSignIn,
     handleSignUp,
     handleSignOut,
+    uploadImage,
     refetchUser,
     loadAllUsers,
     clearAuthError,

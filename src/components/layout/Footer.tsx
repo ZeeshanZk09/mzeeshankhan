@@ -22,32 +22,30 @@ export default function Footer() {
           <div className='border-black border-t pt-8 flex flex-col md:flex-row justify-between items-start gap-8'>
             {/* Left section - Brand and links */}
             <div className='flex-1 space-y-8'>
-              <div className='space-y-2'>
+              <div className='space-y-2 border-b pb-2'>
                 <h2 className='font-clashDisplayRegular text-4xl md:text-5xl hover:text-gray-700 transition-colors'>
                   M Zeeshan Khan
                 </h2>
-                <p className='font-satoshiRegular text-gray-600'>
+                <p className='font-satoshiRegular tracking-widest text-gray-600'>
                   Full Stack Developer & logic building Enthusiast
                 </p>
               </div>
 
               <div className='space-y-4'>
-                <h3 className='font-clashDisplayMedium text-xl tracking-widest border-b pb-2'>
-                  Quick links:
-                </h3>
+                <h3 className='font-clashDisplayMedium text-xl tracking-widest '>Quick links:</h3>
                 <QuickLinks
                   navClassName='w-full'
-                  ulClassName='flex flex-col space-y-2 sm:flex-row sm:space-x-6 sm:space-y-0'
+                  ulClassName='flex flex-col space-y-2 sm:flex-row sm:space-x-6 tracking-widest  border-b pb-2 sm:space-y-0'
                   liClassName='hover:underline hover:text-gray-700 transition-colors'
                 />
               </div>
 
               <div className='space-y-4'>
-                <h3 className='font-clashDisplayMedium text-xl tracking-widest border-b pb-2'>
+                <h3 className='font-clashDisplayMedium text-xl tracking-widest'>
                   Connect with me:
                 </h3>
                 <NavigationLinksToSocialMediaProfiles
-                  className='flex space-x-4'
+                  className='flex space-x-4 border-b tracking-widest  pb-2'
                   iconClassName='w-6 h-6 hover:scale-110 transition-transform'
                 />
               </div>

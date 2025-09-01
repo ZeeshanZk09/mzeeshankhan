@@ -4,10 +4,9 @@ import Footer from '@/components/layout/Footer';
 import localFont from 'next/font/local';
 import * as React from 'react';
 import { AppSidebar } from '@/components/layout/AppSidebar';
-import UnderConstruction from '@/components/utils/UnderConstruction';
-import HydrationFix from '@/utils/HydrationFix';
+import MinimalHydrationFix, { HydrationFix, OptimizedHydrationFix } from '@/utils/HydrationFix';
 import { CleanDom } from '@/utils/CleanDom';
-import ToastProvider from '@/hooks/ToastProvider';
+import ToastProvider from '@/components/providers/ToastProvider';
 import '@/styles/globals.css';
 import { AppProvider } from '@/components/providers/AppProvider';
 const clashDisplayExtralight = localFont({
@@ -67,6 +66,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const isHydrated = useHydrationFix();
+  // if (!isHydrated) {
+  //   return <Loading />;
+  // }
   return (
     <html lang='en' suppressHydrationWarning>
       <body
@@ -76,19 +79,22 @@ export default function RootLayout({
           antialiased `}
         suppressHydrationWarning
       >
-        <CleanDom />
-        <HydrationFix>
-          <AppProvider>
-            <UnderConstruction />
-            <AppSidebar />
-            <Header />
-            <main className='overflow-hidden min-h-screen'>
-              <ToastProvider />
-              {children}
-            </main>
-            <Footer />
-          </AppProvider>
-        </HydrationFix>
+        <AppProvider>
+          <CleanDom />
+          <MinimalHydrationFix>
+            <OptimizedHydrationFix>
+              <HydrationFix>
+                <AppSidebar />
+                <Header />
+                <main className='overflow-hidden min-h-screen'>
+                  {(<ToastProvider />) as React.ReactNode}
+                  {children}
+                </main>
+                <Footer />
+              </HydrationFix>
+            </OptimizedHydrationFix>
+          </MinimalHydrationFix>
+        </AppProvider>
       </body>
     </html>
   );

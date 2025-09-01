@@ -10,21 +10,12 @@ import CldImage from '@/components/ui/CldImage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const Profile = () => {
+export default function Profile() {
   const { user, error, loading, refetchUser } = useAuth();
   const router = useRouter();
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(false);
   // alert(user);
   // Add this useEffect to handle the initial load
-  useEffect(() => {
-    if (!loading && !user && !isInitialLoad) {
-      // alert(`${loading}, ${user}, ${isInitialLoad}`);
-      router.push('/sign-in');
-    }
-    setIsInitialLoad(false);
-  }, [loading, user, isInitialLoad, router]);
-
-  // Add this to handle refresh if data is missing
   useEffect(() => {
     if (!user && !loading) {
       const timer = setTimeout(() => {
@@ -33,7 +24,15 @@ const Profile = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [user, loading, refetchUser]);
+    if (!user || loading) {
+      setIsInitialLoad(true);
+    }
+    setIsInitialLoad(false);
+  }, [loading, user, isInitialLoad, refetchUser]);
+  if (!loading && !user && !isInitialLoad) {
+    // alert(`${loading}, ${user}, ${isInitialLoad}`);
+    router.push('/sign-in');
+  }
 
   // Animation variants
   const container = {
@@ -56,14 +55,8 @@ const Profile = () => {
     return null;
   }
 
-  if (loading || !user) {
-    return (
-      <ProtectedRoute>
-        <div className='flex items-center justify-center min-h-screen'>
-          <Loader />
-        </div>
-      </ProtectedRoute>
-    );
+  if (!user) {
+    return <Loader />;
   }
 
   return (
@@ -269,6 +262,4 @@ const Profile = () => {
       </motion.div>
     </ProtectedRoute>
   );
-};
-
-export default Profile;
+}

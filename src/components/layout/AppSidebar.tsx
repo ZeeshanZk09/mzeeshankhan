@@ -19,6 +19,7 @@ import { useWindowSize } from '@/hooks/useWindowResize';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import CldImage from '../ui/CldImage';
+import Loader from '../ui/Loader';
 
 const NAV_ITEMS = [
   {
@@ -57,7 +58,12 @@ export function AppSidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const { user, handleSignOut } = useAuth();
+  const {
+    user,
+    loading,
+    handleSignOut,
+    // error, clearAuthError
+  } = useAuth();
   const { width } = useWindowSize();
 
   const isMobile = useMemo(() => width < MOBILE_BREAKPOINT, [width]);
@@ -115,6 +121,9 @@ export function AppSidebar() {
     [router, closeSidebar]
   );
 
+  // if (error) clearAuthError();
+  if (loading) <Loader />;
+
   return (
     <motion.div
       className={`fixed top-0 ${
@@ -135,7 +144,10 @@ export function AppSidebar() {
         {isOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
       </motion.button>
 
-      <motion.div className='flex flex-col h-full overflow-y-auto custom-scrollbar'>
+      <motion.div
+        className={`flex flex-col h-full overflow-y-auto custom-scrollbar overflow-x-clip
+    overscroll-none`}
+      >
         {/* Logo/Header */}
         <motion.div
           className='px-4 py-6 flex items-center justify-center cursor-pointer'

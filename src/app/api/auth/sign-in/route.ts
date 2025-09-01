@@ -6,6 +6,7 @@ import connectDB from '@/lib/db/connect';
 import { validateSignInInput } from '@/utils/validators'; // Move validation to separate file
 import { IUser } from '@/types/userSchemaType';
 import mongoose, { ObjectId } from 'mongoose';
+import { ApiError } from '@/utils/NextApiError';
 
 // Cache DB connection status
 let dbConnected = false;
@@ -92,20 +93,35 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error('Login error:', error, {
-      message: (error as Error)?.message,
-      stack: (error as Error)?.stack,
-      errors: (error as { errors?: unknown })?.errors,
+    console.error('Sign In error:', {
+      timestamp: new Date().toISOString(),
+      duration: `${Date.now() - startTime}ms`,
+      error:
+        error instanceof Error
+          ? {
+              message: error.message,
+              stack: error.stack,
+              ...(error instanceof mongoose.Error.ValidationError && {
+                validationErrors: error.errors,
+              }),
+            }
+          : 'Unknown error',
     });
-    if (error instanceof mongoose.Error.ValidationError) {
+
+    if (error instanceof ApiError) {
+      const errorFromApi = ApiError.getDefaultMessage(error.statusCode);
+
       return NextResponse.json(
         {
-          error: 'Validation failed',
-          details: error.errors,
+          error: errorFromApi,
+          details: Object.values(error.errors as Record<string, mongoose.Error.ValidatorError>).map(
+            (err) => err.message
+          ),
         },
-        { status: 400 }
+        { status: error.statusCode, headers: { 'Content-Type': 'application/json' } }
       );
     }
-    return NextResponse.json({ error: 'Failed to Login user' }, { status: 500 });
+
+    return NextResponse.json({ error: 'Failed to sign in user' }, { status: 500 });
   }
 }

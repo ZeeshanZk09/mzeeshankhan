@@ -64,6 +64,12 @@ type SafeUser = Omit<
   | 'phoneVerificationToken'
   | 'phoneVerificationExpires'
   | 'providers'
+  | '__v'
 >;
 
-export type { IUser, AuthCredentials, ImageUpload, SignUpPayload, SafeUser };
+type TypeAuthPayload = {
+  _id: ObjectId;
+  isAdmin: boolean;
+};
+
+export type { IUser, AuthCredentials, ImageUpload, SignUpPayload, SafeUser, TypeAuthPayload };

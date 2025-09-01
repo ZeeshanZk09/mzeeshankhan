@@ -40,18 +40,18 @@ export default function QuickLinks({
           <li key={index} className='m-0 relative group cursor-pointer'>
             <Link
               href={href}
-              className={`${liClassName} font-satoshiRegular font-normal leading-6 sm:text-[0.667rem] md:text-[0.778rem] lg:text-[1rem] xl:text-[1.278rem] 2xl:text-[1.556rem] transition-all duration-200`}
+              className={`${liClassName} font-satoshiRegular font-normal transition-all duration-200`}
               style={{ color: defaultColor }}
             >
-              <span className='relative '>
+              <p className='relative '>
                 {label}
                 {showUnderline && (
                   <span
                     className={`absolute bottom-0 left-0 h-px ${underlineClassName} transition-all duration-300 scale-x-0 group-hover:scale-x-100`}
-                    style={{ backgroundColor: hoverColor }}
+                    style={{ backgroundColor: hoverColor ?? 'black' }}
                   />
                 )}
-              </span>
+              </p>
             </Link>
             <div
               className='absolute inset-0 rounded-md opacity-0 group-hover:opacity-10 transition-opacity duration-200'

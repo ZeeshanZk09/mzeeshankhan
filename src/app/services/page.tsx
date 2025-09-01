@@ -184,7 +184,11 @@ export default function Services() {
                   <div className='bottom-0'>
                     <p className='font-satoshiRegular'>
                       Have questions about this?{' '}
-                      <Link href={`/#contact`} className='text-blue-700'>
+                      <Link
+                        target='_blank'
+                        href={`http://localhost:3000/#contact`}
+                        className='text-blue-700'
+                      >
                         click here
                       </Link>{' '}
                       to contact me directly.

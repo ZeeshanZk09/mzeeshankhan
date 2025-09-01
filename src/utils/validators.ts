@@ -1,4 +1,5 @@
 import { IUser } from '@/types/userSchemaType';
+import { useCallback } from 'react';
 import validator from 'validator';
 export function validateSignInInput(
   input: Pick<IUser, 'username' | 'email' | 'phone' | 'password'>
@@ -53,4 +54,51 @@ export function validateForgotPasswordInput(
   }
 
   return null;
+}
+
+export function useFileValidation() {
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+
+  const validateFile = useCallback(
+    (file: File) => {
+      // Check if file is provided
+      if (!file) {
+        return {
+          isValid: false,
+          error: 'No file provided',
+        };
+      }
+
+      // Check file size
+      if (file.size > MAX_FILE_SIZE) {
+        return {
+          isValid: false,
+          error: `File size must be less than 10MB. Your file is ${(
+            file.size /
+            (1024 * 1024)
+          ).toFixed(2)}MB.`,
+        };
+      }
+
+      // Check file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/svg'];
+
+      if (!allowedTypes.includes(file.type)) {
+        return {
+          isValid: false,
+          error: `File type not allowed. Allowed types: ${allowedTypes
+            .map((t) => t.split('/')[1])
+            .join(', ')}`,
+        };
+      }
+
+      return {
+        isValid: true,
+        error: null,
+      };
+    },
+    [MAX_FILE_SIZE]
+  );
+
+  return { validateFile, MAX_FILE_SIZE };
 }

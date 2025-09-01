@@ -72,16 +72,16 @@ body {
 }
 
 /* Hide mobile browser's navigation UI */
-@supports (overflow: clip) {
+/* @supports (overflow: clip) {
   html {
     overflow-x: clip;
     overscroll-behavior: none;
   }
-}
+} */
 
 /* For Safari/iOS specifically */
-@supports (-webkit-touch-callout: none) {
+/* @supports (-webkit-touch-callout: none) {
   body {
     height: -webkit-fill-available;
   }
-}
+} */

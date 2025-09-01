@@ -1,7 +1,7 @@
 type PasswordStrength = {
   score: number;
   label: 'Weak' | 'Medium' | 'Strong';
-  color: 'red' | 'orange' | 'green';
+  color: 'text-red-500' | 'text-orange-500' | 'text-green-500';
 };
 
 export function checkPasswordStrength(password: string): PasswordStrength {
@@ -23,10 +23,10 @@ export function checkPasswordStrength(password: string): PasswordStrength {
 
   // Determine label and color
   if (score <= 2) {
-    return { score, label: 'Weak', color: 'red' };
+    return { score, label: 'Weak', color: 'text-red-500' };
   } else if (score === 3 || score === 4) {
-    return { score, label: 'Medium', color: 'orange' };
+    return { score, label: 'Medium', color: 'text-orange-500' };
   } else {
-    return { score, label: 'Strong', color: 'green' };
+    return { score, label: 'Strong', color: 'text-green-500' };
   }
 }

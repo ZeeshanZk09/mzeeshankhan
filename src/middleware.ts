@@ -54,6 +54,7 @@ export async function middleware(request: NextRequest) {
     // console.log(payload);
 
     response.headers.set('x-user-id', String(payload._id));
+    response.headers.set('x-user-is-admin', String(payload.isAdmin));
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
