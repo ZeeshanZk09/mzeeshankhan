@@ -9,12 +9,14 @@ import {
   fetchCurrentUser,
   uploadImagePayload,
   clearError,
+  deleteImagePayload,
 } from '@/lib/redux/slices/authSlice';
 import { fetchAllUsers } from '@/lib/redux/slices/userSlice';
 import { AppDispatch, RootState } from '@/lib/redux/store';
 import toastService from '@/services/toastService';
 import { AuthCredentials, ImageUpload, SignUpPayload } from '@/types/userSchemaType';
 import { handleApiError } from '@/utils/errorHandling';
+import { DeleteErrorResponse } from '@/types/imageTypes';
 
 export const useAuth = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -44,7 +46,7 @@ export const useAuth = () => {
 
         if (uploadImagePayload.fulfilled.match(result)) {
           toastService.success('Image uploaded successfully!');
-          return result.payload as File; // Return the actual image data
+          return result.payload as ImageUpload; // Return the actual image data
         } else {
           const errorMessage = (result.payload as string) || 'Image upload failed';
           toastService.error(errorMessage);
@@ -53,6 +55,39 @@ export const useAuth = () => {
       } catch (error) {
         const errorMessage = handleApiError(error, 'Image upload failed');
         console.log('error while uploading images', errorMessage);
+        return null;
+      }
+    },
+    [dispatch]
+  );
+
+  const deleteImage = useCallback(
+    async (file: File | ImageUpload | null): Promise<DeleteErrorResponse | null> => {
+      try {
+        const result = await dispatch(deleteImagePayload(file as File | ImageUpload));
+
+        if (deleteImagePayload.fulfilled.match(result)) {
+          toastService.success('Image deleted successfully!');
+          // Ensure the payload is of type DeleteErrorResponse
+          if (
+            result.payload &&
+            typeof result.payload === 'object' &&
+            'statusCode' in result.payload &&
+            'message' in result.payload &&
+            'errors' in result.payload &&
+            'isOperational' in result.payload
+          ) {
+            return result.payload as DeleteErrorResponse;
+          }
+          return result.payload ? (result.payload as DeleteErrorResponse) : null;
+        } else {
+          const errorMessage = (result.payload as string) || 'Image delete failed';
+          toastService.error(errorMessage);
+          return null;
+        }
+      } catch (error) {
+        const errorMessage = handleApiError(error, 'Image delete failed');
+        console.log('error while deleting images', errorMessage);
         return null;
       }
     },
@@ -105,6 +140,7 @@ export const useAuth = () => {
     handleSignUp,
     handleSignOut,
     uploadImage,
+    deleteImage,
     refetchUser,
     loadAllUsers,
     clearAuthError,

@@ -3,7 +3,7 @@ import connectDB from '../lib/db/connect';
 import { IUser } from '../types/userSchemaType';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { createAccessToken, createRefreshToken } from '@/utils/token';
 
 connectDB()
   .then((db) => db)
@@ -196,29 +196,19 @@ userSchema.virtual('fullName').get(function () {
 });
 
 userSchema.methods.generateAccessToken = function () {
-  return jwt.sign(
-    {
-      _id: this._id,
-      isAdmin: this.isAdmin,
-    },
-    process.env.ACCESS_TOKEN_SECRET!,
-    {
-      expiresIn: '1d',
-    }
-  );
+  return createAccessToken({
+    _id: this._id,
+    isAdmin: this.isAdmin,
+    // refreshToken: this.refreshToken,
+  });
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  return jwt.sign(
-    {
-      _id: this._id,
-      isAdmin: this.isAdmin,
-    },
-    process.env.REFRESH_TOKEN_SECRET!,
-    {
-      expiresIn: '30d',
-    }
-  );
+  return createRefreshToken({
+    _id: this._id,
+    isAdmin: this.isAdmin,
+    // refreshToken: this.refreshToken,
+  });
 };
 
 const User = models?.User || model<IUser>('User', userSchema);

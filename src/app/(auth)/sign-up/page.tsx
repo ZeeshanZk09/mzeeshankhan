@@ -13,6 +13,7 @@ import Link from 'next/link';
 import toastService from '@/services/toastService';
 import CldImage from '@/components/ui/CldImage';
 import { useFileValidation } from '@/utils/validators';
+import { DeleteErrorResponse } from '@/types/imageTypes';
 
 // Define form data interface for type safety
 interface FormData {
@@ -35,10 +36,10 @@ export default function SignUpPage() {
     password: '',
     confirmPassword: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [profilePic, setProfilePic] = useState<File | null>(null);
-  const [coverPic, setCoverPic] = useState<File | null>(null);
+  const [showPassword, setShowPassword] = useState(true);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+  const [profilePic, setProfilePic] = useState<File | ImageUpload | null>(null);
+  const [coverPic, setCoverPic] = useState<File | ImageUpload | null>(null);
   const [profilePreview, setProfilePreview] = useState<string | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [profileValidation, setProfileValidation] = useState<{
@@ -51,7 +52,7 @@ export default function SignUpPage() {
   } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const { handleSignUp, loading, uploadImage, error, clearAuthError } = useAuth();
+  const { handleSignUp, loading, error, clearAuthError, uploadImage, deleteImage } = useAuth();
   const { validateFile } = useFileValidation();
 
   // Memoize password strength calculation
@@ -194,34 +195,51 @@ export default function SignUpPage() {
 
     let uploadedProfilePic: File | ImageUpload | null = null;
     let uploadedCoverPic: File | ImageUpload | null = null;
-
     try {
       if (profilePic || coverPic) {
         const uploadPromises = [];
 
-        if (profilePic) {
-          uploadPromises.push(uploadImage(profilePic));
-        }
-
-        if (coverPic) {
-          uploadPromises.push(uploadImage(coverPic));
-        }
+        if (profilePic) uploadPromises.push(uploadImage(profilePic as File));
+        if (coverPic) uploadPromises.push(uploadImage(coverPic as File));
 
         const results = await Promise.all(uploadPromises);
-        uploadedProfilePic = profilePic ? (results[0] as File) : null;
-        uploadedCoverPic = coverPic ? (results[1] as File) : null;
+        uploadedProfilePic = results ? (results[0] as File) : null;
+        uploadedCoverPic = results ? (results[1] as File) : null;
       }
 
       const payload: SignUpPayload = {
         ...formData,
-        profilePic: uploadedProfilePic,
-        coverPic: uploadedCoverPic,
+        profilePic: uploadedProfilePic as File | ImageUpload,
+        coverPic: uploadedCoverPic as File | ImageUpload,
       };
 
       await handleSignUp(payload);
     } catch (err) {
       console.error('Sign up error:', err);
+      if (uploadedProfilePic || uploadedCoverPic) {
+        const deletePromises = [];
+
+        if (uploadedProfilePic) {
+          deletePromises.push(deleteImage(uploadedProfilePic));
+        }
+
+        if (uploadedCoverPic) {
+          deletePromises.push(deleteImage(uploadedCoverPic));
+        }
+
+        const results = await Promise.all(deletePromises);
+        const deletedProfilePic = uploadedProfilePic ? (results[0] as DeleteErrorResponse) : null;
+        const deletedCoverPic = uploadedCoverPic ? (results[1] as DeleteErrorResponse) : null;
+        console.log('Deleted uploaded images due to sign-up failure:', {
+          deletedProfilePic,
+          deletedCoverPic,
+        });
+        toastService.success('Cleaned up uploaded images after sign-up failure');
+      }
       toastService.error('Failed to create account. Please try again.');
+      // setFormData((prev) => prev);
+    } finally {
+      setFormData((prev) => ({ ...prev, password: '', confirmPassword: '' }));
     }
   };
 

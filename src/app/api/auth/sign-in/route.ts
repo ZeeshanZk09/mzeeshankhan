@@ -82,13 +82,18 @@ export async function POST(request: Request) {
       { status: 200 }
     );
 
-    // 8. Set cookies
-    response.cookies.set('token', tokens.accessToken, {
+    const isProd = process.env.NODE_ENV === 'production';
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      secure: isProd,
+      sameSite: 'lax' as const,
       path: '/',
+    };
+
+    // Access token: short lived (15 minutes)
+    response.cookies.set('accessToken', tokens.accessToken, {
+      ...cookieOptions,
+      maxAge: 60 * 60 * 24, // seconds
     });
 
     return response;

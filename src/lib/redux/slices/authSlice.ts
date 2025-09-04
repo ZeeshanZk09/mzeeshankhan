@@ -6,6 +6,7 @@ import axios from 'axios';
 import { AuthCredentials, SignUpPayload, SafeUser, ImageUpload } from '@/types/userSchemaType';
 import { isLocalStorageAvailable } from '@/utils/helpers';
 import { handleApiError } from '@/utils/errorHandling';
+import { DeleteErrorResponse } from '@/types/imageTypes';
 
 export type SimpleSafeUser = Omit<SafeUser, '_id'> & {
   _id: string;
@@ -14,6 +15,7 @@ export type SimpleSafeUser = Omit<SafeUser, '_id'> & {
 interface AuthState {
   user: SimpleSafeUser | null;
   image: ImageUpload | null;
+  deletedImage: DeleteErrorResponse | null;
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
@@ -22,13 +24,14 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   image: null,
+  deletedImage: null,
   loading: false,
   error: null,
   isAuthenticated: false,
 };
 
 // Helper function to safely handle localStorage operations
-const safeLocalStorage = {
+export const safeLocalStorage = {
   getItem: (key: string): string | null => {
     if (isLocalStorageAvailable()) {
       return localStorage.getItem(key);
@@ -121,6 +124,35 @@ export const uploadImagePayload = createAsyncThunk(
   }
 );
 
+export const deleteImagePayload = createAsyncThunk(
+  'auth/deleteImage',
+  async (file: ImageUpload | File | null, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete<DeleteErrorResponse | null>(
+        `/api/delete?filename=${(file as File).name || ''}&public_id=${
+          (file as ImageUpload).public_id || ''
+        }`,
+        {
+          timeout: 30000,
+        }
+      );
+
+      if (!data || data === null) {
+        return rejectWithValue('No image data received from server');
+      }
+
+      return data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = handleApiError(error, 'Image delete failed');
+        return rejectWithValue(errorMessage);
+      }
+
+      return rejectWithValue('An unexpected error occurred during image upload');
+    }
+  }
+);
+
 export const signUp = createAsyncThunk(
   'auth/signUp',
   async (payload: SignUpPayload, { rejectWithValue }) => {
@@ -133,11 +165,17 @@ export const signUp = createAsyncThunk(
       const { ...signUpData } = payload;
       signUpData.confirmPassword = '';
 
-      const { data } = await axios.post<SafeUser>('/api/auth/sign-up', signUpData, {
-        headers: { 'Content-Type': 'application/json' },
-        timeout: 40000,
-        withCredentials: true,
-      });
+      const { data } = await axios.post<SafeUser>(
+        '/api/auth/sign-up',
+        {
+          ...signUpData,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 40000,
+          withCredentials: true,
+        }
+      );
 
       if (data && typeof data === 'object') {
         const plainUser = JSON.parse(JSON.stringify(data));
@@ -148,8 +186,8 @@ export const signUp = createAsyncThunk(
       return rejectWithValue('Invalid response format from server');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        const errorMessage = handleApiError(error.response?.data?.error, 'Registration failed');
-        return rejectWithValue(errorMessage);
+        handleApiError(error.response?.data?.error, 'Registration failed');
+        return rejectWithValue(error.response?.data?.error);
       }
 
       return rejectWithValue('An unexpected error occurred during registration');
@@ -265,6 +303,9 @@ const authSlice = createSlice({
       .addCase(uploadImagePayload.pending, (state) => {
         state.loading = true;
       })
+      .addCase(deleteImagePayload.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchCurrentUser.pending, (state) => {
         state.loading = true;
       })
@@ -293,6 +334,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.image = action.payload;
       })
+      .addCase(deleteImagePayload.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deletedImage = action.payload;
+      })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         const payload = handleFulfilled(state, action);
         state.user = payload;
@@ -319,6 +364,10 @@ const authSlice = createSlice({
       .addCase(uploadImagePayload.rejected, (state, action) => {
         handleRejected(state, action);
         state.image = null;
+      })
+      .addCase(deleteImagePayload.rejected, (state, action) => {
+        handleRejected(state, action);
+        state.deletedImage = null;
       })
       .addCase(updateUserProfile.rejected, handleRejected)
       .addCase(signOut.rejected, (state, action) => {

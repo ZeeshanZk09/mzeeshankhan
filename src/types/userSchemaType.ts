@@ -51,8 +51,8 @@ type SignUpPayload = {
   phone?: string;
   password: string;
   confirmPassword: string;
-  profilePic?: File | null;
-  coverPic?: File | null;
+  profilePic?: File | ImageUpload | null;
+  coverPic?: File | ImageUpload | null;
 };
 
 type SafeUser = Omit<

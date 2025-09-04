@@ -9,6 +9,7 @@ import { CleanDom } from '@/utils/CleanDom';
 import ToastProvider from '@/components/providers/ToastProvider';
 import '@/styles/globals.css';
 import { AppProvider } from '@/components/providers/AppProvider';
+import AuthProvider from '@/components/providers/AuthProvider';
 const clashDisplayExtralight = localFont({
   src: './fonts/ClashDisplay-Extralight.woff',
   variable: '--clashDisplay-extralight',
@@ -84,13 +85,15 @@ export default function RootLayout({
           <MinimalHydrationFix>
             <OptimizedHydrationFix>
               <HydrationFix>
-                <AppSidebar />
-                <Header />
-                <main className='overflow-hidden min-h-screen'>
-                  {(<ToastProvider />) as React.ReactNode}
-                  {children}
-                </main>
-                <Footer />
+                <AuthProvider>
+                  <AppSidebar />
+                  <Header />
+                  <main className='overflow-hidden min-h-screen'>
+                    {(<ToastProvider />) as React.ReactNode}
+                    {children}
+                  </main>
+                  <Footer />
+                </AuthProvider>
               </HydrationFix>
             </OptimizedHydrationFix>
           </MinimalHydrationFix>
