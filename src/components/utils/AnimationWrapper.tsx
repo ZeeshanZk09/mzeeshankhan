@@ -22,7 +22,7 @@ interface AnimationWrapperProps extends HTMLMotionProps<'div'> {
   children: ReactNode;
 }
 
-export default function AnimationWrapper({ children, ...rest }: AnimationWrapperProps) {
+export default function AnimationWrapper({ children, ...rest }: Readonly<AnimationWrapperProps>) {
   const path = usePathname();
 
   return (

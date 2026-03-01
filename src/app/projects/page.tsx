@@ -1,33 +1,10 @@
 'use client';
-import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
-import { Suspense } from 'react';
-// 3D Model Component (replace with your actual models)
-import type { FC } from 'react';
-
-interface ProjectModelProps {
-  modelPath: string;
-}
-const modelPath = `/models/optimized/workspace_optimized.glb`; // Replace with actual model paths
-useGLTF.preload(modelPath);
-
-const ProjectModel: FC<ProjectModelProps> = (props) => {
-  // @ts-expect-error: useGLTF type issue for scene
-  const { scene } = useGLTF(modelPath) as { scene: THREE.Object3D };
-
-  // Make a fresh clone per render
-  const sceneClone = useMemo(() => scene.clone(true), [scene]);
-  return (
-    <primitive
-      object={sceneClone}
-      scale={[3, 3, 3]} // adjust size
-      position={[0, 0, 0]} // shift model if needed
-      {...props}
-    />
-  );
-};
+import ProjectCaseStudy from '@/components/projects/ProjectCaseStudy';
+import CodeSnippet from '@/components/projects/CodeSnippet';
+import ProjectLearnings from '@/components/projects/ProjectLearnings';
+import FutureIdeas from '@/components/projects/FutureIdeas';
+import ProjectsGrid from '@/components/projects/ProjectsGrid';
 
 // Mock data - replace with Sanity data
 const projects = [
@@ -36,7 +13,7 @@ const projects = [
     title: `Project 1`,
     description: `This is a detailed description of this Project. It showcases innovative solutions and cutting-edge technology.`,
     tags: ['React', 'Three.js', 'Framer Motion'],
-    modelPath,
+    modelPath: '/models/optimized/project1_optimized.glb',
     link: '#',
   },
   {
@@ -44,7 +21,7 @@ const projects = [
     title: `Project 2`,
     description: `This is a detailed description of this Project. It showcases innovative solutions and cutting-edge technology.`,
     tags: ['React', 'Three.js', 'Framer Motion'],
-    modelPath,
+    modelPath: '/models/optimized/project2_optimized.glb',
     link: '#',
   },
   {
@@ -52,7 +29,7 @@ const projects = [
     title: `Project 3`,
     description: `This is a detailed description of this Project. It showcases innovative solutions and cutting-edge technology.`,
     tags: ['React', 'Three.js', 'Framer Motion'],
-    modelPath,
+    modelPath: '/models/optimized/project3_optimized.glb',
     link: '#',
   },
   {
@@ -60,7 +37,7 @@ const projects = [
     title: `Project 4`,
     description: `This is a detailed description of this Project. It showcases innovative solutions and cutting-edge technology.`,
     tags: ['React', 'Three.js', 'Framer Motion'],
-    modelPath,
+    modelPath: '/models/optimized/project4_optimized.glb',
     link: '#',
   },
   {
@@ -68,7 +45,7 @@ const projects = [
     title: `Project 5`,
     description: `This is a detailed description of this Project. It showcases innovative solutions and cutting-edge technology.`,
     tags: ['React', 'Three.js', 'Framer Motion'],
-    modelPath,
+    modelPath: '/models/optimized/project5_optimized.glb',
     link: '#',
   },
 ];
@@ -93,20 +70,6 @@ const ProjectCard = ({ project, index }: IProjectCard) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className=' mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center'
     >
-      <div className={`${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
-        <div className='h-96 w-full rounded-xl overflow-hidden shadow-2xl'>
-          <Canvas>
-            <Suspense fallback={null}>
-              <ambientLight intensity={0.5} />
-              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
-              <Environment preset='city' />
-              <ProjectModel key={project.id} modelPath={project.modelPath} />
-            </Suspense>
-          </Canvas>
-        </div>
-      </div>
-
       <div className={`${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
         <h2 className='text-3xl font-bold mb-4'>{project.title}</h2>
         <p className='text-lg mb-6'>{project.description}</p>
@@ -132,7 +95,7 @@ const ProjectCard = ({ project, index }: IProjectCard) => {
 
 export default function ProjectsPage() {
   return (
-    <section className='overflow-hidden pt-36 sm:pt-28 px-10 sm:px-24 text-black'>
+    <section className='overflow-hidden pt-36 sm:pt-28 px-10 sm:px-24 text-foreground'>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -146,11 +109,36 @@ export default function ProjectsPage() {
         </p>
       </motion.div>
 
+      {/* Dynamic projects grid from GitHub */}
+      <ProjectsGrid />
+
       <div className='max-w-7xl mx-auto'>
         {projects.map((project, index) => (
           <ProjectCard key={project.id} project={project} index={index} />
         ))}
       </div>
+
+      {/* Case studies and code snippets */}
+      <ProjectCaseStudy
+        title='Interactive Dashboard'
+        challenge='Build a responsive, data-driven dashboard with complex state management.'
+        solution='Used Next.js with client-server separation, memoized rendering and virtualization to handle large lists.'
+        outcome='Improved load time by 45% and reduced UI jank.'
+      />
+
+      <CodeSnippet
+        code={`// Example: custom hook for fetch\nimport { useState, useEffect } from 'react'\nexport function useFetch(url){\n  const [data, setData] = useState(null)\n  useEffect(()=>{ fetch(url).then(r=>r.json()).then(setData) },[url])\n  return data\n}`}
+      />
+
+      <ProjectLearnings
+        learnings={[
+          'Optimized rendering with virtualization and memoization',
+          'Improved accessibility across breakpoints',
+          'Built resilient API error handling and retries',
+        ]}
+      />
+
+      <FutureIdeas />
 
       <motion.div
         initial={{ opacity: 0 }}

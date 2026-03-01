@@ -1,13 +1,8 @@
-import withMT from '@material-tailwind/react/utils/withMT';
 import tailwindcssAnimate from 'tailwindcss-animate';
 import type { Config } from 'tailwindcss';
-export default withMT({
+export default {
   darkMode: ['class'],
-  content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-    'path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}',
-    'path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       animation: {
@@ -87,4 +82,4 @@ export default withMT({
     },
   },
   plugins: [tailwindcssAnimate],
-}) as Config;
+} as Config;

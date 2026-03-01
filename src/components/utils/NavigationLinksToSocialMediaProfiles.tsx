@@ -5,7 +5,7 @@ import React from 'react';
 interface SocialMediaLink {
   name: string;
   url: string;
-  icon: React.ReactNode;
+  icon: string;
 }
 
 interface NavigationLinksToSocialMediaProfilesProps {
@@ -24,51 +24,23 @@ const defaultLinks: SocialMediaLink[] = [
   {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/muhammad-zeeshan-khan-96478528b/',
-    icon: (
-      <Image
-        src={'/assets/images/social-icons/linkedIn.svg'}
-        alt='linkedIn'
-        width={1000}
-        height={1000}
-      />
-    ),
+    icon: '/assets/images/social-icons/linkedIn.svg',
   },
   {
     name: 'Upwork',
     url: 'https://www.upwork.com/freelancers/~01ac7dbd1886628aad',
-    icon: (
-      <Image
-        src={'/assets/images/social-icons/upwork.svg'}
-        alt='Upwork'
-        width={1000}
-        height={1000}
-      />
-    ),
+    icon: '/assets/images/social-icons/upwork.svg',
   },
   {
     name: 'GitHub',
     url: 'https://github.com/ZeeshanZk09',
-    icon: (
-      <Image
-        src={'/assets/images/social-icons/github.svg'}
-        alt={'GitHub'}
-        width={1000}
-        height={1000}
-      />
-    ),
+    icon: '/assets/images/social-icons/github.svg',
   },
-  {
-    name: 'YouTube',
-    url: 'https://www.youtube.com/@pnacampus.5081',
-    icon: (
-      <Image
-        src={'/assets/images/social-icons/youtube.svg'}
-        alt={'Youtube'}
-        width={1000}
-        height={1000}
-      />
-    ),
-  },
+  // {
+  //   name: 'YouTube',
+  //   url: 'https://www.youtube.com/@pnacampus.5081',
+  //   icon: '/assets/images/social-icons/youtube.svg',
+  // },
 ];
 
 export default function NavigationLinksToSocialMediaProfiles({
@@ -81,10 +53,10 @@ export default function NavigationLinksToSocialMediaProfiles({
   layout = 'horizontal',
   showLabels = false,
   labelClassName = '',
-}: NavigationLinksToSocialMediaProfilesProps) {
+}: Readonly<NavigationLinksToSocialMediaProfilesProps>) {
   return (
     <nav
-      className={`flex ${
+      className={`w-fit flex justify-center items-center ${
         layout === 'horizontal' ? 'flex-row space-x-4' : 'flex-col space-y-4'
       } ${className}`}
     >
@@ -103,10 +75,15 @@ export default function NavigationLinksToSocialMediaProfiles({
               style={{
                 width: `${iconSize}px`,
                 height: `${iconSize}px`,
-                fill: defaultColor,
               }}
             >
-              {link.icon}
+              <Image
+                src={link.icon}
+                alt={`${link.name} icon`}
+                width={iconSize}
+                height={iconSize}
+                className='w-full h-full object-contain'
+              />
             </div>
             <div
               className='absolute inset-0 bg-current opacity-0  transition-opacity duration-200 '

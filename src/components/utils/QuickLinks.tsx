@@ -5,7 +5,7 @@ export const navLinks = [
   { href: '/about', label: 'About Me' },
   { href: '/services', label: 'Services' },
   { href: '/projects', label: 'Projects' },
-  { href: '/templates', label: 'Testimonials' },
+  { href: '/testimonials', label: 'Testimonials' },
 ];
 
 interface QuickLinksProps {
@@ -24,7 +24,6 @@ export default function QuickLinks({
   ulClassName = '',
   liClassName = '',
   hoverColor = '',
-  defaultColor = '#64748b',
   layout = 'horizontal',
   showUnderline = true,
   underlineClassName = '',
@@ -40,8 +39,7 @@ export default function QuickLinks({
           <li key={index} className='m-0 relative group cursor-pointer'>
             <Link
               href={href}
-              className={`${liClassName} font-satoshiRegular font-normal transition-all duration-200`}
-              style={{ color: defaultColor }}
+              className={`${liClassName} text-white/70 font-satoshiRegular font-normal transition-all duration-200`}
             >
               <p className='relative '>
                 {label}

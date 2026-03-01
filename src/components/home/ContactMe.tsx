@@ -1,17 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FieldErrors, useForm, UseFormRegister } from 'react-hook-form';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
-
-const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
-  ssr: false,
-  loading: () => <div className='h-[78px] w-[304px] bg-gray-200 rounded'></div>,
-});
 
 // Animation variants - Using the same pattern as About page
 const containerVariants = {
@@ -65,16 +59,6 @@ export default function ContactMe() {
 
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    const handleResize = () => setIsMobile(window.innerWidth < 900);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const onSubmit = async (data: FormData) => {
     setStatus(null);
@@ -114,7 +98,6 @@ export default function ContactMe() {
       });
     }
   };
-  if (!isMounted) return null;
 
   return (
     <motion.section
@@ -148,7 +131,7 @@ export default function ContactMe() {
             />
           </motion.div>
           <motion.h2
-            className='font-satoshiRegular text-lg sm:text-xl md:text-2xl text-center sm:text-left'
+            className='text-white font-satoshiRegular text-lg sm:text-xl md:text-2xl text-center sm:text-left'
             variants={fadeUp}
           >
             Wan&apos;na discuss any project or just say Hi? My inbox is open for everyone.
@@ -156,9 +139,12 @@ export default function ContactMe() {
         </motion.div>
 
         <motion.div className='space-y-4 md:space-y-6' variants={containerVariants}>
-          <motion.h2 className='text-xl sm:text-2xl font-satoshiBold' variants={fadeUp}>
-            Contact Details:
+          <motion.h2 className='text-xl sm:text-2xl font-satoshiRegular' variants={fadeUp}>
+            Contact Details
           </motion.h2>
+          <motion.p className='text-sm text-white/90' variants={fadeUp}>
+            Prefer direct contact? Use email or WhatsApp below — I typically reply within 48 hours.
+          </motion.p>
           <motion.div className='space-y-4' variants={containerVariants}>
             <motion.div variants={fadeUp}>
               <ContactDetail
@@ -189,17 +175,17 @@ export default function ContactMe() {
 
       {/* Right Column - Contact Form */}
       <motion.div
-        className='w-full max-w-md sm:max-w-lg md:max-w-xl bg-white rounded-lg shadow-lg p-6 sm:p-8'
+        className='w-full max-w-md sm:max-w-lg md:max-w-xl backdrop-blur-md bg-white/10 border border-white/10 rounded-2xl shadow-lg p-6 sm:p-8'
         variants={fadeUp}
       >
         <motion.h2
-          className='text-xl sm:text-2xl font-bold font-clashDisplayRegular text-center text-gray-800'
+          className='text-xl sm:text-2xl font-bold font-clashDisplayRegular text-center text-white/90'
           variants={fadeUp}
         >
           Direct Message
         </motion.h2>
-        <motion.p className='mt-2 text-sm sm:text-base text-center text-gray-600' variants={fadeUp}>
-          Have questions? Fill out the form below.
+        <motion.p className='mt-2 text-sm sm:text-base text-center text-white/70' variants={fadeUp}>
+          Have a project, question, or quick hello? Send a short note — I read every message.
         </motion.p>
 
         <AnimatePresence mode='wait'>
@@ -223,35 +209,30 @@ export default function ContactMe() {
           className='flex flex-col mt-6 space-y-4'
           noValidate
           variants={containerVariants}
+          aria-label='Contact form'
         >
-          {/* Name Field */}
-          <motion.div variants={fadeUp}>
-            <TextField label='Name' id='name' register={register} errors={errors} />
-          </motion.div>
-
-          {/* Email Field */}
-          <motion.div variants={fadeUp}>
-            <TextField label='Email' id='email' type='email' register={register} errors={errors} />
-          </motion.div>
+          {/* Name + Email - responsive two column on larger screens */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+            <motion.div variants={fadeUp}>
+              <TextField label='Name' id='name' register={register} errors={errors} />
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <TextField
+                label='Email'
+                id='email'
+                type='email'
+                register={register}
+                errors={errors}
+              />
+            </motion.div>
+          </div>
 
           {/* Message Field */}
           <motion.div variants={fadeUp}>
             <TextAreaField id='message' register={register} errors={errors} />
-          </motion.div>
-
-          {/* reCAPTCHA */}
-          <motion.div
-            className='flex transform scale-75 sm:scale-100 justify-center'
-            variants={fadeUp}
-          >
-            {isMounted && (
-              <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY! as string}
-                onChange={(token) => setRecaptchaToken(token)}
-                onExpired={() => setRecaptchaToken(null)}
-                size={isMobile ? 'compact' : 'normal'}
-              />
-            )}
+            <p className='mt-2 text-sm text-white/70'>
+              Short summary + what you need (timeline, budget) helps me respond faster.
+            </p>
           </motion.div>
 
           {/* Submit Button */}
@@ -291,13 +272,13 @@ function ContactDetail({ label, icon, value, link, linkIcon }: ContactDetailProp
       <h3 className='font-satoshiRegular'>{label}:</h3>
       <div className='flex items-center gap-3'>
         <div className='relative w-8 h-8 sm:w-10 sm:h-10'>
-          <Image src={icon} fill alt={`${label} icon`} className='object-contain' />
+          <Image src={icon} fill alt={`${label} icon`} className='object-contain contrast-200' />
         </div>
         {link ? (
           <Link
             href={link}
             target='_blank'
-            className='flex items-center gap-1 text-black hover:text-green-700 transition-colors'
+            className='flex items-center gap-1 text-black hover:text-green-500 transition-colors'
           >
             <span className='text-sm sm:text-base'>{value}</span>
             {linkIcon && (
@@ -325,7 +306,7 @@ type TextFieldProps = {
 function TextField({ label, id, type = 'text', register, errors }: TextFieldProps) {
   return (
     <div>
-      <label htmlFor={id} className='block text-sm sm:text-base font-medium text-gray-700'>
+      <label htmlFor={id} className='block text-sm sm:text-base font-medium text-white/90'>
         {label}
       </label>
       <input
@@ -368,7 +349,7 @@ type TextAreaFieldProps = {
 function TextAreaField({ id, register, errors }: TextAreaFieldProps) {
   return (
     <div>
-      <label htmlFor={id} className='block text-sm sm:text-base font-medium text-gray-700'>
+      <label htmlFor={id} className='block text-sm sm:text-base font-medium text-white/90'>
         Message
       </label>
       <textarea

@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+build
+.env
+.env.local
+.env.*.local
+npm-debug.log
+yarn-error.log
+.git
+coverage
+**/node_modules
+/.vscode
+/*.tgz
+Dockerfile
+docker-compose*.yml
+*.md

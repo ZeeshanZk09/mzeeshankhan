@@ -6,8 +6,12 @@ import { services } from '@/lib/data/services';
 import { TypeService } from '@/lib/data/services';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
-// import Carousel from '@/components/utils/Carousel';
-
+import ServicesList from '@/components/services/ServicesList';
+import ServiceProcess from '@/components/services/ServiceProcess';
+import TechGrid from '@/components/services/TechGrid';
+import ProjectTypes from '@/components/services/ProjectTypes';
+import ServicesCTA from '@/components/services/ServicesCTA';
+import ServicesMarquee from '@/components/services/ServicesMarquee';
 export default function Services() {
   const [serviceInput, setServiceInput] = useState('');
   const [filteredServices, setFilteredServices] = useState<TypeService[] | null | undefined>(
@@ -77,16 +81,16 @@ export default function Services() {
         <section className=' pb-5  h-fit flex flex-col sm:flex-row  sm:justify-between sm:items-center '>
           <div className='flex flex-col  sm:w-2/4 justify-between h-[80vh] items-start'>
             <div className='flex flex-col gap-y-4'>
-              <h2 className='text-3xl sm:text-4xl text-gray-800 font-clashDisplayRegular'>
+              <h2 className='text-3xl sm:text-4xl text-foreground/80 font-clashDisplayRegular'>
                 My Services:
               </h2>
-              <p className='text-lg indent-10 text-justify text-gray-600 max-w-3xl font-satoshiRegular'>
+              <p className='text-lg indent-10 text-justify text-foreground/60 max-w-3xl font-satoshiRegular'>
                 I provide a wide range of professional services in the web development domain,
                 ensuring high-quality, modern, and functional solutions tailored to your needs.
               </p>
             </div>
             <div className='flex flex-col-reverse w-full  sm:h-2/4 justify-between'>
-              <div className='bg-white  w-full flex items-center sm:gap-4 rounded-full px-4 py-2 shadow-lg max-w-lg'>
+              <div className='bg-white/80 dark:bg-white/10 backdrop-blur-sm w-full flex items-center sm:gap-4 rounded-full px-4 py-2 shadow-lg max-w-lg'>
                 <input
                   type='search'
                   className='text-sm sm:text-base bg-transparent w-2/4 flex-grow outline-none placeholder-gray-400'
@@ -112,8 +116,8 @@ export default function Services() {
                     `}
                     src={'/assets/images/search.svg'}
                     alt='search'
-                    width={1000}
-                    height={1000}
+                    width={24}
+                    height={24}
                   />
                 </button>
                 <style jsx>{`
@@ -143,8 +147,17 @@ export default function Services() {
           </div>
         </section>
 
-        {/* Services List */}
-        <div className='flex flex-col w-full h-fit '>
+        {/* Core Offerings */}
+        <ServicesList />
+
+        {/* Services Marquee — auto-scrolling service cards */}
+        <ServicesMarquee />
+
+        {/* Services List / Process */}
+        <ServiceProcess />
+        <TechGrid />
+        <ProjectTypes />
+        {/* <div className='flex flex-col w-full h-fit '>
           {validServices.length > 0 &&
             serviceInput === '' &&
             // (
@@ -153,10 +166,10 @@ export default function Services() {
             validServices.map((service) => (
               <section
                 key={service.id}
-                className='bg-white px-4 py-20 border-b-8 h-fit  flex flex-col gap-10 sm:gap-0 sm:flex-row sm:justify-between items-start border-gray-500 '
+                className='px-4 py-20 border-b border-foreground/10 h-fit flex flex-col gap-10 sm:gap-0 sm:flex-row sm:justify-between items-start'
               >
                 <div className='sm:w-2/3 h-fit z-50 lg:h-screen flex flex-col gap-10  justify-between'>
-                  <h3 className='w-fit text-3xl sm:text-4xl font-clashDisplayMedium text-gray-800 mb-4'>
+                  <h3 className='w-fit text-3xl sm:text-4xl font-clashDisplayMedium text-foreground/80 mb-4'>
                     {service.title.split('').map((char, index) => (
                       <span
                         key={index}
@@ -166,14 +179,14 @@ export default function Services() {
                       </span>
                     ))}
                   </h3>
-                  <ul className='list-disc pl-6 space-y-2 text-gray-600 text-lg sm:text-2xl'>
+                  <ul className='list-disc pl-6 space-y-2 text-foreground/60 text-lg sm:text-2xl'>
                     {service.description.map((desc, index) => (
                       <li key={index} className='font-satoshiRegular'>
                         {desc}
                       </li>
                     ))}
                   </ul>
-                  <Link href={`/services/${service.id}`} className='w-fit'>
+                  <Link href={`/services/${service.slug}`} className='w-fit'>
                     <button
                       type='button'
                       className='mt-6 bg-green-500 font-satoshiBold hover:bg-green-600 text-white py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105'
@@ -184,11 +197,7 @@ export default function Services() {
                   <div className='bottom-0'>
                     <p className='font-satoshiRegular'>
                       Have questions about this?{' '}
-                      <Link
-                        target='_blank'
-                        href={`http://localhost:3000/#contact`}
-                        className='text-blue-700'
-                      >
+                      <Link target='_blank' href={`/#contact`} className='text-blue-700'>
                         click here
                       </Link>{' '}
                       to contact me directly.
@@ -203,16 +212,16 @@ export default function Services() {
                         key={service.id}
                         src={src}
                         alt={txt}
-                        height={5000}
-                        width={5000}
-                        unoptimized
+                        height={400}
+                        width={400}
                         className='w-full h-full sm:w-4/5 sm:h-4/5'
                       />
                     ))}
                 </div>
               </section>
             ))}
-        </div>
+        </div> */}
+        <ServicesCTA />
       </section>
     </AnimatePresence>
   );

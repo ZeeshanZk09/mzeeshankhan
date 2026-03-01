@@ -2,9 +2,6 @@
 import {
   HandPlatter,
   Home,
-  LogIn,
-  LogOut,
-  UserPlus2,
   Album,
   BriefcaseBusiness,
   BookCheck,
@@ -16,10 +13,6 @@ import { motion, AnimatePresence, spring } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useMemo, useCallback } from 'react';
 import { useWindowSize } from '@/hooks/useWindowResize';
-import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
-import CldImage from '../ui/CldImage';
-import Loader from '../ui/Loader';
 
 const NAV_ITEMS = [
   {
@@ -58,12 +51,6 @@ export function AppSidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const {
-    user,
-    loading,
-    handleSignOut,
-    // error, clearAuthError
-  } = useAuth();
   const { width } = useWindowSize();
 
   const isMobile = useMemo(() => width < MOBILE_BREAKPOINT, [width]);
@@ -121,21 +108,18 @@ export function AppSidebar() {
     [router, closeSidebar]
   );
 
-  // if (error) clearAuthError();
-  if (loading) <Loader />;
-
   return (
     <motion.div
-      className={`fixed top-0 ${
-        isOpen || !isMobile ? 'left-0' : '-left-[70px]'
-      } h-screen bg-white dark:bg-gray-900 shadow-xl flex flex-col border-r border-gray-200 dark:border-gray-700 z-50`}
+      className={` fixed top-0 ${
+        isOpen || !isMobile ? 'left-0' : '-left-[68px]'
+      } h-screen bg-transparent backdrop-blur-sm dark:bg-gray-900 shadow-xl flex flex-col  dark:border-gray-700 z-50`}
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       variants={sidebarVariants}
     >
       {/* Toggle Button */}
       <motion.button
-        className='absolute -right-6 top-6 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center z-10 focus:outline-none focus:ring-2 focus:ring-green-500'
+        className='z-50 absolute -right-6 top-6 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center  focus:outline-none focus:ring-2 focus:ring-green-500'
         onClick={toggleSidebar}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -157,7 +141,7 @@ export function AppSidebar() {
           <AnimatePresence mode='wait'>
             {isOpen ? (
               <motion.h1
-                className='text-xl font-bold text-gray-800 dark:text-white font-clashDisplayMedium'
+                className='text-xl font-bold text-white/70 dark:text-white font-clashDisplayMedium'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -194,7 +178,7 @@ export function AppSidebar() {
                     className={`flex items-center p-3 rounded-lg cursor-pointer relative overflow-hidden ${
                       pathname === item.url
                         ? 'bg-green-100 dark:bg-gray-800 text-green-700 dark:text-green-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        : 'text-white/90 hover:text-white/90 hover:bg-black/20'
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -241,117 +225,6 @@ export function AppSidebar() {
             ))}
           </motion.ul>
         </nav>
-
-        {/* Footer/User Profile */}
-        <motion.div className='p-3 border-t border-gray-200 dark:border-gray-700 mt-auto' layout>
-          <div className='flex items-start justify-between'>
-            {user && typeof user === 'object' ? (
-              <div className='flex flex-col gap-2 w-full'>
-                <div
-                  className='cursor-pointer flex items-start gap-3'
-                  onClick={() => handleNavigation('/profile')}
-                >
-                  {user.profilePic?.url && (
-                    <CldImage
-                      src={user.profilePic.url}
-                      alt={user.username}
-                      width={48}
-                      height={48}
-                      className='w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full border-2 border-green-500 dark:border-green-600'
-                    />
-                  )}
-
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        className='flex flex-col'
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        transition={{ duration: 0.1 }}
-                      >
-                        <p className='text-sm font-medium text-gray-900 dark:text-white truncate max-w-[180px]'>
-                          {user.firstName} {user.lastName}
-                        </p>
-                        <p className='text-xs text-gray-500 dark:text-gray-400'>
-                          {user.isAdmin ? 'Admin' : 'User'}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ delay: 0.01, duration: 0.2 }}
-                    >
-                      <Button
-                        variant='outline'
-                        className='w-full px-3 py-2 text-sm hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors'
-                        onClick={handleSignOut}
-                      >
-                        <LogOut className='w-4 h-4 mr-2' />
-                        Sign Out
-                      </Button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <AnimatePresence>
-                <motion.div
-                  className={`w-full ${
-                    isOpen ? 'flex flex-row gap-2' : 'flex flex-col items-center gap-2'
-                  }`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Link href='/sign-in' className='w-full' passHref>
-                    <Button
-                      variant={isOpen ? 'outline' : 'ghost'}
-                      size={isOpen ? 'default' : 'icon'}
-                      className='w-full text-sm'
-                      asChild
-                    >
-                      {isOpen ? (
-                        <span key={Math.random() * 10000}>
-                          <LogIn className='w-4 h-4 mr-2' />
-                          Sign In
-                        </span>
-                      ) : (
-                        <LogIn className='w-5 h-5' />
-                      )}
-                    </Button>
-                  </Link>
-
-                  <Link href='/sign-up' className='w-full' passHref>
-                    <Button
-                      variant={isOpen ? 'default' : 'secondary'}
-                      size={isOpen ? 'default' : 'icon'}
-                      className='w-full text-sm'
-                      asChild
-                    >
-                      {isOpen ? (
-                        <span key={Math.random() * 10000}>
-                          <UserPlus2 className='w-4 h-4 mr-2' />
-                          Sign Up
-                        </span>
-                      ) : (
-                        <UserPlus2 className='w-5 h-5' />
-                      )}
-                    </Button>
-                  </Link>
-                </motion.div>
-              </AnimatePresence>
-            )}
-          </div>
-        </motion.div>
       </motion.div>
     </motion.div>
   );

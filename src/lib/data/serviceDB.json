@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "Custom Website Development",
+      "slug": "custom-website-development",
       "description": [
         "Design and develop unique, fully responsive websites that deliver a seamless user experience.",
         "Expertise in modern frameworks like React, Next.js, and Tailwind CSS to create fast, dynamic, and visually appealing websites."
@@ -22,6 +23,7 @@
     {
       "id": 2,
       "title": "E-commerce Solutions",
+      "slug": "e-commerce-solutions",
       "description": [
         "Build robust and scalable e-commerce platforms for your online business.",
         "Integration with payment gateways, inventory management, and user-friendly interfaces to enhance customer experience."
@@ -41,6 +43,7 @@
     {
       "id": 3,
       "title": "Landing Pages & Portfolio Websites",
+      "slug": "landing-pages-portfolio-websites",
       "description": [
         "Create engaging and conversion-focused landing pages for marketing campaigns, product launches, or personal branding.",
         "Professional portfolio websites for showcasing your work or business."
@@ -60,6 +63,7 @@
     {
       "id": 4,
       "title": "Full Stack Development",
+      "slug": "full-stack-development",
       "description": [
         "Develop end-to-end solutions with both front-end and back-end capabilities.",
         "Expertise in technologies like Node.js, Express, and database management (MongoDB)."
@@ -79,6 +83,7 @@
     {
       "id": 5,
       "title": "Website Redesign and Maintenance",
+      "slug": "website-redesign-maintenance",
       "description": [
         "Revamp outdated websites to give them a fresh, modern look.",
         "Regular updates, performance optimization, and technical support to ensure your site runs smoothly."
@@ -98,6 +103,7 @@
     {
       "id": 6,
       "title": "UI/UX Design",
+      "slug": "ui-ux-design",
       "description": [
         "Design intuitive and visually stunning interfaces that enhance user engagement.",
         "Focus on usability, accessibility, and responsive designs across all devices."
@@ -117,6 +123,7 @@
     {
       "id": 7,
       "title": "Content Management System (CMS) Development",
+      "slug": "cms-development",
       "description": [
         "Build CMS-based websites with platforms like WordPress or custom solutions.",
         "Easy-to-manage content systems for blogs, news portals, and more."
@@ -136,6 +143,7 @@
     {
       "id": 8,
       "title": "Progressive Web Apps (PWAs)",
+      "slug": "progressive-web-apps",
       "description": [
         "Develop PWAs for a native-app-like experience directly through the browser.",
         "Fast loading, offline support, and push notifications to engage users."
@@ -155,6 +163,7 @@
     {
       "id": 9,
       "title": "SEO Optimization",
+      "slug": "seo-optimization",
       "description": [
         "Optimize websites for search engines to improve visibility and organic reach.",
         "Implement technical SEO best practices and integrate tools like Google Analytics."
@@ -174,6 +183,7 @@
     {
       "id": 10,
       "title": "API Integration & Development",
+      "slug": "api-integration-development",
       "description": [
         "Seamlessly integrate third-party APIs for additional functionalities like payment systems, maps, and more.",
         "Build custom APIs to connect your applications efficiently."
@@ -193,17 +203,14 @@
     {
       "id": 11,
       "title": "Web Application Development",
+      "slug": "web-application-development",
       "description": [
         "Create complex, interactive web applications for businesses and startups.",
         "Expertise in building dashboards, management systems, and real-time apps."
       ],
       "details": {
         "introduction": "Our web application development services cater to startups, enterprises, and small businesses, providing cutting-edge solutions tailored to your needs.",
-        "features": [
-          "Real-time functionality",
-          "Highly responsive design",
-          "Custom dashboards"
-        ],
+        "features": ["Real-time functionality", "Highly responsive design", "Custom dashboards"],
         "technologies": ["React", "Node.js", "MongoDB", "GraphQL"],
         "duration": "2-6 months",
         "price": "$5000 - $15000"
@@ -212,16 +219,13 @@
     {
       "id": 12,
       "title": "Chatbot and AI Integration",
+      "slug": "chatbot-ai-integration",
       "description": [
         "Integrate AI-based chatbots and automation tools to improve customer interaction and operational efficiency."
       ],
       "details": {
         "introduction": "Our AI-powered chatbot solutions enable seamless customer support and operational automation for your business.",
-        "features": [
-          "Custom NLP models",
-          "24/7 automated support",
-          "Integration with CRM systems"
-        ],
+        "features": ["Custom NLP models", "24/7 automated support", "Integration with CRM systems"],
         "technologies": ["Python", "TensorFlow", "Dialogflow", "Node.js"],
         "duration": "1-3 months",
         "price": "$3000 - $10000"

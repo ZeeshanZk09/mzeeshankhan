@@ -1,0 +1,32 @@
+Dear Hiring Manager,
+
+I am writing to express my interest in the MERN Stack Developer position at your organization. I am a results-driven developer with hands-on experience in JavaScript, Typescript, React, Nextjs, Nodejs, MongoDb, Sql databases and basic designing sense using Tailwind CSS, and shadcn
+ Alongside Nextjs, I actively work on learning new technologies and improving my skill set, ensuring clean code and production-ready results.
+
+Built and maintained responsive fullstack websites
+
+Implemented and optimized e-commerce stores
+
+Integrated payment gateways
+
+Resolved frontend and layout issues under tight deadlines
+
+I have successfully built multiple live production websites, including:
+
+https://e-com-mlm.vercel.app/
+
+https://e-commerce.zebotix.com
+
+https://custom-store-management-zebotix.vercel.app
+
+These projects reflect my ability to combine clean UI, performance optimization, and business-focused development.
+
+I am currently pursuing a Bachelor of Computer Science from Virtual University of Pakistan, and continuously upgrading my skills to align with modern workflows. I am confident that my technical skills, problem-solving mindset, and commitment to quality make me a strong fit for your team.
+
+I would welcome the opportunity to discuss how I can contribute to your organization’s success. Thank you for your time and consideration.
+
+Sincerely,
+Muhammad Zeeshan Khan 
+MERN Stack Developer | Next.js & React & Typescript 
+📞03378568671
+📧 mzeeshankhan0988@gmail.com
